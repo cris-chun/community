@@ -1,23 +1,22 @@
 /**
  * Created by ZTC on 2017-10-7.
  */
-var mysql = require('mysql');
+var MongoClient = require('mongodb').MongoClient;
 
-// create the connection
-var client = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '960107',
-});
+// Connection URL
+var url = 'mongodb://localhost:27017/community';
 
-// connect the mysql
-client.connect(function(err){
-    if(err){
-        console.log("sorry,mysql connection is error");
-        return;
-    }
-    console.log("mysql connection is successful")
-});
+// Use connect method to connect to the Server
+exports._connnection =  function (callback){
+    MongoClient.connect(url, function(err, db) {
+        if(err){
+            console.log("数据库连接失败");
+            db.close()
+            return;
+        }
+        console.log("数据库连接成功");
+        callback(db);
+    });
+}
 
-module.exports = client;
 

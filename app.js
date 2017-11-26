@@ -6,7 +6,7 @@ var app = express();
 var router = require("./router/router.js");
 var session = require("express-session");
 
-//session config
+//session配置
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
@@ -18,12 +18,13 @@ app.set("view engine","ejs");
 
 //static resource
 app.use(express.static("./public"));
-app.use(express.static("./avatar"));
 
 //router
+//收藏夹不请求 否则控制台会出现404错误
 app.get("/favicon.ico",function(){
     return;
 });
+
 app.get("/",router.showIndex);
 app.get("/login",router.showLogin)
 

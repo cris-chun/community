@@ -3,7 +3,7 @@
  */
 //首页
 exports.showIndex = function(req,res){
-    res.render("index");
+    res.render("index")
 }
 
 exports.showLogin = function(req,res){

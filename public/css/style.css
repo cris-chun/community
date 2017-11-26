@@ -1,0 +1,22 @@
+.login-bg{
+    background-image: url("/images/quanzi.jpg");
+}
+.flex-center{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
+.bg-color{
+    background: #fe7300;
+}
+.login{
+    margin-top:10%;
+}
+.login-panel{
+    width:75%;
+    border:1px solid #fe7300;
+}
+.login-panel-header{
+    color:#fe7300;
+    text-align: center;
+}

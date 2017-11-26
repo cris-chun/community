@@ -2,13 +2,289 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>校园社区</title>
+    <meta http-equiv="Pragma" contect="no-cache">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
 </head>
 
-<style type="text/css">
+<style>
+    body{
+        margin:0;
+        padding:0;
+    }
+    .bg{
+        position: relative;
+        width: 100%;
+        height:400px;
+        overflow: hidden;
+    }
+    .bg-image{
+        position: absolute;
+        width:100%;
+        height:550px;
+    }
+    #bg{
+        position: absolute;
+        width: 100%;
+        height:400px;
+        background: rgba(0,0,0,0.4);
+    }
+    .content{
+        position: absolute;
+        text-align: left;
+        color:#fff;
+    }
+    .content>h3{
+        font-size:30px;
+        margin-top:90px;
+        margin-left:100px;
+    }
+    .content>h2{
+        font-size:40px;
+        margin-top:20px;
+        margin-left:100px;
+    }
+    .content>p{
+        font-size:20px;
+        margin-top: -25px;
+        margin-left:100px;
+    }
+    .content>div{
+        font-size:20px;
+        margin-top:20px;
+        margin-left:90px;
+    }
+    .content>div>button{
+        border:1px solid #f4630b;
+        -webkit-border-radius:2px;
+        -moz-border-radius:2px;
+        border-radius:2px;
+        background: #f4630b;
+        color:#fff;
+        font-size:15px;
+        padding:10px 22px;
+        margin:5px 10px;
+    }
+    .first{
+        background: #f7f7f7;
+        text-align: center;
+        color:#000;
+        height:600px;
+        padding-top:30px;
+        overflow: hidden;
+    }
+    .second{
+        background: #fff;
+        text-align: center;
+        color:#000;
+        padding-top:30px;
+        overflow: hidden;
+        margin-bottom:20px;
+    }
+    #slide{
+        float: left;
+        width: 4590px;
+        margin-left:-450px;
+    }
+    .first-image{
+        margin-top:10px;
+    }
+    .second-image{
+        margin:20px;
+    }
+    .third{
+        background: #f7f7f7;
+        text-align: center;
+        color:#000;
+        padding-top:30px;
+        padding-bottom:20px;
+    }
+    .awesome{
+        color:#f4630b;
+        display: flex;
+        justify-content: center;
+        align-items:center;
+    }
+    .awesome i{
+        padding:5px;
+        font-size:80px;
+    }
+    .tab{
+        margin-top:20px;
+        display: inline;
+        width: 25%;
+    }
+    .tab > div{
+        margin-top:-10px;
+        color:#000;
+    }
+    .title{
+        color:#f4630b;
+    }
+    .fourth{
+        background: #fff;
+        text-align: center;
+        color:#000;
+        padding-top:30px;
+        overflow: hidden;
+        margin-bottom:20px;
+    }
+    .fourth button{
+        width: 220px;
+        color:#fff;
+        -webkit-border-radius:2px;
+        -moz-border-radius:2px;
+        border-radius:2px;
+        padding:10px 30px;
+        margin:10px 20px;
+        font-size:20px;
+    }
+    .btn1{
+        background: #9966CC;
+        border:1px solid #9966CC;
+    }
+    .btn2{
+        background: #6699CC;
+        border:1px solid #6699CC;
+    }
+    .btn3{
+        background: #FFCC00;
+        border:1px solid #FFCC00;
+    }
+    .fourth button i{
+        margin-right:10px;
+    }
+    .g-ft{
+        background: #f7f7f7;
+        margin-top: 40px;
+        padding-top:30px;
+        padding-bottom:30px;
+        text-align: center;
+        font-size:11px;
+    }
 </style>
 
 <body>
-    welcome  首页
+<div id="app">
+    <!--header-->
+    <div class="bg">
+        <img src="/images/bg.jpg" alt="" class="bg-image">
+        <div id="bg"></div>
+        <div class="content">
+            <h3>随性的校园生活</h3>
+            <h2>WELCOME TO OUR COLORFUL CAMPUS LIFE</h2>
+            <p>聚焦校园生活，发现新生活，发现身边的有趣，我们在这里等你</p>
+            <div>
+                <button>登录 GO </button>
+                <button>注册 Go </button>
+            </div>
+        </div>
+    </div>
+    <!--first-->
+    <div class="first">
+        <h1>发现共同爱好的人</h1>
+        <p>汇聚共同爱好者，并不断衍生出更多的兴趣圈子，</p>
+        <p>读书、运动、交友、社团、电影评论等等都会有精彩的人与内容不断产出</p>
+        <div>
+            <img src="/images/quanzi.jpg" alt="" class="first-image">
+        </div>
+    </div>
+    <!--second-->
+    <div class="second">
+        <h1>彰显个性的校园</h1>
+        <p>让兴趣.更有趣，让个性.更有料</p>
+        <p>随时随地的记录与分享，让你的兴趣成为大家的兴趣，让你的个性成为别人认识你的理由</p>
+        <div id="slide">
+            <img src="/images/blog-2.jpg" alt="" class="second-image" data-id="1">
+            <img src="/images/blog-1.jpg" alt="" class="second-image" data-id="2">
+            <img src="/images/blog-3.jpg" alt="" class="second-image" data-id="3">
+            <img src="/images/blog-4.jpg" alt="" class="second-image" data-id="4">
+            <img src="/images/blog-5.jpg" alt="" class="second-image" data-id="5">
+            <img src="/images/blog-6.jpg" alt="" class="second-image" data-id="6">
+        </div>
+    </div>
+    <!--third-->
+    <div class="third">
+        <h1>精彩内容等你来</h1>
+        <p>更多精彩社区，更多话题</p>
+        <p>更多话题等你来发现，更多社区等你来挖掘，在这里你会发现不一样的大学生活</p>
+        <div class="awesome">
+            <div class="tab">
+                <i class="fa fa-comments-o"></i>
+                <div>
+                    <p class="title">社区话题</p>
+                    <p>找到属于你的话题社区</p>
+                </div>
+            </div>
+            <div class="tab">
+                <i class="fa fa-camera"></i>
+                <div>
+                    <p class="title">休闲活动</p>
+                    <p>来这里休闲一下吧</p>
+                </div>
+            </div>
+            <div class="tab">
+                <i class="fa fa-gratipay"></i>
+                <div>
+                    <p class="title">表白墙</p>
+                    <p>找到你的另一位</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--fourth-->
+    <div class="fourth">
+        <h1>社区.让兴趣.更有趣</h1>
+        <button class="btn1"><i class="fa fa-user"></i> 登录</button>
+        <button class="btn2"><i class="fa fa-user-plus"></i> 注册</button>
+        <button class="btn3"><i class="fa fa-navicon"></i> 其他方式登录</button>
+    </div>
+
+    <div class="g-ft">
+        <div class="m-ft2">
+            <a target="_blank" rel="nofollow" href="http://www.lofter.com/contact">首页</a>
+            <span>|</span>
+            <a target="_blank" rel="nofollow" href="http://i.lofter.com/tag/招聘">社区话题</a>
+            <span>|</span>
+            <a target="_blank" rel="nofollow" href="http://www.lofter.com/app">休闲区</a>
+            <span>|</span>
+            <a target="_blank" rel="nofollow" href="http://www.lofter.com/themes">表白墙</a>
+            <span>|</span>
+            <a target="_blank" rel="nofollow" href="http://i.lofter.com">个人主页</a></div>
+        <div style="margin-top:10px;">ztchun版权所有　&copy;2017 - 2018　
+    </div>
+</div>
 </body>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $(".second-image").click(function(e){
+            var id = $(this).attr("data-id");
+            var x = e.clientX;
+            //点击第一个
+            if(id == 1){
+                $("#slide").animate({
+                    "margin-left":"0"
+                },500);
+            }else if(id == 6){
+                // 点击最后一个
+                $("#slide").animate({
+                    "margin-left":"-450"
+                },500);
+            }else{
+                if(x > 740){
+                    $("#slide").animate({
+                        "margin-left":"-=770"
+                    },500);
+                }else{
+                    $("#slide").animate({
+                        "margin-left":"+=770"
+                    },500);
+                }
+
+            }
+        })
+    })
+</script>
 </html>
