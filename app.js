@@ -27,6 +27,7 @@ app.get("/favicon.ico",function(){
 
 app.get("/",router.showIndex);
 app.get("/login",router.showLogin)
+app.get("/register",router.showRegister)
 
 
 app.listen(3000)
