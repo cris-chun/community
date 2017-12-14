@@ -84,7 +84,7 @@ header{
 .logo{
 	width: 500px;
 	height: 150px;
-	margin: 0px auto;
+	margin: 40px auto;
 	background: url(/images/logowz.png) no-repeat center;
 }
 .login_box{
