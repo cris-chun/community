@@ -3,10 +3,214 @@
 <head>
     <meta charset="utf-8">
     <title>社区话题</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
 </head>
+<style type="text/css">
+    body{
+        margin: 0;
+        padding: 0;
+        background: #EDEDED;
+    }
+    a{
+        text-decoration: none;
+    }
+    .left,.right{
+        display: inline-block;
+        margin: 15px auto;
+    }
+    #app{
+        text-align: center;
+    }
+    .left{
+        width: 38%
+    }
+    .right{
+        height: 20px;
+        width: 20%;
+        background: #fff;
+        margin-left: 15px;
+    }
+    .menu-padding{
+        padding-left: 35%;
+    }
+    .content{
+        background: #fff;
+        width: 101%;
+        margin: 15px auto;
+    }
+    .sub-content{
+        width: 90px;
+        height: 92px;
+        border-right: 1px solid #EDEDED;
+        color: #f4630b;
+        font-size: 50px;
+        display: inline-block;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+    }
+    .text{
+        font-size:12px;
+    }
+    .sub-content:last-child{
+        border: none;
+    }
+    .twitter{
+        width: 100%;
+        /*margin: 15px auto;*/
+    }
+    .avatar{
+        width: 100%;
+    }
+    .avatar-left{
+        padding-right: 10px;
+    }
+    .content-right{
+        margin-left: 20px;
+        background: #fff;
+        padding: 10px 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        border-radius: 8px;
+    }
+    .content-right>div{
+        position: relative;
+        background: #fff;
+    }
+    .arrow{
+        position: absolute;
+        top: 5px;
+        left: -38px;
+        width:0;
+        height:0;
+        font-size:0;
+        border:solid 15px;
+        border-color:#EDEDED #fff #EDEDED #EDEDED;
+    }
+    .content-row{
+        margin-top: 20px;
+    }
+</style>
 <body>
-    <div>
-        社区话题
+    <div id="app">
+        <!--菜单导航-->
+        <el-menu
+                :default-active="activeIndex"
+                class="el-menu-demo menu-padding"
+                mode="horizontal"
+                @select="handleSelect"
+                background-color="#f4630b"
+                text-color="#fff"
+                active-text-color="#ffd04b">
+            <el-menu-item index="1"><a href="">校论区</a></el-menu-item>
+            <el-menu-item index="2"><a href="">生活休闲</a></el-menu-item>
+            <el-menu-item index="3"><a href="">表白墙</a></el-menu-item>
+            <el-submenu index="4">
+                <template slot="title">我的</template>
+                <el-menu-item index="选项1">选项1</el-menu-item>
+                <el-menu-item index="选项2">选项2</el-menu-item>
+                <el-menu-item index="选项3">选项3</el-menu-item>
+            </el-submenu>
+        </el-menu>
+
+        <!--首页菜单-->
+        <div class="left">
+            <div class="content">
+                <div class="sub-content" v-for="item in content">
+                    <i :class="'fa '+item.icon"></i>
+                    <div v-if="item.text" class="text">{{item.text}}</div>
+                </div>
+            </div>
+            <div class="twitter">
+                <el-row v-for="item in container" class="content-row">
+                    <el-col :span="3" class="avatar-left">
+                        <img :src="item.avatar" alt="" class="avatar">
+                    </el-col>
+                    <el-col :span="20" class="content-right">
+                        <div>
+                            <div class="arrow"></div>
+                            {{item.text}}
+                         </div>
+                    </el-col>
+                </el-row>
+            </div>
+        </div>
+        <div class="right">
+            <div class="mine">
+
+            </div>
+        </div>
     </div>
 </body>
+<!-- 先引入 Vue -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                visible: false,
+                activeIndex: '1',
+                content: [
+                    {
+                        icon: 'fa-user',
+                        text: '头像'
+                    },
+                    {
+                        icon: 'fa-text-width',
+                        text: '文字'
+                    },
+                    {
+                        icon: 'fa-camera',
+                        text: '图片'
+                    },
+                    {
+                        icon: 'fa-file-text',
+                        text: '长文章'
+                    },
+                    {
+                        icon: 'fa-music',
+                        text: '音乐'
+                    },
+                    {
+                        icon: 'fa-film',
+                        text: '视频'
+                    }
+                ],
+                container: [
+                    {
+                        avatar: "/images/avatar.jpg",
+                        text: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容'
+                    },
+                    {
+                        avatar: "/images/avatar.jpg",
+                        text: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容'
+                    },
+                    {
+                        avatar: "/images/avatar.jpg",
+                        text: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容'
+                    },
+                    {
+                        avatar: "/images/avatar.jpg",
+                        text: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容'
+                    },
+                    {
+                        avatar: "/images/avatar.jpg",
+                        text: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容'
+                    }
+                ]
+            }
+        },
+        methods: {
+            handleSelect: function(key, keyPath){
+                console.log(key, keyPath)
+            }
+        }
+    })
+</script>
 </html>
