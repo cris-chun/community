@@ -10,41 +10,41 @@
     body{
         margin: 0;
         padding: 0;
-        background: #EDEDED;
+        background: #ededef;
     }
     a{
         text-decoration: none;
     }
     .left,.right{
-        display: inline-block;
-        margin: 15px auto;
+        margin: 0 auto;
     }
     #app{
         text-align: center;
     }
     .left{
-        width: 38%
+        /* padding-left:15%; */
+        margin-left: -8px;
+        width: 100%;
     }
     .right{
-        height: 20px;
-        width: 20%;
-        background: #fff;
-        margin-left: 15px;
+        margin-top: 15px;
+        margin-left: 8px;
+        width: 100%
     }
     .menu-padding{
         padding-left: 35%;
     }
     .content{
         background: #fff;
-        width: 101%;
+        width: 95%;
         margin: 15px auto;
     }
     .sub-content{
-        width: 90px;
-        height: 92px;
-        border-right: 1px solid #EDEDED;
+        width: 110px;
+        height: 100px;
+        border-right: 1px solid #ededef;
         color: #f4630b;
-        font-size: 50px;
+        font-size: 53px;
         display: inline-block;
         padding-top: 5px;
         padding-bottom: 5px;
@@ -69,6 +69,7 @@
         padding-right: 10px;
     }
     .content-right{
+        text-align: left;
         margin-left: 20px;
         background: #fff;
         padding: 10px 8px;
@@ -88,10 +89,62 @@
         height:0;
         font-size:0;
         border:solid 15px;
-        border-color:#EDEDED #fff #EDEDED #EDEDED;
+        border-color:#ededef #fff #ededef #ededef;
     }
     .content-row{
         margin-top: 20px;
+    }
+    .info{
+        background: #f3f3f3;
+        border: 1px solid #dfdfdf;
+    }
+    .name{
+        font-size:15px;
+        font-weight: 700;
+        border-right: 2px solid #fff;
+    }
+    .name>div{
+        margin-left: 20px;
+        margin-top: 10px;
+        height: 50px;
+        text-align: left;
+        line-height: 60px;
+    }
+    .name>div>span{
+        display: block;
+        line-height: 20px;
+    }
+    .name>div>span:nth-child(2){
+        font-weight: 400;
+    }
+    .icon-dropdown>i{
+        font-weight: 600;
+        font-size: 25px;
+        line-height: 60px;
+    }
+    .dropdown-ul{
+        padding: 0 10px;
+    }
+    .list{
+        padding-top: 8px;
+        padding-bottom: 8px;
+        padding-left: 15px;
+        border-bottom: 1px solid #dfdfdf;
+        border-left: 1px solid #dfdfdf;
+        border-right: 1px solid #dfdfdf;
+        background: #f3f3f3;
+        text-align: left;
+        font-size: 14px;
+    }
+    .list i{
+        color:#CFCFCF;
+    }
+    .list span{
+        margin-left: 15px;
+    }
+    .list:nth-child(1){
+        /* margin-top: 5px; */
+        border-top: 2px solid #dfdfdf;
     }
 </style>
 <body>
@@ -116,33 +169,63 @@
             </el-submenu>
         </el-menu>
 
-        <!--首页菜单-->
-        <div class="left">
-            <div class="content">
-                <div class="sub-content" v-for="item in content">
-                    <i :class="'fa '+item.icon"></i>
-                    <div v-if="item.text" class="text">{{item.text}}</div>
+        <el-row>
+            <!-- left -->
+            <el-col :span='12' :offset='4'>
+                <div class="left">
+                    <div class="content">
+                        <div class="sub-content" v-for="item in content">
+                            <i :class="'fa '+item.icon"></i>
+                            <div v-if="item.text" class="text">{{item.text}}</div>
+                        </div>
+                    </div>
+                    <div class="twitter">
+                        <el-row v-for="item in container" class="content-row">
+                            <el-col :span="3" class="avatar-left">
+                                <img :src="item.avatar" alt="" class="avatar">
+                            </el-col>
+                            <el-col :span="20" class="content-right">
+                                <div>
+                                    <div class="arrow"></div>
+                                    {{item.text}}
+                                 </div>
+                            </el-col>
+                        </el-row>
+                    </div>
                 </div>
-            </div>
-            <div class="twitter">
-                <el-row v-for="item in container" class="content-row">
-                    <el-col :span="3" class="avatar-left">
-                        <img :src="item.avatar" alt="" class="avatar">
-                    </el-col>
-                    <el-col :span="20" class="content-right">
-                        <div>
-                            <div class="arrow"></div>
-                            {{item.text}}
-                         </div>
-                    </el-col>
-                </el-row>
-            </div>
-        </div>
-        <div class="right">
-            <div class="mine">
-
-            </div>
-        </div>
+            </el-col>
+            <!-- right -->
+            <el-col :span='4'>
+                <div class="right">
+                    <el-row class="info">
+                        <el-col :span="18" class="name">
+                            <div>
+                                <span>ztchun</span>
+                                <span>ztchun.com</span>
+                            </div>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-dropdown>
+                                <span class="el-dropdown-link icon-dropdown">
+                                    <i class="el-icon-arrow-down el-icon--right"></i>
+                                </span>
+                                <el-dropdown-menu slot="dropdown" class="dropdown-ul">
+                                    <el-dropdown-item>self</el-dropdown-item>
+                                    <el-dropdown-item>self</el-dropdown-item>
+                                    <el-dropdown-item>self</el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <div class="list" v-for='item in list'>
+                            <i :class="item.icon"></i>
+                            <span>{{item.text}}</span>
+                        </div>
+                    </el-row>   
+                </div>
+            </el-col>
+        </el-row>
     </div>
 </body>
 <!-- 先引入 Vue -->
@@ -202,6 +285,27 @@
                     {
                         avatar: "/images/avatar.jpg",
                         text: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容'
+                    }
+                ],
+                list: [
+                    {
+                        icon: 'fa fa-file-text',
+                        text: '我的内容'
+                    },
+                    {
+                        icon: 'fa fa-vcard',
+                        text: '我的关注'
+                    },
+                    {
+                        icon: 'fa fa-bullhorn',
+                        text: '通知'
+                    },
+                    {
+                        icon: 'fa fa-envelope',
+                        text: '私信'
+                    },{
+                        icon: 'fa fa-home',
+                        text: '我的主页'
                     }
                 ]
             }
