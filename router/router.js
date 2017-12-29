@@ -17,3 +17,7 @@ exports.showRegister = function(req,res){
 exports.showCommunity = function(req,res){
     res.render("community")
 }
+//表白墙
+exports.showWhiteWall = function(req,res){
+    res.render("whiteWall")
+}

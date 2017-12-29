@@ -29,6 +29,6 @@ app.get("/",router.showIndex);
 app.get("/login",router.showLogin);
 app.get("/register",router.showRegister);
 app.get("/community",router.showCommunity);
-
+app.get("/whiteWall",router.showWhiteWall)
 
 app.listen(3000)
