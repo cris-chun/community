@@ -3,9 +3,10 @@
  */
 var db = require("./db.js");
 
-// 用户
-exports.findAllUsers = function(data,callback){
+// 查找users表中数据
+exports.findData = function(data,callback){
     var users = [];
+    data = data || {}
     db._connnection(function(db){
         db.collection("users").find(data,function(err,cursor){
             if(err){
@@ -29,3 +30,4 @@ exports.findAllUsers = function(data,callback){
         })
     })
 }
+

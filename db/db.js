@@ -6,7 +6,7 @@ var MongoClient = require('mongodb').MongoClient;
 // Connection URL
 var url = 'mongodb://localhost:27017/community';
 
-// Use connect method to connect to the Server
+// 连接数据库
 exports._connnection =  function (callback){
     MongoClient.connect(url, function(err, db) {
         if(err){

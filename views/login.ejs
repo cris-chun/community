@@ -17,13 +17,13 @@
                 </div>
                 <form action="" method="post">
                     <div class="form_text_ipt">
-                        <input name="username" type="text" placeholder="手机号/邮箱">
+                        <input name="username" type="text" placeholder="手机号/邮箱" class="username">
                     </div>
-                    <div class="ececk_warning"><span>数据不能为空</span></div>
+                    <div class="ececk_warning"><span>账号不能为空</span></div>
                     <div class="form_text_ipt">
-                        <input name="password" type="password" placeholder="密码">
+                        <input name="password" type="password" placeholder="密码" class="password">
                     </div>
-                    <div class="ececk_warning"><span>数据不能为空</span></div>
+                    <div class="ececk_warning"><span>密码不能为空</span></div>
                     <div class="form_check_ipt">
                         <div class="left check_left">
                             <label><input name="" type="checkbox"> 下次自动登录</label>
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <div class="form_btn">
-                        <button type="button">登录</button>
+                        <button type="button" class="login-btn">登录</button>
                     </div>
                     <div class="form_reg_btn">
                         <span>还没有帐号？</span><a href="register.html">马上注册</a>
@@ -68,7 +68,7 @@
             });
             //$(this).parent().next().hide();
         });
-        //表单验证
+        //表单验证  不能为空
         $('.form_text_ipt input').bind('input propertychange',function(){
             if($(this).val()==""){
                 $(this).css({
@@ -89,6 +89,31 @@
                 $(this).parent().next().hide();
             }
         });
+        // 点击登录按钮
+        $(".login-btn").click(function(){
+            $.ajax({
+                url: "/loginCheck",
+                type: "post",
+                data: {
+                    username: $(".username").val(),
+                    password: $(".password").val()
+                },
+                beforeSend: function(){
+                     console.log("正在发送ajax请求")
+                },
+                success:function(data){
+                    console.log("login success")
+                    if(data === "success"){
+                        location.href = "/"
+                    } else {
+                        location.href = "/login"
+                    }
+                },
+                error:function(err){
+                    console.log("请求错误",err)
+                }
+            })
+        })
     });
 </script>
 </body>

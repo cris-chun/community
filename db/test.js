@@ -3,6 +3,12 @@
  */
 var users = require("./users.js");
 
-users.findAllUsers({},function(users){
+// 查找user中的所有数据
+users.findData({},function(users){
     console.log(users);
+})
+
+// 根据username查找password
+users.findData({username:"ztchun"},function(data){
+    console.log(data)
 })

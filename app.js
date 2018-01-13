@@ -25,10 +25,23 @@ app.get("/favicon.ico",function(){
     return;
 });
 
+// 首页
 app.get("/",router.showIndex);
+
+// 登陆页面展示
 app.get("/login",router.showLogin);
+
+// 登陆检查
+app.post("/loginCheck",router.loginCheck)
+
+// 注册页面
 app.get("/register",router.showRegister);
+
+// 主页面
 app.get("/community",router.showCommunity);
-app.get("/whiteWall",router.showWhiteWall)
+
+// 表白墙页面
+app.get("/whiteWall",router.showWhiteWall);
+
 
 app.listen(3000)
