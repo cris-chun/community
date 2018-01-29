@@ -43,5 +43,9 @@ app.get("/community",router.showCommunity);
 // 表白墙页面
 app.get("/whiteWall",router.showWhiteWall);
 
+// 生活休闲
+app.get("/life", router.showLife)
 
+
+// 监听端口
 app.listen(3000)

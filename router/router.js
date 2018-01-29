@@ -34,3 +34,8 @@ exports.showCommunity = function(req,res){
 exports.showWhiteWall = function(req,res){
     res.render("whiteWall")
 }
+
+// 生活休闲
+exports.showLife = function (req, res) {
+    res.render('life')
+}
