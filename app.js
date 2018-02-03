@@ -37,6 +37,9 @@ app.post("/loginCheck",router.loginCheck)
 // 注册页面
 app.get("/register",router.showRegister);
 
+// 注册检查
+app.post("/registerCheck", router.registerCheck)
+
 // 主页面
 app.get("/community",router.showCommunity);
 

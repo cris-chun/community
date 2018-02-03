@@ -6,6 +6,17 @@
     <link rel="stylesheet" href="/css/reset.css" />
     <link rel="stylesheet" href="/css/common.css" />
 </head>
+
+<style>
+    .info-text{
+        display: none;
+        color: red;
+        line-height: 14px;
+        margin-left: 30px;
+        margin-top: 10px;
+    }
+</style>
+
 <body>
 <div class="wrap login_wrap">
     <div class="content">
@@ -17,13 +28,12 @@
                 </div>
                 <form action="" method="post">
                     <div class="form_text_ipt">
-                        <input name="username" type="text" placeholder="手机号/邮箱" class="username">
+                        <input name="username" type="text" placeholder="手机号/邮箱/用户名" class="username">
                     </div>
-                    <div class="ececk_warning"><span>账号不能为空</span></div>
                     <div class="form_text_ipt">
                         <input name="password" type="password" placeholder="密码" class="password">
                     </div>
-                    <div class="ececk_warning"><span>密码不能为空</span></div>
+                    <div class="info-text">登录失败</div>
                     <div class="form_check_ipt">
                         <div class="left check_left">
                             <label><input name="" type="checkbox"> 下次自动登录</label>
@@ -36,7 +46,7 @@
                         <button type="button" class="login-btn">登录</button>
                     </div>
                     <div class="form_reg_btn">
-                        <span>还没有帐号？</span><a href="register.html">马上注册</a>
+                        <span>还没有帐号？</span><a href="/register">马上注册</a>
                     </div>
                 </form>
                 <!--<div class="other_login">-->
@@ -56,6 +66,8 @@
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>
     $(function(){
+        var usernameCheck = false
+        var passowrdCheck = false
         //登录输入框效果
         $('.form_text_ipt input').focus(function(){
             $(this).parent().css({
@@ -68,51 +80,60 @@
             });
             //$(this).parent().next().hide();
         });
+
         //表单验证  不能为空
-        $('.form_text_ipt input').bind('input propertychange',function(){
-            if($(this).val()==""){
-                $(this).css({
-                    'color':'red',
-                });
-                $(this).parent().css({
-                    'border':'solid 1px red',
-                });
-                //$(this).parent().next().find('span').html('helow');
-                $(this).parent().next().show();
-            }else{
-                $(this).css({
-                    'color':'#ccc',
-                });
-                $(this).parent().css({
-                    'border':'solid 1px #ccc',
-                });
-                $(this).parent().next().hide();
+        $(".username").blur(function(){
+            if ($(this).val() == '') {
+                usernameCheck = false
+                $(".info-text").show().text("请输入用户名")
+            }else {
+                usernameCheck = true
+                $(".info-text").hide()
             }
-        });
+        })
+        $(".password").blur(function(){
+            if ($(this).val() == '') {
+                usernameCheck = false
+                $(".info-text").show().text("请输入密码")
+            }else {
+                usernameCheck = true
+                $(".info-text").hide()
+            }
+        })
+
         // 点击登录按钮
         $(".login-btn").click(function(){
-            $.ajax({
-                url: "/loginCheck",
-                type: "post",
-                data: {
-                    username: $(".username").val(),
-                    password: $(".password").val()
-                },
-                beforeSend: function(){
-                     console.log("正在发送ajax请求")
-                },
-                success:function(data){
-                    console.log("login success")
-                    if(data === "success"){
-                        location.href = "/"
-                    } else {
-                        location.href = "/login"
+            if(usernameCheck && passowrdCheck) {
+                $.ajax({
+                    url: "/loginCheck",
+                    type: "post",
+                    data: {
+                        username: $(".username").val(),
+                        password: $(".password").val()
+                    },
+                    beforeSend: function(){
+                        console.log("正在发送ajax请求")
+                    },
+                    success:function(data){
+                        console.log(data)
+                        if (data == '1') {
+                            window.location.href = "/"
+                        } else if(data == "2") {
+                            $(".info-text").show().text("您输入的密码错了哦")
+                        } else if (data == '3') {
+                            $(".info-text").show().text("您的邮箱还没有认证哦")
+                        } else if (data == '0') {
+                            $(".info-text").show().text("您还没有注册哦")
+                        }
+                    },
+                    error:function(err){
+                        console.log("请求错误",err)
                     }
-                },
-                error:function(err){
-                    console.log("请求错误",err)
-                }
-            })
+                })
+            }else {
+                $(".info-text").show().text("请输入用户名、密码")
+            }
+
         })
     });
 </script>

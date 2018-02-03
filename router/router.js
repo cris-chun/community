@@ -25,6 +25,13 @@ exports.showRegister = function(req,res){
     res.render("register")
 }
 
+// 注册检查
+exports.registerCheck = function(req,res){
+    controller.registerCheck(req,res,function(data){
+        res.send(data)
+    })
+}
+
 //社区页面
 exports.showCommunity = function(req,res){
     res.render("community")
