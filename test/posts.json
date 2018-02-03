@@ -1,0 +1,15 @@
+[{ 
+    "post_title" : "发布第一张帖子", 
+    "post_content" : "发布的第一帖子的内容内容内容", 
+    "post_photos" : [
+        "image1", 
+        "image2", 
+        "image3"
+    ], 
+    "link" : "http://baidu.com", 
+    "username_id" : "5a5973e35a7eec3ce8d0107b", 
+    "user_name" : "ztchun", 
+    "time" : "2018-01-31", 
+    "reply_num" : 10.0, 
+    "last_reply_user_id" : "5a5973e35a7eec3ce8d0107b"
+}]

@@ -1,0 +1,74 @@
+[{ 
+    "username" : "ztc", 
+    "password" : "ztchun", 
+    "sex" : "女", 
+    "check" : true, 
+    "birthday" : "1996-01-07", 
+    "country" : "中国", 
+    "city" : "江苏省-南京", 
+    "address" : "栖霞区马群金马路", 
+    "email" : "ztchun@qq.com", 
+    "hobby" : "code", 
+    "pwd_question" : "question", 
+    "pwd_answer" : "answer", 
+    "avator" : "image_address", 
+    "tag" : "0", 
+    "infos" : "2", 
+    "follows" : [
+        {
+            "follow_id" : "1", 
+            "follow_name" : "二手集市"
+        }, 
+        {
+            "follow_id" : "2", 
+            "follow_name" : "校园趣事"
+        }
+    ], 
+    "posts" : [
+        {
+            "post_id" : "1", 
+            "post_name" : "我的帖子1"
+        }, 
+        {
+            "post_id" : "2", 
+            "post_name" : "我的帖子2"
+        }
+    ]
+},
+{ 
+    "username" : "ztchun", 
+    "password" : "ztchun", 
+    "sex" : "女", 
+    "check" : true, 
+    "birthday" : "1996-01-07", 
+    "country" : "中国", 
+    "city" : "江苏省-南京", 
+    "address" : "栖霞区马群金马路", 
+    "email" : "ztchun@qq.com", 
+    "hobby" : "code", 
+    "pwd_question" : "question", 
+    "pwd_answer" : "answer", 
+    "avator" : "image_address", 
+    "tag" : "0", 
+    "infos" : "2", 
+    "follows" : [
+        {
+            "follow_id" : "1", 
+            "follow_name" : "二手集市"
+        }, 
+        {
+            "follow_id" : "2", 
+            "follow_name" : "校园趣事"
+        }
+    ], 
+    "posts" : [
+        {
+            "post_id" : "1", 
+            "post_name" : "我的帖子1"
+        }, 
+        {
+            "post_id" : "2", 
+            "post_name" : "我的帖子2"
+        }
+    ]
+}]

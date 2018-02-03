@@ -1,45 +1,40 @@
-/**
- * Created by ZTC on 2017-10-7.
- */
 var db = require("./db.js");
 
-// 查找users表中数据
-exports.findData = function(data,callback){
-    var users = [];
-    data = data || {}
+// infos查找
+exports.findData = function(data, callback){
+    var infos = []
     db._connnection(function(db){
-        db.collection("users").find(data,function(err,cursor){
-            if(err){
-                console.log("查询所有用户失败");
-                db.close();
-                return;
+        db.collection("infos").find(data, function(err, cursor){
+            if (err) {
+                console.log('infos查找失败')
+                db.close()
+                return
             }
-            console.log("查询数据成功")
             cursor.each(function(error,doc){
                 if(error){
-                    console.log("用户数据遍历失败");
+                    console.log("infos数据遍历失败");
                     db.close();
                     return;
                 }
                 if(doc){
-                    users.push(doc)
+                    infos.push(doc)
                 }else{
-                    callback(users)
+                    callback(infos)
                 }
             })
         })
     })
 }
 
-// 插入user
+// infos inset
 exports.insertData = function(obj, callback) {
     if (!obj) {
         return
     }
     db._connnection(function(db){
-        db.collection("users").insert(obj,function(err,result){
+        db.collection("infos").insert(obj, function(err, result) {
             if (err) {
-                console.log('插入user表失败')
+                console.log("infos insert error")
                 db.close()
                 return
             }
@@ -48,15 +43,15 @@ exports.insertData = function(obj, callback) {
     })
 }
 
-// 删除user表内容
+// infos remove
 exports.deleteData = function(obj, callback) {
     if (!obj) {
-        return
+        return;
     }
     db._connnection(function(db){
-        db.collection("users").remove(obj,function(err, result) {
+        db.collection("infos").remove(obj, function(err, result) {
             if (err) {
-                consoe.log('删除user表失败')
+                console.log('infos remove error')
                 db.close()
                 return
             }
@@ -65,7 +60,7 @@ exports.deleteData = function(obj, callback) {
     })
 }
 
-// 更新user表内容
+// infos update
 exports.updateData = function(oldObj, newObj, callback) {
     if (!oldObj || !newObj) {
         return;
@@ -74,9 +69,9 @@ exports.updateData = function(oldObj, newObj, callback) {
         $set: newObj
     }
     db._connnection(function(db) {
-        db.collection("users").update(oldObj, newObj, function(err, result){
+        db.collection("infos").update(oldObj, newObj, function(err, result) {
             if (err) {
-                console.log("更新users表失败")
+                console.log('infos update error')
                 db.close()
                 return
             }
@@ -84,5 +79,3 @@ exports.updateData = function(oldObj, newObj, callback) {
         })
     })
 }
-
-
