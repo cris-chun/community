@@ -16,6 +16,7 @@
     "fs": "0.0.1-security",
     "gm": "^1.23.0",
     "mongodb": "^2.2.30",
-    "mongoose": "^4.11.3"
+    "mongoose": "^4.11.3",
+    "nodemailer": "^4.4.2"
   }
 }

@@ -112,6 +112,7 @@
         var email = false
         var phoneNumber = false
         var password = false
+        var sex = false
         //表单验证
         // username
         $(".username").blur(function(){
@@ -152,7 +153,7 @@
         })
         // email
         $(".email").blur(function(){
-            if(/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test($(this).val())){
+            if(/^(.+)@(.+)$/.test($(this).val())){
                 $(".register-href").css("marginTop", "40px")
                 $(this).css("borderColor", '#ccc')
                 $(".info-text").hide()
@@ -186,12 +187,17 @@
         })
         // click
         $(".register").click(function(){
+            var array = $("#form-id").serializeArray()
+            var obj = {}
+            array.forEach((value, index, array) => {
+                obj[value.name] = value.value
+            })
+            if (obj.sex) {
+                sex = true
+            }else{
+                sex = false
+            }
             if (email && phoneNumber && username && sex && password) {
-                var array = $("#form-id").serializeArray()
-                var obj = {}
-                array.forEach((value, index, array) => {
-                    obj[value.name] = value.value
-                })
                 $.ajax({
                     url: "/registerCheck",
                     type: "post",
