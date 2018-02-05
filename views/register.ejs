@@ -154,10 +154,10 @@
         // email
         $(".email").blur(function(){
             if(/^(.+)@(.+)$/.test($(this).val())){
+                email = true
                 $(".register-href").css("marginTop", "40px")
                 $(this).css("borderColor", '#ccc')
                 $(".info-text").hide()
-                email = true
             } else {
                 email = false
                 $(".info-text").show().text("请输入正确的email地址")
@@ -180,11 +180,12 @@
             }
         })
         // 聚焦的时候 全部清除
-        $("input").focus(function(){
-            $(".register-href").css("marginTop", "40px")
-            $(this).css("borderColor", '#ccc')
-            $(".info-text").hide()
-        })
+        // $("input").focus(function(){
+        //     $(".register-href").css("marginTop", "40px")
+        //     $(this).css("borderColor", '#ccc')
+        //     $(".info-text").hide()
+        // })
+
         // click
         $(".register").click(function(){
             var array = $("#form-id").serializeArray()

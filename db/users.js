@@ -80,6 +80,7 @@ exports.updateData = function(oldObj, newObj, callback) {
                 db.close()
                 return
             }
+            // console.log("更新users表成功")
             callback(result)
         })
     })

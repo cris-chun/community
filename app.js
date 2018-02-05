@@ -34,6 +34,9 @@ app.get("/login",router.showLogin);
 // 登陆检查
 app.post("/loginCheck",router.loginCheck)
 
+// 登陆邮箱检测
+app.get("/loginCheckEmail", router.loginCheckEmail)
+
 // 注册页面
 app.get("/register",router.showRegister);
 

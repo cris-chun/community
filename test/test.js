@@ -30,9 +30,9 @@ var postsData = require("./posts.json")
 // })
 
 // users更新
-// users.updateData({username: 'ztchun'}, {username: 'ztc'}, function(result){
-//     console.log(result)
-// })
+users.updateData({username: 'ztchun'}, {check: true}, function(result){
+    console.log(result)
+})
 
 // posts insert
 // posts.insertData(postsData[0],function(result){

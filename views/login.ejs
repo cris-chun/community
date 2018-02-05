@@ -21,7 +21,7 @@
 <div class="wrap login_wrap">
     <div class="content">
         <div class="logo"></div>
-        <div class="login_box">
+            <div class="login_box">
             <div class="login_form">
                 <div class="login_title">
                     登录
@@ -66,8 +66,9 @@
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>
     $(function(){
+
         var usernameCheck = false
-        var passowrdCheck = false
+        var passwordCheck = false
         //登录输入框效果
         $('.form_text_ipt input').focus(function(){
             $(this).parent().css({
@@ -93,17 +94,17 @@
         })
         $(".password").blur(function(){
             if ($(this).val() == '') {
-                usernameCheck = false
+                passwordCheck = false
                 $(".info-text").show().text("请输入密码")
             }else {
-                usernameCheck = true
+                passwordCheck = true
                 $(".info-text").hide()
             }
         })
 
         // 点击登录按钮
         $(".login-btn").click(function(){
-            if(usernameCheck && passowrdCheck) {
+            if(usernameCheck && passwordCheck) {
                 $.ajax({
                     url: "/loginCheck",
                     type: "post",
@@ -111,9 +112,9 @@
                         username: $(".username").val(),
                         password: $(".password").val()
                     },
-                    beforeSend: function(){
-                        console.log("正在发送ajax请求")
-                    },
+                    // beforeSend: function(){
+                    //     console.log("正在发送ajax请求")
+                    // },
                     success:function(data){
                         console.log(data)
                         if (data == '1') {

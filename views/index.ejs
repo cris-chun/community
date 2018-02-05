@@ -236,6 +236,9 @@
     .black{
         color: #222;
     }
+    .welcome{
+        padding-left: 10px;
+    }
 </style>
 
 <body>
@@ -248,10 +251,14 @@
             <h3>随性的校园生活</h3>
             <h2> WELCOME TO OUR COLORFUL CAMPUS LIFE </h2>
             <p>聚焦校园生活，发现新生活，发现身边的有趣，我们在这里等你，带着你的随性，COME ON</p>
-            <div>
-                <button> <a href='/login'>登录 GO </a></button>
-                <button> <a href="/register">注册 Go</a></button>
-            </div>
+            <%if(login == '2'){%>
+                <div>
+                    <button> <a href='/login'>登录 GO </a></button>
+                    <button> <a href="/register">注册 Go</a></button>
+                </div>
+            <%} else {%>
+                <div class="welcome">welcome <%=username%></div>
+            <%}%>
         </div>
     </div>
     <!--second-->
