@@ -94,6 +94,45 @@
     .content-row{
         margin-top: 20px;
     }
+    .post{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        clear: both;
+    }
+    .top{
+        border-bottom: 1px solid #d8d8d8;
+        padding: 7px;
+    }
+    .bottom{
+        clear: both;
+        border-top: 1px solid #d8d8d8;
+        padding: 7px;
+    }
+    .top span,.bottom span{
+        color: #bdbdbd;
+    }
+    .time,.tags{
+        float: right;
+    }
+    .tags span{
+        margin-left: 5px;
+        margin-right: 5px;
+        font-size: 14px;
+    }
+    /* .heart-number,.comment-number{
+        font-size:14px;
+    } */
+    .images{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px 30px;
+        flex-wrap: wrap;
+    }
+    .images img{
+        width: 28%;
+        padding: 10px;
+    }
     .info{
         background: #f3f3f3;
         border: 1px solid #dfdfdf;
@@ -173,21 +212,41 @@
             <!-- left -->
             <el-col :span='12' :offset='4'>
                 <div class="left">
+                    <!-- menu -->
                     <div class="content">
                         <div class="sub-content" v-for="item in content">
                             <i :class="'fa '+item.icon"></i>
                             <div v-if="item.text" class="text">{{item.text}}</div>
                         </div>
                     </div>
+                    <!-- 内容 -->
                     <div class="twitter">
                         <el-row v-for="item in container" class="content-row">
-                            <el-col :span="3" class="avatar-left">
+                            <el-col :span="2" class="avatar-left">
                                 <img :src="item.avatar" alt="" class="avatar">
                             </el-col>
-                            <el-col :span="20" class="content-right">
+                            <el-col :span="21" class="content-right">
                                 <div>
                                     <div class="arrow"></div>
-                                    {{item.text}}
+                                    <div class="top">
+                                        <span class="username">{{item.username}}</span>
+                                        <span class="time">{{item.time}}</span>
+                                    </div>
+                                    <div class="post">
+                                        <div>{{item.text}}</div>
+                                        <div class="images">
+                                            <img v-for="image in item.images" :src="image"></img>
+                                        </div>
+                                    </div>
+                                    <div class="bottom">
+                                        <span class="looks">浏览数：{{item.look}}</span>
+                                        <span class="tags">
+                                            <span class="fa fa-heart heart"> 10</span>
+                                            <span class="fa fa-commenting comment"> 20</span> 
+                                            <span class="fa fa-share share"> 10</span>    
+                                        </span>
+                                    </div>
+                                    
                                  </div>
                             </el-col>
                         </el-row>
@@ -266,24 +325,31 @@
                 ],
                 container: [
                     {
+                        username:"ztchun",
+                        time: '2018-01-03',
+                        look: 32,
                         avatar: "/images/avatar.jpg",
-                        text: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容'
+                        text: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容',
+                        images: [
+                        "/images/avatar.jpg",
+                        "/images/avatar.jpg",
+                        "/images/avatar.jpg",
+                        "/images/avatar.jpg",
+                        "/images/avatar.jpg","/images/avatar.jpg"
+                        ]
                     },
                     {
+                        username:"ztchun",
+                        time: '2018-01-03',
+                        look: 32,
                         avatar: "/images/avatar.jpg",
-                        text: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容'
-                    },
-                    {
-                        avatar: "/images/avatar.jpg",
-                        text: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容'
-                    },
-                    {
-                        avatar: "/images/avatar.jpg",
-                        text: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容'
-                    },
-                    {
-                        avatar: "/images/avatar.jpg",
-                        text: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容'
+                        text: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容',
+                        images: [
+                        "/images/avatar.jpg",
+                        "/images/avatar.jpg",
+                        "/images/avatar.jpg",
+                        "/images/avatar.jpg"
+                        ]
                     }
                 ],
                 list: [
