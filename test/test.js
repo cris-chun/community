@@ -3,6 +3,9 @@
  */
 var users = require("../db/users.js");
 var posts = require("../db/posts.js")
+var subjects = require("../db/subjects.js")
+var ObjectID = require('mongodb').ObjectID;
+var tools = require('../tool/tool')
 
 var usersData = require('./users.json')
 var postsData = require("./posts.json")
@@ -30,9 +33,9 @@ var postsData = require("./posts.json")
 // })
 
 // users更新
-users.updateData({username: 'ztchun'}, {check: true}, function(result){
-    console.log(result)
-})
+// users.updateData({username: 'ztchun'}, {check: true}, function(result){
+//     console.log(result)
+// })
 
 // posts insert
 // posts.insertData(postsData[0],function(result){
@@ -50,9 +53,17 @@ users.updateData({username: 'ztchun'}, {check: true}, function(result){
 // })
 
 // posts delete
-posts.deleteData({user_name: "ztc"}, function(result) {
-    console.log(result.result.ok)
+// posts.deleteData({user_name: "ztc"}, function(result) {
+//     console.log(result.result.ok)
+// })
+
+// subjects.findData({
+//     "_id": ObjectID('5a71b7b548ea61b30b3c5e16')
+// },function(result){
+//     console.log(result)
+// })
+
+// tools
+tools.showTime(function(time){
+    console.log(time)
 })
-
-
-

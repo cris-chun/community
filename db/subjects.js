@@ -1,18 +1,20 @@
 var db = require("./db.js");
 
 // subjects查找
-exports.findData = function(data, callback){
-    var subjects = []
+exports.findData = function(data,callback){
+    var subjects = [];
+    data = data || {}
     db._connnection(function(db){
-        db.collection("subjects").find(data, function(err, cursor){
-            if (err) {
-                console.log('subjects查找失败')q
-                db.close()
-                return
+        db.collection("subjects").find(data,function(err,cursor){
+            if(err){
+                console.log("查询所有用户失败");
+                db.close();
+                return;
             }
+            console.log("查询数据成功")
             cursor.each(function(error,doc){
                 if(error){
-                    console.log("subjects数据遍历失败");
+                    console.log("用户数据遍历失败");
                     db.close();
                     return;
                 }

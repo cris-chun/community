@@ -6,6 +6,10 @@
 var fd = require("formidable");
 var users = require("../db/users");
 var nodemailer = require("nodemailer");
+var subjects = require("../db/subjects")
+var tools = require("../tool/tool")
+var posts = require("../db/posts")
+var ObjectID = require("mongodb").ObjectID
 
 // 登陆业务
 exports.loginCheck = function(req,res,callback){
@@ -175,5 +179,58 @@ exports.registerCheck = function(req,res,callback) {
             }
         })
 
+    })
+}
+
+// 提交帖子
+exports.submitPost = function(req, res, callback) {
+    if (!(req.session.login && req.session.username)){
+        // 未登录
+        callback("0")
+        return false
+    }
+    var form = fd.IncomingForm()
+    form.parse(req,function(err,fields){
+        if(err){
+            throw err
+            return
+        }
+        if (fields.radio == '1') {
+            subjects.findData({
+                "_id": ObjectID(fields.subject)
+            },function(subject) {
+                tools.showTime(function(time){
+                    var obj = {
+                       subject_id: fields.subject,
+                       subject_name: subject[0].subject_name,
+                       post_title: fields.title,
+                       post_content: fields.content,
+                       post_photos: fields['images[]'],
+                       link: '',
+                       user_name: req.session.username,
+                       time: time
+                    }
+                    posts.insertData(obj,function(post){
+                        if (post.result.ok == 1) {
+                            users.findData({
+                                username: req.session.username
+                            },function(user){
+                                var obj = {
+                                    avator: user[0].avator,
+                                    username: user[0].username,
+                                    subject: subject[0].subject_name,
+                                    time: time,
+                                    text: fields.content,
+                                    images: fields['images[]']
+                                }
+                                callback(JSON.stringify(obj))
+                            })
+                        } else {
+                            callback("2")
+                        }
+                    })
+                })
+            })
+        }
     })
 }

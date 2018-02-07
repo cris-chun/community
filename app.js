@@ -18,6 +18,7 @@ app.set("view engine","ejs");
 
 //static resource
 app.use(express.static("./public"));
+app.use(express.static("./postImages"));
 
 //router
 //收藏夹不请求 否则控制台会出现404错误
@@ -52,6 +53,12 @@ app.get("/whiteWall",router.showWhiteWall);
 // 生活休闲
 app.get("/life", router.showLife)
 
+// 请求subjects
+app.get("/selectOptions", router.selectOptions)
+// 发布吧贴
+app.post("/submitPost", router.submitPost)
+// 上传图片
+app.post("/imageUpload", router.imageUpload)
 
 // 监听端口
 app.listen(3000)

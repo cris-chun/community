@@ -1,9 +1,12 @@
 /**
  * Created by ZTC on 2017-10-7.
  */
-
+var fd = require("formidable");
 var controller = require("../controller/controller")
 var users = require("../db/users");
+var subjects = require("../db/subjects")
+var fs = require("fs")
+var path = require("path")
 
 //首页
 exports.showIndex = function(req,res){
@@ -91,4 +94,43 @@ exports.showWhiteWall = function(req,res){
 // 生活休闲
 exports.showLife = function (req, res) {
     res.render('life')
+}
+
+// selects数据
+exports.selectOptions = function(req, res) {
+    subjects.findData({}, function(result){
+        if (result.length == 0){
+            // 空数据
+            res.send('0')
+        } else {
+            var str = JSON.stringify(result)
+            res.send(str)
+        }
+    })
+}
+// 提交帖子
+exports.submitPost = function(req, res) {
+    controller.submitPost(req,res,function(data){
+        res.send(data)
+    })
+}
+
+// 图片上传
+exports.imageUpload = function(req, res) {
+    var form = fd.IncomingForm()
+    form.uploadDir = path.normalize(__dirname+"/../postImages");
+    form.parse(req, function(err, fields, files) {
+        var oldpath = files.file.path;
+        var time = Date.parse(new Date())
+        var newpath = path.normalize(__dirname+"/../postImages/"+ time +"post.jpg");
+        fs.rename(oldpath,newpath,function(err){
+            if(err){
+                res.send("0")
+                console.log("图片上传失败")
+                return;
+            }
+            console.log("图片上传成功")
+            res.send(newpath)
+        })
+    })
 }

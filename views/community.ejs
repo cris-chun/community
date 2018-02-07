@@ -38,6 +38,7 @@
         background: #fff;
         width: 98%;
         margin: 15px auto;
+        cursor: pointer;
     }
     .sub-content{
         width: 115px;
@@ -124,13 +125,13 @@
     } */
     .images{
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
         margin: 10px 30px;
         flex-wrap: wrap;
     }
     .images img{
-        width: 28%;
+        width: 21%;
         padding: 10px;
     }
     .info{
@@ -185,6 +186,49 @@
         /* margin-top: 5px; */
         border-top: 2px solid #dfdfdf;
     }
+    .dialog-form{
+        margin: 25px;
+    }
+    .dialog-select{
+        width: 100%;
+    }
+    .dialog-upload{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+    .avatar2 {
+        width: 178px;
+        height: 178px;
+        display: block;
+    }
+    .uploadimgs{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .uploadimgs img{
+        margin: 5px;
+    }
+    
 </style>
 <body>
     <div id="app">
@@ -197,6 +241,7 @@
                 background-color="#f4630b"
                 text-color="#fff"
                 active-text-color="#ffd04b">
+            <el-menu-item index="0"><a href="/">首页</a></el-menu-item>
             <el-menu-item index="1"><a href="/community">校论区</a></el-menu-item>
             <el-menu-item index="2"><a href="/life">生活休闲</a></el-menu-item>
             <el-menu-item index="3"><a href="/whiteWall">表白墙</a></el-menu-item>
@@ -214,14 +259,14 @@
                 <div class="left">
                     <!-- menu -->
                     <div class="content">
-                        <div class="sub-content" v-for="item in content">
+                        <div class="sub-content" v-for="(item, index) in content" @click="handleClick(item,index)">
                             <i :class="'fa '+item.icon"></i>
                             <div v-if="item.text" class="text">{{item.text}}</div>
                         </div>
                     </div>
                     <!-- 内容 -->
                     <div class="twitter">
-                        <el-row v-for="item in container" class="content-row">
+                        <el-row v-for="item in posts" class="content-row">
                             <el-col :span="2" class="avatar-left">
                                 <img :src="item.avatar" alt="" class="avatar">
                             </el-col>
@@ -239,8 +284,12 @@
                                         </div>
                                     </div>
                                     <div class="bottom">
-                                        <span class="looks">浏览数：{{item.look}}</span>
+                                        <span class="looks">
+                                            <span class="fa fa-tag"></span>
+                                            <span>{{item.subject}}</span>
+                                        </span>
                                         <span class="tags">
+                                            <span>浏览数{{item.look}}</span>
                                             <span class="fa fa-heart heart"> 10</span>
                                             <span class="fa fa-commenting comment"> 20</span> 
                                             <span class="fa fa-share share"> 10</span>    
@@ -285,8 +334,65 @@
                 </div>
             </el-col>
         </el-row>
+
+        <!-- dialog -->
+        <el-dialog title="发布帖子" :visible.sync="dialogFormVisible">
+            <el-form :model="form" :rules="rules" ref="form" class="dialog-form">
+                <el-form-item label="所属主题" label-width="80px">
+                    <template>
+                        <el-radio v-model="form.radio" label="1">主题已经存在（在此主题下创建帖子）</el-radio>
+                        <el-radio v-model="form.radio" label="2">新建主题</el-radio>
+                    </template>
+                </el-form-item>
+
+                <el-form-item label="主题名称" prop="subject" label-width="80px" v-if="form.radio == 1">
+                        <el-select class="dialog-select" v-model="form.subject" placeholder="请选择">
+                            <el-option
+                                v-for="(item, index) in options"
+                                :key="index"
+                                :label="item.subject_name"
+                                :value="item._id">
+                            </el-option>
+                        </el-select>
+                </el-form-item>
+
+                <el-form-item label="主题名称" prop="subject2" label-width="80px" v-if="form.radio == 2">
+                    <el-input v-model="form.subject2" placeholder="请输入主题名称"></el-input>
+                </el-form-item>
+                
+                <el-form-item label="帖子标题" prop="title" label-width="80px">
+                    <el-input v-model="form.title" placeholder="请输入帖子标题"></el-input>
+                </el-form-item>
+                <el-form-item label="帖子内容" label-width="80px">
+                    <el-input
+                        type="textarea"
+                        :rows="4"
+                        placeholder="请输入帖子内容"
+                        v-model="form.content">
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="帖子图片" label-width="80px">
+                    <el-upload
+                        class="avatar-uploader dialog-upload"
+                        :action="upload"
+                        :show-file-list="false"
+                        :on-success="handleUploadSuccess"
+                        :before-upload="beforeUpload">
+                        <div class="uploadimgs">
+                            <!-- <img :src="image" class="avatar2"> -->
+                            <i class="el-icon-plus avatar-uploader-icon"></i>
+                        </div>
+                      </el-upload>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="handleCancle('form')">取 消</el-button>
+                <el-button type="primary" @click="handlePost('form')">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </body>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <!-- 先引入 Vue -->
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <!-- 引入组件库 -->
@@ -323,33 +429,22 @@
                         text: '更多'
                     }
                 ],
-                container: [
+                posts: [
                     {
+                        subject: '摄影',
                         username:"ztchun",
                         time: '2018-01-03',
                         look: 32,
                         avatar: "/images/avatar.jpg",
                         text: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容',
-                        images: [
-                        "/images/avatar.jpg",
-                        "/images/avatar.jpg",
-                        "/images/avatar.jpg",
-                        "/images/avatar.jpg",
-                        "/images/avatar.jpg","/images/avatar.jpg"
-                        ]
                     },
                     {
+                        subject: '摄影',
                         username:"ztchun",
                         time: '2018-01-03',
                         look: 32,
                         avatar: "/images/avatar.jpg",
                         text: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容',
-                        images: [
-                        "/images/avatar.jpg",
-                        "/images/avatar.jpg",
-                        "/images/avatar.jpg",
-                        "/images/avatar.jpg"
-                        ]
                     }
                 ],
                 list: [
@@ -372,12 +467,124 @@
                         icon: 'fa fa-home',
                         text: '我的主页'
                     }
-                ]
+                ],
+                form: {
+                    title: '',
+                    content: '',
+                    radio: '1',
+                    subject: '',
+                    images: [],
+                    subject2: ''
+                },
+                options: [
+                ],
+                image: '',
+                images: [],
+                imageVisible: false,
+                dialogFormVisible: false,
+                rules: {
+                    subject:[
+                        {
+                            required: true,
+                            message: '请填写主题名称',
+                            trigger: 'blur'
+                        }
+                    ],
+                    title:[
+                        {
+                            required: true,
+                            message: '请填写帖子名称',
+                            trigger: 'blur'
+                        }
+                    ],
+                    subject2: [
+                    {
+                            required: true,
+                            message: '请填写主题名称',
+                            trigger: 'blur'
+                        }
+                    ]
+                },
+                upload: '/imageUpload',
             }
+        },
+        created () {
+            // 请求options
+            var _this = this
+            this.handleAjax('/selectOptions', 'get', {}, function(data){
+                var jsonArray = JSON.parse(data)
+                _this.options = jsonArray
+                // console.log(_this.options)
+            })
         },
         methods: {
             handleSelect: function(key, keyPath){
                 console.log(key, keyPath)
+            },
+            handleClick(item,index) {
+                // 发布贴吧
+                if (index == 0) {
+                    this.dialogFormVisible = true
+                }
+            },
+            handleUploadSuccess(res, file) {
+                if (res != 0) {
+                    var index = res.indexOf("postImages")
+                    this.image = res.slice(index+10)
+                    this.images.push(this.image)
+                    // 创建元素
+                    $img = $("<img src=\" " + this.image + " \" style='width: 178px;height: 178px;display: inline-block;'>")
+                    $(".uploadimgs").append($img)
+                }
+                
+            },
+            beforeUpload(file) {
+                const isLt2M = file.size / 1024 / 1024 < 2;
+        
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isLt2M
+            },
+            // ajax请求
+            handleAjax (url, method, data, handleSuccess) {
+                $.ajax({
+                    url: url,
+                    type: method,
+                    data: data,
+                    success: handleSuccess,
+                    error: function(err){
+                        console.log(err)
+                    }
+                })
+            },
+            // 提交表单
+            handlePost(form) {
+                var _this = this
+                this.$refs[form].validate((valid) => {
+                    if (valid) {
+                        _this.form.images = this.images
+                        // console.log(_this.form)
+                        _this.handleAjax('/submitPost', 'post', _this.form, function(data){
+                            console.log(data)
+                            if(data == '0') {
+                                _this.$message.error("您还未登录, 请先登录再发布吧贴吧！")
+                            } else if (data == '2'){
+                                _this.$message.error("soory, 发布失败")
+                            }else{
+                                var post = JSON.parse(data)
+                                _this.posts.splice(0, 0, post)
+                            }
+                            this.dialogFormVisible = false
+                        })
+                    } else {
+                        return false;
+                    }
+                });
+            },
+            // 取消表单
+            handleCancle(){
+                this.dialogFormVisible = false
             }
         }
     })
