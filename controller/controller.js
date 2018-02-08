@@ -231,6 +231,52 @@ exports.submitPost = function(req, res, callback) {
                     })
                 })
             })
+        } else {
+            // 新增主题
+            tools.showTime(function(time){
+                var obj = {
+                   subject_id: fields.subject,
+                   subject_name: fields.subject,
+                   post_title: fields.title,
+                   post_content: fields.content,
+                   post_photos: fields['images[]'],
+                   link: '',
+                   user_name: req.session.username,
+                   time: time
+                }
+                // 插入主题数据库
+                subjects.insertData({
+                    subject_name: fields.subject,
+                    subject_desc: fields.desc,
+                    time: time
+                }, function(result){
+                    // 插入帖子数据库
+                    posts.insertData(obj,function(post){
+                        if (post.result.ok == 1) {
+                            // 查询头像
+                            users.findData({
+                                username: req.session.username
+                            },function(user){
+                                var obj = {
+                                    avator: user[0].avator,
+                                    username: user[0].username,
+                                    subject: fields.subject,
+                                    time: time,
+                                    text: fields.content,
+                                    images: fields['images[]']
+                                }
+                                // 将数据返回
+                                callback(JSON.stringify(obj))
+                            })
+                        } else {
+                            callback("2")
+                        }
+                    })
+                })
+                
+            })
         }
     })
 }
+
+    

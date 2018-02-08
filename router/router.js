@@ -5,6 +5,7 @@ var fd = require("formidable");
 var controller = require("../controller/controller")
 var users = require("../db/users");
 var subjects = require("../db/subjects")
+var posts = require("../db/posts")
 var fs = require("fs")
 var path = require("path")
 
@@ -133,4 +134,25 @@ exports.imageUpload = function(req, res) {
             res.send(newpath)
         })
     })
+}
+
+// communtiy页面获取帖子内容
+exports.getPosts = function(req, res) {
+    var start = Number(req.query.start)
+    var limit = Number(req.query.limit)
+    posts.findData({},function(data){
+        if (data.length <= start) {
+            console.log('return')
+            return
+        }else {
+            posts.findDataSort({}, {time: 1}, start, limit,function(data){
+                res.send(JSON.stringify(data))
+            })
+        }
+    })
+}
+
+// 吧
+exports.showSubject = function(req, res){
+    res.render("subject")
 }

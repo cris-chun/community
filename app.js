@@ -19,6 +19,7 @@ app.set("view engine","ejs");
 //static resource
 app.use(express.static("./public"));
 app.use(express.static("./postImages"));
+app.use(express.static("./avator"));
 
 //router
 //收藏夹不请求 否则控制台会出现404错误
@@ -59,6 +60,11 @@ app.get("/selectOptions", router.selectOptions)
 app.post("/submitPost", router.submitPost)
 // 上传图片
 app.post("/imageUpload", router.imageUpload)
+//获取post帖子 community展示post内容
+app.get("/getPosts", router.getPosts)
+
+// 吧
+app.get("/subject", router.showSubject)
 
 // 监听端口
 app.listen(3000)

@@ -11,7 +11,7 @@ exports._connnection =  function (callback){
     MongoClient.connect(url, function(err, db) {
         if(err){
             console.log("数据库连接失败");
-            db.close()
+            // db.close()
             return;
         }
         console.log("数据库连接成功");

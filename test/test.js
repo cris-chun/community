@@ -64,6 +64,13 @@ var postsData = require("./posts.json")
 // })
 
 // tools
-tools.showTime(function(time){
-    console.log(time)
+// tools.showTime(function(time){
+//     console.log(time)
+// })
+
+// posts.findData({},function(data){
+//     console.log(data)
+// })
+posts.findDataBySort({}, {time: 1}, 10, 2,function(data){
+    console.log(data)
 })
