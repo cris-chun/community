@@ -154,6 +154,9 @@
         display: block;
         line-height: 20px;
     }
+    .name .ztc{
+        color: #f4630b
+    }
     .name>div>span:nth-child(2){
         font-weight: 400;
     }
@@ -161,9 +164,6 @@
         font-weight: 600;
         font-size: 25px;
         line-height: 60px;
-    }
-    .dropdown-ul{
-        padding: 0 10px;
     }
     .list{
         padding-top: 8px;
@@ -177,7 +177,7 @@
         font-size: 14px;
     }
     .list i{
-        color:#CFCFCF;
+        color:#f4630b;
     }
     .list span{
         margin-left: 15px;
@@ -239,6 +239,28 @@
         color: #848484;
         font-size: 13px;
     }
+    .search-menu{
+        margin-left: 50px;
+        float: left;
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+    .search input{
+        float: right;
+        width: 200px;
+        height: 30px;
+        border-radius: 15px;
+    }
+    .search-icon{
+        color: #f4630b;
+        margin-left: -25px;
+        z-index: 100;
+        font-size:18px;
+        font-weight: 900;
+    }
 </style>
 <body>
     <div id="app">
@@ -257,10 +279,24 @@
             <el-menu-item index="3"><a href="/whiteWall">表白墙</a></el-menu-item>
             <el-submenu index="4">
                 <template slot="title">我的</template>
-                <el-menu-item index="选项1">选项1</el-menu-item>
-                <el-menu-item index="选项2">选项2</el-menu-item>
-                <el-menu-item index="选项3">选项3</el-menu-item>
+                <el-menu-item index="账号设置">账号设置</el-menu-item>
+                <el-menu-item index="我的关注">我的关注</el-menu-item>
+                <el-menu-item index="我的贴子">我的贴子</el-menu-item>
+                <!-- 系统通知为管理员 -->
+                <el-menu-item index="系统通知">系统通知</el-menu-item>
+                <!-- 个人私信为个人收到的信息 -->
+                <el-menu-item index="个人私信">个人私信</el-menu-item>
+                <el-menu-item index="帮助和反馈">帮助和反馈</el-menu-item>
+                <el-menu-item index="退出">退出</el-menu-item>
             </el-submenu>
+            <div class="search-menu">
+                <el-input class="search"
+                    placeholder="请输入内容"
+                    v-model="search"
+                    clearable>
+                </el-input>
+                <i class="el-icon-search search-icon"></i>
+            </div>
         </el-menu>
 
         <el-row>
@@ -319,21 +355,14 @@
                     <el-row class="info">
                         <el-col :span="18" class="name">
                             <div>
-                                <span>ztchun</span>
+                                <span class="ztc">ztchun</span>
                                 <span>ztchun.com</span>
                             </div>
                         </el-col>
                         <el-col :span="6">
-                            <el-dropdown>
-                                <span class="el-dropdown-link icon-dropdown">
+                                <span class="icon-dropdown">
                                     <i class="el-icon-arrow-down el-icon--right"></i>
                                 </span>
-                                <el-dropdown-menu slot="dropdown" class="dropdown-ul">
-                                    <el-dropdown-item>self</el-dropdown-item>
-                                    <el-dropdown-item>self</el-dropdown-item>
-                                    <el-dropdown-item>self</el-dropdown-item>
-                                </el-dropdown-menu>
-                            </el-dropdown>
                         </el-col>
                     </el-row>
                     <el-row>
@@ -416,6 +445,7 @@
         el: '#app',
         data: function() {
             return {
+                search: '',
                 activeIndex: '1',
                 content: [
                     {
@@ -463,24 +493,31 @@
                 ],
                 list: [
                     {
-                        icon: 'fa fa-file-text',
-                        text: '我的内容'
+                        icon: 'fa fa-pencil-square-o',
+                        text: '账号设置'
                     },
                     {
-                        icon: 'fa fa-vcard',
+                        icon: 'fa fa-star-o',
                         text: '我的关注'
                     },
                     {
-                        icon: 'fa fa-bullhorn',
-                        text: '通知'
+                        icon: 'fa fa-sticky-note-o',
+                        text: '我的帖子'
                     },
                     {
-                        icon: 'fa fa-envelope',
-                        text: '私信'
+                        icon: 'fa fa-bullhorn',
+                        text: '系统通知'
+                    },
+                    {
+                        icon: 'fa fa-envelope-o',
+                        text: '个人私信'
                     },{
-                        icon: 'fa fa-home',
-                        text: '我的主页'
-                    }
+                        icon: 'fa fa-question',
+                        text: '帮助和反馈'
+                    },{
+                        icon: 'fa fa-power-off',
+                        text: '退出'
+                    },
                 ],
                 form: {
                     title: '',
