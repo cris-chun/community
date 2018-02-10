@@ -109,6 +109,7 @@ exports.selectOptions = function(req, res) {
         }
     })
 }
+
 // 提交帖子
 exports.submitPost = function(req, res) {
     controller.submitPost(req,res,function(data){
@@ -155,4 +156,27 @@ exports.getPosts = function(req, res) {
 // 吧
 exports.showSubject = function(req, res){
     res.render("subject")
+}
+
+// 个人信息请求 
+exports.userInfo = function(req, res){
+    if (req.session.username){
+        users.findData({username: req.session.username} ,function(data){
+            if (data == 0) {
+                // 未注册
+                res.send("0")
+            } else {
+                // 成功
+                res.send(JSON.stringify(data[0]))
+            }
+        })
+    } else {
+        // 未登录
+        res.send('1')
+    }
+}
+
+// 我的
+exports.showMine = function(req, res) {
+    res.render("mine")
 }

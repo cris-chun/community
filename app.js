@@ -54,17 +54,22 @@ app.get("/whiteWall",router.showWhiteWall);
 // 生活休闲
 app.get("/life", router.showLife)
 
-// 请求subjects
+// 请求subjects下拉框
 app.get("/selectOptions", router.selectOptions)
-// 发布吧贴
+// 发布帖子
 app.post("/submitPost", router.submitPost)
 // 上传图片
 app.post("/imageUpload", router.imageUpload)
-//获取post帖子 community展示post内容
+// 获取post帖子 community展示post内容
 app.get("/getPosts", router.getPosts)
+// 个人信息请求
+app.get("/userInfo", router.userInfo)
 
 // 吧
 app.get("/subject", router.showSubject)
+
+// 我的
+app.get("/mine", router.showMine)
 
 // 监听端口
 app.listen(3000)

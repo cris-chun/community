@@ -10,7 +10,7 @@
     body{
         margin: 0;
         padding: 0;
-        background: #ededef;
+        background: #dceffe;
     }
     a{
         text-decoration: none;
@@ -90,7 +90,7 @@
         height:0;
         font-size:0;
         border:solid 15px;
-        border-color:#ededef #fff #ededef #ededef;
+        border-color:#dceffe #fff #dceffe #dceffe;
     }
     .content-row{
         margin-top: 20px;
@@ -261,6 +261,26 @@
         font-size:18px;
         font-weight: 900;
     }
+    .login{
+        font-size: 40px;
+        color: #bdbdbd;
+    }
+    .name_login span{
+        margin-top: -10px;
+    }
+    .name_login>span:nth-child(2){
+        font-size: 14px;
+        margin-left: 20px;
+        background: #f4630b;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 8px;
+    }
+    .name_login{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
 </style>
 <body>
     <div id="app">
@@ -351,12 +371,12 @@
             </el-col>
             <!-- right -->
             <el-col :span='4'>
-                <div class="right">
+                <div class="right" v-if="isUser">
                     <el-row class="info">
                         <el-col :span="18" class="name">
-                            <div>
-                                <span class="ztc">ztchun</span>
-                                <span>ztchun.com</span>
+                            <div class="username">
+                                <span class="ztc">{{user.username}}</span>
+                                <span>{{user.sign}}</span>
                             </div>
                         </el-col>
                         <el-col :span="6">
@@ -371,6 +391,21 @@
                             <span>{{item.text}}</span>
                         </div>
                     </el-row>   
+                </div>
+                <div v-else class="right">
+                    <el-row class="info">
+                        <el-col :span="18" class="name">
+                            <div class="name_login">
+                                <span class="fa fa-user login"></span>
+                                <span>去登录</span>
+                            </div>
+                        </el-col>
+                        <el-col :span="6">
+                                <span class="icon-dropdown">
+                                    <i class="el-icon-arrow-down el-icon--right"></i>
+                                </span>
+                        </el-col>
+                    </el-row>
                 </div>
             </el-col>
         </el-row>
@@ -445,8 +480,11 @@
         el: '#app',
         data: function() {
             return {
+                // 搜索
                 search: '',
+                // 导航条
                 activeIndex: '1',
+                // 二级菜单
                 content: [
                     {
                         icon: 'fa-plus-square-o',
@@ -473,6 +511,7 @@
                         text: '更多'
                     }
                 ],
+                // 帖子内容
                 posts: [
                     // {
                     //     subject: '摄影',
@@ -491,6 +530,7 @@
                     //     text: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容',
                     // }
                 ],
+                // 右侧个人信息
                 list: [
                     {
                         icon: 'fa fa-pencil-square-o',
@@ -512,7 +552,7 @@
                         icon: 'fa fa-envelope-o',
                         text: '个人私信'
                     },{
-                        icon: 'fa fa-question',
+                        icon: 'fa fa-lightbulb-o',
                         text: '帮助和反馈'
                     },{
                         icon: 'fa fa-power-off',
@@ -528,6 +568,7 @@
                     subject2: '',
                     desc: ''
                 },
+                // 下拉
                 options: [
                 ],
                 image: '',
@@ -558,14 +599,21 @@
                     ]
                 },
                 upload: '/imageUpload',
-                start: 0
+                start: 0,
+                // 个人信息
+                user: {},
+                isUser: false
             }
         },
         created () {
+            // 下拉狂
             this.initSelect()
+            // 展示帖子
             this.initPost(0, 10)
             // 下拉刷新
             window.addEventListener("scroll", this.handleScroll)
+            // 个人信息
+            this.initUser()
         },
         watch: {
             dialogFormVisible (value) {
@@ -590,12 +638,32 @@
                     }
                 })
             },
+            // 下拉框请求数据
             initSelect() {
                 var _this = this
                 this.handleAjax('/selectOptions', 'get', {}, function(data){
                     var jsonArray = JSON.parse(data)
                     _this.options = jsonArray
                     // console.log(_this.options)
+                })
+            },
+            // 个人信息请求
+            initUser () {
+                var _this = this
+                this.handleAjax("/userInfo", 'get', {}, function(data){
+                    if (data == '0') {
+                        // 未注册
+                        _this.isUser = false
+                        _this.$message.error("sorry,您还未注册哦")
+                    }else if (data == '1'){
+                        // 未登录
+                        _this.isUser = false
+                        _this.$message.error("sorry,您还没没有登录哦")
+                    } else {
+                        //  查询成功
+                        _this.isUser = true
+                        _this.user = JSON.parse(data)
+                    }
                 })
             },
             handleSelect: function(key, keyPath){

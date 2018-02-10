@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>社区话题</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+</head>
+<style type="text/css">
+    body{
+        margin: 0;
+        padding: 0;
+        background: #dceffe;
+    }
+    #app{
+        text-align: center;
+    }
+    .menu-padding{
+        padding-left: 35%;
+    }
+    a{
+        text-decoration: none;
+    }
+    .content{
+        margin: 0 auto;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: 65%;
+        background: #fff;
+        padding: 20px;
+        flex-wrap: wrap;
+    }
+    .content>div{
+        text-align: left;
+        width: 100%;
+    }
+    .user{
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: 100%;
+        flex-wrap: nowrap;
+    }
+    .avator img{
+        width: 150px;
+        border-radius: 50%;
+    }
+    .info{
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+    .info div{
+        width: 100%;
+        text-align: left;
+        margin-left: 40px;
+    }
+    .info .username{
+        font-size: 20px;
+        color: #f4630b;
+    }
+    .info sign{
+        font-size: 14px;
+        color: #848484;
+    }
+    .manager{
+        margin-top: 30px;
+    }
+    .form{
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+    .left,.right{
+        width: 50%;
+    }
+    /* avatar */
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+    .avatar {
+        width: 178px;
+        height: 178px;
+        display: block;
+    }
+    .birthday .el-input{
+        width: 100%;
+    }
+    .manager .el-tabs__item.is-active{
+        color: #f4630b;
+    }
+    .manager .el-tabs__item:hover{
+        color: #f4630b;
+    }
+    .manager .el-tabs__active-bar{
+        background: #f4630b;
+    }
+    .city .el-cascader{
+        width: 100%;
+    }
+    .btns{
+        margin-left: 50px;
+    }
+    .btns button:nth-child(1){
+        background-color: #f4630b;
+        border-color: #f4630b;
+    }
+    .btns button:nth-child(2){
+        background-color: #848484;
+        border-color: #848484;
+    }
+    .btns button{
+        margin: 10px 50px;
+    }
+    .subjects{
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+    .subjects>div{
+        width: 31%;
+        margin: 10px;
+    }
+    .subject_content{
+        
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: nowrap;
+    }
+    .subject_content .image{
+        width: 30%;
+    }
+    .subject_content img{
+        width: 100%;
+    }
+    .subject .el-card__header,.subject .el-card__body{
+        padding: 10px;
+    }
+    .subject_info{
+        margin-left: 10px;
+        font-size: 13px;
+        color:#848484;
+    }
+    .subject_info .title{
+        color: #222;
+    }
+    .subject .el-button--text{
+        color: #f4630b;
+    }
+    .post .sub_post{
+        /* width: 100%; */
+        text-align: left;
+    }
+    .post_image{
+        clear: both;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+    .post_image img{
+        width: 10%;
+        margin: 5px;
+    }
+    .post_content{
+        width: 80%;
+        word-wrap:break-word;
+        position: relative;
+    }
+    .post_time{
+        position: absolute;
+        right: -20%;
+        top: 0;
+        color: #dfdfdf;
+    }
+    .post_info{
+        clear: both;
+    }
+    .post_info>div{
+        display: inline-block;
+    }
+    .post_info>div:nth-child(1){
+        float: left;
+    }
+    .post_info>div:nth-child(2){
+        float: right;
+    }
+    .post_info span{
+        padding: 5px;
+    }
+    .post .el-collapse-item__header{
+        font-size: 15px;
+    }
+    .post .el-collapse-item__wrap{
+        margin-left: 20px;
+    }
+    .item .el-badge__content.is-fixed{
+        top: 12px;
+        right: 0;
+    }
+    .item2 .el-badge__content.is-fixed{
+        top: 10px;
+        right: 2px;
+    }
+    .demo-table-expand {
+        font-size: 0;
+    }
+    .demo-table-expand label {
+        width: 90px;
+        color: #99a9bf;
+    }
+    .demo-table-expand .el-form-item {
+        margin-right: 0;
+        margin-bottom: 0;
+        width: 50%;
+    }
+    .manager_subject img{
+        width: 100px;
+        height: 100px;
+    }
+    .subejct_form input{
+        height: 30px;
+    }
+
+</style>
+<body>
+    <div id="app">
+        <!--菜单导航-->
+        <el-menu
+                :default-active="activeIndex"
+                class="el-menu-demo menu-padding"
+                mode="horizontal"
+                @select="handleSelect"
+                background-color="#f4630b"
+                text-color="#fff"
+                active-text-color="#ffd04b">
+            <el-menu-item index="0"><a href="/">首页</a></el-menu-item>
+            <el-menu-item index="1"><a href="/community">校论区</a></el-menu-item>
+            <el-menu-item index="2"><a href="/life">生活休闲</a></el-menu-item>
+            <el-menu-item index="3"><a href="/whiteWall">表白墙</a></el-menu-item>
+            <el-submenu index="4">
+                <template slot="title">我的</template>
+                <el-menu-item index="5">选项1</el-menu-item>
+                <el-menu-item index="6">选项2</el-menu-item>
+                <el-menu-item index="7">选项3</el-menu-item>
+            </el-submenu>
+        </el-menu>
+
+        <div class="content">
+            <div class="user">
+                <div class="avator">
+                    <img src="/avatar.jpg" alt="">
+                </div>
+                <div class="info">
+                    <div class="username">ztchun</div>
+                    <div class="sign">一句话展示自己的个人魅力</div>
+                </div>
+            </div>
+            <div class="manager">
+                <template>
+                    <el-tabs v-model="activeName" @tab-click="handleClick">
+                        <el-tab-pane label="用户管理" name="first">
+                            <!-- 账号管理 -->
+                            <el-form :model="user" :rules="rules" ref="user" label-width="100px" class="demo-ruleForm">
+                                <div class="form">
+                                    <div class="left">
+                                        <!-- <el-form-item label="用户头像" prop="avator">
+                                                <el-upload
+                                                class="avatar-uploader"
+                                                action="https://jsonplaceholder.typicode.com/posts/"
+                                                :show-file-list="false"
+                                                :on-success="handleAvatarSuccess"
+                                                :before-upload="beforeAvatarUpload">
+                                                <img v-if="user.avator" :src="user.avator" class="avatar">
+                                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                              </el-upload>
+                                        </el-form-item> -->
+                                        <el-form-item label="用户名称" prop="username">
+                                            <el-input v-model="user.username" placeholder="请输入用户名称"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="用户密码" prop="passowrd">
+                                            <el-input v-model="user.password" placeholder="请输入用户密码"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="重复密码" prop="repassword">
+                                            <el-input v-model="user.repassword" placeholder="请重复用户密码"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="个性签名" prop="sign">
+                                            <el-input type="textarea" :rows="3" v-model="user.sign" placeholder="请输入用户签名"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="绑定邮箱" prop="email">
+                                            <el-input v-model="user.email" placeholder="请输入用户邮箱"></el-input>
+                                        </el-form-item>
+                                        
+                                    </div>
+                                    <div class="right">
+                                            <el-form-item label="手机号码" prop="phone_number">
+                                                <el-input v-model="user.phone_number" placeholder="请输入用户手机号"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="出生日期" prop="birthday" class="birthday">
+                                                    <el-date-picker
+                                                    v-model="user.birthday"
+                                                    align="right"
+                                                    type="date"
+                                                    placeholder="请选择出生日期"
+                                                    >
+                                                  </el-date-picker>
+                                            </el-form-item>
+                                            <el-form-item label="省份" prop="city" class="city">
+                                                    <el-cascader
+                                                    @change="handleChange"
+                                                    :options="options"
+                                                    v-model="user.city"
+                                                    change-on-select
+                                                  ></el-cascader>
+                                            </el-form-item>
+                                            <el-form-item label="爱好" prop="hobby">
+                                                <el-input v-model="user.hobby"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="用户性别" prop="sex">
+                                                <el-radio v-model="user.sex" label="1">女</el-radio>
+                                                <el-radio v-model="user.sex" label="2">男</el-radio>
+                                            </el-form-item>
+                                            <div class="btns">
+                                                <el-button type="primary">完善信息</el-button>
+                                                <el-button type="success">取消完善</el-button>
+                                            </div>
+                                    </div>
+                                </div>
+                            </el-form>
+                        </el-tab-pane>
+                        <el-tab-pane label="我的话题" name="fifth">
+                            <!-- 我的话题 -->
+                            <el-table :data="manager_subjects" style="width: 100%">
+                                <el-table-column type="expand">
+                                    <template slot-scope="props">
+                                        <el-form label-position="left" inline class="demo-table-expand subejct_form">
+                                            <el-form-item label="吧名称">
+                                                <el-input v-model="props.row.subject_name" :value="props.row.subject_name"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="吧主">
+                                                <el-input v-model="props.row.username" :value="props.row.user_name"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="创建时间">
+                                                <el-input v-model="props.row.time" :value="props.row.time"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="关注人数">
+                                                <el-input v-model="props.row.follows" :value="props.row.follows"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="帖子数">
+                                                <el-input v-model="props.row.post_num" :value="props.row.post_num"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="吧等级">
+                                                <el-input v-model="props.row.subject_level" :value="props.row.subject_level"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="吧描述">
+                                                <el-input type="textarea" :rows="3" v-model="props.row.desc" :value="props.row.desc"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="头像" class="manager_subject">
+                                                    <el-upload
+                                                    class="avatar-uploader"
+                                                    action=""
+                                                    :show-file-list="false"
+                                                    :on-success="handleAvatarSuccess"
+                                                    :before-upload="beforeAvatarUpload">
+                                                    <img v-if="props.row.image" :src="props.row.image" class="avatar">
+                                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                                  </el-upload>
+                                            </el-form-item>
+                                        </el-form>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="吧名称" prop="subject_name">
+                                </el-table-column>
+                                <el-table-column label="吧主" prop="user_name">
+                                </el-table-column>
+                                <el-table-column label="创建时间" prop="time">
+                                </el-table-column>
+                                <el-table-column label="关注人数" prop="follows">
+                                </el-table-column>
+                                <el-table-column label="帖子数" prop="post_num">
+                                </el-table-column>
+                                <el-table-column label="吧等级" prop="subject_level">
+                                </el-table-column>
+                                <el-table-column label="操作" prop="subject_level" width="150">
+                                        <template slot-scope="scope">
+                                                <el-button
+                                                  size="mini"
+                                                  @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+                                                <el-button
+                                                  size="mini"
+                                                  type="danger"
+                                                  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                                              </template>
+                                </el-table-column>
+                          </el-table>
+                        </el-tab-pane>
+                        <el-tab-pane label="我的关注" name="second">
+                            <!-- 我的关注 -->
+                            <div class="subjects">
+                                <div class="subject" v-for="subject in subjects">
+                                    <el-card class="box-card">
+                                        <div slot="header" class="clearfix">
+                                            <span>{{subject.subject_name}}</span>
+                                            <el-button style="float: right; padding: 3px 0" type="text">取消关注</el-button>
+                                        </div>
+                                        <div class="subject_content">
+                                            <div class="image">
+                                                <img :src="subject.subject_image" alt="">
+                                            </div>
+                                            <div class="subject_info">
+                                                <div><span class="title">创建时间：</span>{{subject.time}}</div>
+                                                <div><span class="title">关注人数：</span>{{subject.follows}}</div>
+                                                <div><span class="title">帖子数：</span>{{subject.posts}}</div>
+                                                <div><span class="title">等级：</span>{{subject.subject_level}}</div>
+                                            </div>
+                                        </div>
+                                    </el-card>
+                                </div>
+                            </div>
+                        </el-tab-pane>
+
+                        <el-tab-pane label="我的帖子" name="third">
+                            <!-- 我的帖子 -->
+                            <el-collapse v-model="postActive" class="posts" accordion>
+                                <el-collapse-item :title="post.post_title" class="post" :name="index" v-for="(post,index) in posts">
+                                        <div class="sub-post post_content">
+                                                <span>
+                                                    {{post.post_content}}
+                                                </span>   
+                                                <span class="post_time">{{post.time}}</span>
+                                        </div>
+                                        <div class="post_image sub_post">
+                                            <img :src="image" alt=""  v-for="image in post.post_photos">
+                                        </div>
+                                        <div class="post_info sub-post">
+                                            <div>
+                                                <span class="fa fa-tag"></span>
+                                                <span>{{post.subject_name}}</span>
+                                            </div>
+                                            <div>
+                                                <span v-if="post.look">浏览数{{post.look}}</span>
+                                                <span class="fa fa-heart heart"> {{post.hearts}}</span>
+                                                <span class="fa fa-commenting comment"> {{post.reply_num}}</span> 
+                                                <span class="fa fa-share share"> {{post.share}}</span> 
+                                            </div>
+                                        </div>
+                                </el-collapse-item>
+                            </el-collapse>
+                        </el-tab-pane>
+
+                        <el-tab-pane>
+                            <!-- 我的消息 -->
+                            <span slot="label">
+                                    <el-badge :value="12" class="item">
+                                        我的消息
+                                    </el-badge>
+                            </span>
+                            <el-tabs type="border-card">
+                                    <el-tab-pane>
+                                        <span slot="label">
+                                                <el-badge :value="6" class="item2">
+                                                        私信
+                                                </el-badge>
+                                        </span>
+                                        私信
+                                    </el-tab-pane>
+                                    <el-tab-pane>
+                                            <span slot="label">
+                                                    <el-badge :value="6" class="item2">
+                                                            系统消息
+                                                    </el-badge>
+                                            </span>
+                                            系统消息
+                                        </el-tab-pane>
+                                  </el-tabs>
+                        </el-tab-pane>
+                    </el-tabs>
+                </template>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<!-- 先引入 Vue -->
+<script src="https://cdn.bootcss.com/vue/2.5.13/vue.js"></script>
+<script src="https://cdn.bootcss.com/vue-resource/1.3.4/vue-resource.js"></script>
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                activeIndex: '5',
+                activeName: 'first',
+                user:{},
+                options: [],
+                rules:{},
+                subjects: [
+                    {
+                        subject_name: 'subject_name',
+                        subject_desc: 'subejct_desc',
+                        subject_image: '/avatar.jpg',
+                        time: 'time',
+                        follows: '23',
+                        posts: '23',
+                        subject_level: '2'
+                    },
+                    {
+                        subject_name: 'subject_name',
+                        subject_desc: 'subejct_desc',
+                        subject_image: '/avatar.jpg',
+                        time: 'time',
+                        follows: '23',
+                        posts: '23',
+                        subject_level: '2'
+                    },{
+                        subject_name: 'subject_name',
+                        subject_desc: 'subejct_desc',
+                        subject_image: '/avatar.jpg',
+                        time: 'time',
+                        follows: '23',
+                        posts: '23',
+                        subject_level: '2'
+                    },{
+                        subject_name: 'subject_name',
+                        subject_desc: 'subejct_desc',
+                        subject_image: '/avatar.jpg',
+                        time: 'time',
+                        follows: '23',
+                        posts: '23',
+                        subject_level: '2'
+                    },{
+                        subject_name: 'subject_name',
+                        subject_desc: 'subejct_desc',
+                        subject_image: '/avatar.jpg',
+                        time: 'time',
+                        follows: '23',
+                        posts: '23',
+                        subject_level: '2'
+                    }
+                ],
+                postActive: '1',
+                posts:[
+                    {
+                        post_title: 'post_title',
+                        post_content: 'post_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_content',
+                        post_photos: [
+                            '/avatar.jpg',
+                            '/avatar.jpg',
+                            '/avatar.jpg',
+                            '/avatar.jpg',
+                        ],
+                        subject_name: 'subject_name',
+                        look: 23,
+                        hearts: 23,
+                        reply_num: 12,
+                        share: 23,
+                        time: 'time'
+                    },{
+                        post_title: 'post_title',
+                        post_content: 'post_content',
+                        post_photos: [
+                            '/avatar.jpg',
+                            '/avatar.jpg',
+                            '/avatar.jpg',
+                            '/avatar.jpg',
+                        ],
+                        subject_name: 'subject_name',
+                        look: 23,
+                        hearts: 23,
+                        reply_num: 12,
+                        share: 23,
+                        time: 'time'
+                    }
+                ],
+                manager_subjects: [
+                {
+                    subject_name: 'subject_name',
+                    user_name: 'user_name',
+                    time: 'time',
+                    follows: 32,
+                    post_num: 32,
+                    subject_level: 1,
+                    desc: 'desc',
+                    image: '/avatar.jpg'
+                }, {
+                    subject_name: 'subject_name',
+                    user_name: 'user_name',
+                    time: 'time',
+                    follows: 32,
+                    post_num: 32,
+                    subject_level: 1,
+                    desc: 'fesc',
+                    image: '/avatar.jpg'
+                }, {
+                    subject_name: 'subject_name',
+                    user_name: 'user_name',
+                    time: 'time',
+                    follows: 32,
+                    post_num: 32,
+                    subject_level: 1,
+                    desc: 'desc',
+                    image: '/avatar.jpg'
+                }, {
+                    subject_name: 'subject_name',
+                    user_name: 'user_name',
+                    time: 'time',
+                    follows: 32,
+                    post_num: 32,
+                    subject_level: 1,
+                    desc: 'desc',
+                    image: '/avatar.jpg'
+                }
+                ],
+                formdisabled: false
+            }
+        },
+        created () {
+            this.initCity()
+        },
+        watch: {
+        },
+        methods: {
+            initCity(){
+                this.$http.jsonp("http://api.jisuapi.com/area/province",{  
+                    params:{  
+                        appkey: 'a04a76c1b8eda3d0'
+                    }  
+                }).then(resp=>{
+                    resp.body.result.forEach((value, index, aray)=>{
+                        value.label = value.name
+                        value.value = value.id
+                        value.children = [
+                            {
+                                label: '请选择',
+                                value: '请选择'
+                            }
+                        ]
+                    })
+                    this.options = resp.body.result
+                },response => {  
+                    console.log("发送失败"+response.status+","+response.statusText);  
+                });  
+            },
+            handleResponse (data) {
+                console.log(data)
+            },
+            handleSelect: function(key, keyPath){
+                console.log(key, keyPath)
+            },
+            handleClick(tab, event) {
+                console.log(tab, event);
+            },
+            // 全国省市查询
+            handleChange (value) {
+                var _this = this
+                this.$http.jsonp("http://api.jisuapi.com/area/city",{  
+                    params:{  
+                        parentid: value[0],
+                        appkey: 'a04a76c1b8eda3d0'
+                    }  
+                }).then(resp=>{
+                    resp.body.result.forEach((value, index, aray)=>{
+                        value.label = value.name
+                        value.value = value.id
+                    })
+                    _this.options[Number(value[0]) - 1].children = resp.body.result
+                },response => {  
+                    console.log("发送失败"+response.status+","+response.statusText);  
+                });  
+            },
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = URL.createObjectURL(file.raw);
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            },
+            handleEdit(index, row) {
+
+            },
+            handleDelete(index, row) {
+
+            },
+        }
+    })
+</script>
+</html>
