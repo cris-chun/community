@@ -105,6 +105,7 @@
         padding: 7px;
     }
     .bottom{
+        cursor: pointer;
         clear: both;
         border-top: 1px solid #d8d8d8;
         padding: 7px;
@@ -150,14 +151,14 @@
         text-align: left;
         line-height: 60px;
     }
-    .name>div>span{
+    .name>div>span,.name>div>a{
         display: block;
         line-height: 20px;
     }
     .name .ztc{
         color: #f4630b
     }
-    .name>div>span:nth-child(2){
+    .name>div>a{
         font-weight: 400;
     }
     .icon-dropdown>i{
@@ -268,9 +269,10 @@
     .name_login span{
         margin-top: -10px;
     }
-    .name_login>span:nth-child(2){
+    .name_login>a{
         font-size: 14px;
         margin-left: 20px;
+        margin-top: -10px;
         background: #f4630b;
         color: #fff;
         padding: 5px 10px;
@@ -280,6 +282,43 @@
         display: flex;
         justify-content: flex-start;
         align-items: center;
+    }
+    .el-notification.right{
+        width: 300px;
+    }
+    .sub-menu{
+        color:#fff;
+    }
+    .comments{
+        font-size: 12px;
+    }
+    .comment span{
+        margin: 5px;
+    }
+    .comment>span:nth-child(1),.comment>span:nth-child(2){
+        color:#bfbfbf;
+    }
+    .comment_input{
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+    }
+    .comment_input .input,.comment_input .send{
+        margin: 5px;
+    }
+    .comment_input .el-input__inner{
+        height: 30px;
+    }
+    .comment_input .el-button--primary.is-plain{
+        color: #f4630b;
+        border-color: #dcdfe6;
+        background: #fff;
+    }
+    .comment_input .el-button{
+        font-size: 12px;
+        padding: 7.5px 10px;
     }
 </style>
 <body>
@@ -299,15 +338,13 @@
             <el-menu-item index="3"><a href="/whiteWall">表白墙</a></el-menu-item>
             <el-submenu index="4">
                 <template slot="title">我的</template>
-                <el-menu-item index="账号设置">账号设置</el-menu-item>
-                <el-menu-item index="我的关注">我的关注</el-menu-item>
-                <el-menu-item index="我的贴子">我的贴子</el-menu-item>
-                <!-- 系统通知为管理员 -->
-                <el-menu-item index="系统通知">系统通知</el-menu-item>
-                <!-- 个人私信为个人收到的信息 -->
-                <el-menu-item index="个人私信">个人私信</el-menu-item>
-                <el-menu-item index="帮助和反馈">帮助和反馈</el-menu-item>
-                <el-menu-item index="退出">退出</el-menu-item>
+                <el-menu-item index="4"><a href="/mine?index=4" class="sub-menu">账号设置</a></el-menu-item>
+                <el-menu-item index="5"><a href="/mine?index=5" class="sub-menu">我的吧</a></el-menu-item>
+                <el-menu-item index="6"><a href="/mine?index=6" class="sub-menu">我的关注</a></el-menu-item>
+                <el-menu-item index="7"><a href="/mine?index=7" class="sub-menu">我的帖子</a></el-menu-item>
+                <el-menu-item index="8"><a href="/mine?index=8" class="sub-menu">我的消息</a></el-menu-item>
+                <el-menu-item index="9"><a href="/mine?index=9" class="sub-menu">帮助和反馈</a></el-menu-item>
+                <el-menu-item index="10"><a href="/mine?index=10" class="sub-menu">退出</a></el-menu-item>
             </el-submenu>
             <div class="search-menu">
                 <el-input class="search"
@@ -325,14 +362,14 @@
                 <div class="left">
                     <!-- menu -->
                     <div class="content">
-                        <div class="sub-content" v-for="(item, index) in content" @click="handleClick(item,index)">
+                        <div class="sub-content" v-for="(item, index) in menus" @click="handleClick(item,index)">
                             <i :class="'fa '+item.icon"></i>
                             <div v-if="item.text" class="text">{{item.text}}</div>
                         </div>
                     </div>
                     <!-- 内容 -->
                     <div class="twitter">
-                        <el-row v-for="item in posts" class="content-row">
+                        <el-row v-for="(item,index) in posts" class="content-row">
                             <el-col :span="2" class="avatar-left">
                                 <img :src="item.avator" alt="" class="avatar">
                             </el-col>
@@ -357,10 +394,24 @@
                                         </span>
                                         <span class="tags">
                                             <span v-if="item.look">浏览数{{item.look}}</span>
-                                            <span class="fa fa-heart heart"> {{item.hearts}}</span>
-                                            <span class="fa fa-commenting comment"> {{item.reply_num}}</span> 
-                                            <span class="fa fa-share share"> {{item.share}}</span>    
+                                            <span class="fa fa-heart heart" :style="item.style.heart" @click="showHeart(index, item)"> {{item.hearts}}</span>
+                                            <span class="fa fa-commenting comment"  @click="showComments(index, item)" > {{item.reply_num}}</span> 
+                                            <span class="fa fa-share share" :style="item.style.share"> {{item.share}}</span>    
                                         </span>
+                                    </div>
+                                    <div class="comments" v-if="item.comments">
+                                        <!-- 评论区 -->
+                                        <div class="comment" v-for="reply in item.replys">
+                                            <span>{{reply.from_user_name}}</span>
+                                            评论
+                                            <span>{{reply.to_user_name}}</span>
+                                            :
+                                            <span>{{reply.content}}</span>
+                                        </div>
+                                        <div class="comment_input">
+                                            <el-input class="input" v-model="input" placeholder="请输入内容"></el-input>
+                                            <el-button class="send" type="primary" plain @click="commitComment(index, item)">发送</el-button>
+                                        </div>
                                     </div>
                                     
                                  </div>
@@ -397,7 +448,7 @@
                         <el-col :span="18" class="name">
                             <div class="name_login">
                                 <span class="fa fa-user login"></span>
-                                <span>去登录</span>
+                                <a href="/login"><span>去登录</span></a>
                             </div>
                         </el-col>
                         <el-col :span="6">
@@ -472,7 +523,8 @@
 </body>
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <!-- 先引入 Vue -->
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/vue/2.5.13/vue.js"></script>
+<script src="https://cdn.bootcss.com/vue-resource/1.3.4/vue-resource.js"></script>
 <!-- 引入组件库 -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script>
@@ -485,50 +537,40 @@
                 // 导航条
                 activeIndex: '1',
                 // 二级菜单
-                content: [
+                menus: [
                     {
                         icon: 'fa-plus-square-o',
-                        text: '发布吧贴'
+                        text: '发布吧贴',
+                        subjectId:'subjectId'
                     },
                     {
                         icon: 'fa-object-group',
-                        text: '乡情校谊'
+                        text: '乡情校谊',
+                        subjectId:'subjectId'
                     },
                     {
                         icon: 'fa-shopping-basket',
-                        text: '二手集市'
+                        text: '二手集市',
+                        subjectId:'subjectId'
                     },
                     {
                         icon: 'fa-graduation-cap',
-                        text: '学霸论区'
+                        text: '学霸论区',
+                        subjectId:'subjectId'
                     },
                     {
                         icon: 'fa-music',
-                        text: '知音'
+                        text: '知音',
+                        subjectId:'subjectId'
                     },
                     {
                         icon: 'fa-navicon',
-                        text: '更多'
+                        text: '更多',
+                        subjectId:'subjectId'
                     }
                 ],
                 // 帖子内容
                 posts: [
-                    // {
-                    //     subject: '摄影',
-                    //     username:"ztchun",
-                    //     time: '2018-01-03',
-                    //     look: 32,
-                    //     avator: "/images/avatar.jpg",
-                    //     text: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容',
-                    // },
-                    // {
-                    //     subject: '摄影',
-                    //     username:"ztchun",
-                    //     time: '2018-01-03',
-                    //     look: 32,
-                    //     avator: "/images/avatar.jpg",
-                    //     text: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容',
-                    // }
                 ],
                 // 右侧个人信息
                 list: [
@@ -602,14 +644,15 @@
                 start: 0,
                 // 个人信息
                 user: {},
-                isUser: false
+                isUser: false,
+                input: ''
             }
         },
         created () {
-            // 下拉狂
+            // 下拉
             this.initSelect()
             // 展示帖子
-            this.initPost(0, 10)
+            this.initPost(0, 3)
             // 下拉刷新
             window.addEventListener("scroll", this.handleScroll)
             // 个人信息
@@ -628,13 +671,27 @@
             // 请求post帖子  每次请求10条数据
             initPost (start, limit) {
                 var _this = this
-                this.start += 10
+                this.start += 3
                 this.handleAjax("/getPosts", 'get', {start: start, limit:limit}, function(data){
                     // console.log(JSON.parse(data))
                     if (data == '0') {
                         return
                     } else {
-                        _this.posts = _this.posts.concat(JSON.parse(data))
+                        var posts = JSON.parse(data)
+                        // 评论框隐藏
+                        posts.forEach((value, index, array) => {
+                            value.comments = false
+                            value.replys = []
+                            value.style = {
+                                heart: {
+                                    color: '#bdbdbd'
+                                },
+                                share: {
+                                    color: '#bdbdbd'
+                                }
+                            }
+                        })
+                        _this.posts = _this.posts.concat(posts)
                     }
                 })
             },
@@ -658,7 +715,11 @@
                     }else if (data == '1'){
                         // 未登录
                         _this.isUser = false
-                        _this.$message.error("sorry,您还没没有登录哦")
+                        _this.$notify.info({
+                            title: '消息',
+                            message: '您还没有登录哦',
+                            duration: 0
+                        });
                     } else {
                         //  查询成功
                         _this.isUser = true
@@ -673,6 +734,11 @@
                 // 发布贴吧
                 if (index == 0) {
                     this.dialogFormVisible = true
+                } else if(index == 5) {
+                    window.location.href = "/subjectList"
+                } else {
+                    window.location.href = "/subject?subjectId=" + item.subjectId
+
                 }
             },
             handleUploadSuccess(res, file) {
@@ -700,6 +766,7 @@
                     url: url,
                     type: method,
                     data: data,
+                    cache:false,
                     success: handleSuccess,
                     error: function(err){
                         console.log(err)
@@ -742,7 +809,77 @@
             },
             // 下拉刷新
             handleScroll () {
-                this.initPost(this.start, 3)
+                if ($(window).scrollTop() >= $(document).height()-$(window).height()){
+                    this.initPost(this.start, 3)
+                }
+            },
+            // 展示评论框
+            showComments(index, item){
+                // 请求评论
+                if (item.comments == false) {
+                    var _this = this
+                    _this.handleAjax('/getComments', 'get', {
+                        post_id: item._id
+                    }, function(data){
+                        if (data != 0) {
+                            item.replys = JSON.parse(data).reply
+                        }
+                        _this.posts[index].comments = true
+                    })
+                } else {
+                    this.posts[index].comments = false
+                }
+            },
+            // 评论
+            commitComment (index, item) {
+                // info  posts  reply 三个数据库更改
+                var _this = this
+                this.handleAjax("/commitComment", 'post',{
+                    post_id: item._id,
+                    content: _this.input,
+                    post_user_name: item.user_name
+                }, function(data){
+                    if (data == 1) {
+                        _this.input = ""
+                        // 评论需要刷新
+                        _this.handleAjax('/getComments', 'get', {
+                            post_id: item._id
+                        }, function(data){
+                            if (data != 0) {
+                                item.replys = JSON.parse(data).reply
+                                item.reply_num += 1
+                            }
+                        })
+                    }
+                })
+            },
+            // 赞
+            showHeart(index, item){
+                console.log()
+                if (item.style.heart.color == '#f4630b'){
+                    item.style.heart = {
+                        color: '#bfbfbf'
+                    }
+                    item.heart -= 1
+                    this.showHeartFun({
+                        post_id: item._id,
+                        tag: -1
+                    })
+                }else {
+                    item.style.heart = {
+                        color: '#f4630b'
+                    }
+                    item.heart += 1
+                    this.showHeartFun({
+                        post_id: item._id,
+                        tag: 1
+                    })
+                }
+            },
+            showHeartFun (data) {
+                this.handleAjax("/giveHeart", 'get', data, function(data){
+                    console.log(data)
+                })
             }
         }
     })

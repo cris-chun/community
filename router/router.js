@@ -6,6 +6,7 @@ var controller = require("../controller/controller")
 var users = require("../db/users");
 var subjects = require("../db/subjects")
 var posts = require("../db/posts")
+var user_actives_infos = require("../db/user_actives_infos")
 var fs = require("fs")
 var path = require("path")
 
@@ -141,16 +142,19 @@ exports.imageUpload = function(req, res) {
 exports.getPosts = function(req, res) {
     var start = Number(req.query.start)
     var limit = Number(req.query.limit)
-    posts.findData({},function(data){
-        if (data.length <= start) {
-            console.log('return')
-            return
-        }else {
-            posts.findDataSort({}, {time: 1}, start, limit,function(data){
-                res.send(JSON.stringify(data))
-            })
-        }
+    posts.findDataSort({}, {time: 1}, start, limit,function(data){
+        res.send(JSON.stringify(data))
     })
+    // posts.findData({},function(data){
+    //     if (data.length <= start) {
+    //         console.log('return')
+    //         // return
+    //     }else {
+    //         posts.findDataSort({}, {time: 1}, start, limit,function(data){
+    //             res.send(JSON.stringify(data))
+    //         })
+    //     }
+    // })
 }
 
 // 吧
@@ -179,4 +183,39 @@ exports.userInfo = function(req, res){
 // 我的
 exports.showMine = function(req, res) {
     res.render("mine")
+}
+
+// 全部subjects
+exports.showSubjectList = function(req, res){
+    res.render("subjectList")
+}
+
+// 评论
+exports.getComments = function(req, res) {
+    // 根据post_id获取评论
+    controller.getComments(req,res,function(data){
+        res.send(JSON.stringify(data))
+    })
+}
+
+// 提交comment
+exports.commitComment = function(req, res) {
+    controller.commitComment(req, res, function(data){
+        console.log(data)
+        res.send(data)
+    })
+}
+
+// 赞
+exports.giveHeart = function(req, res){
+    var tag = Number(req.query.tag)
+    user_actives_infos.updateData({
+        user_name: req.session.username
+    },{
+        $push: {
+            hearts: req.query.post_id
+        }
+    },function(data){
+        console.log(data)
+    })
 }

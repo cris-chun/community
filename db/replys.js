@@ -79,3 +79,25 @@ exports.updateData = function(oldObj, newObj, callback) {
         })
     })
 }
+
+// 更改数组
+exports.updateReplys = function(oldObj, newObj, callback) {
+    if (!oldObj || !newObj) {
+        return;
+    }
+    newObj = {
+        $push: {
+            reply: newObj
+        }
+    }
+    db._connnection(function(db) {
+        db.collection("replys").update(oldObj, newObj, function(err, result) {
+            if (err) {
+                console.log('replys update error')
+                db.close()
+                return
+            }
+            callback(result)
+        })
+    })
+}

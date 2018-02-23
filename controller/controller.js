@@ -4,11 +4,12 @@
 // controller
 
 var fd = require("formidable");
-var users = require("../db/users");
 var nodemailer = require("nodemailer");
-var subjects = require("../db/subjects")
 var tools = require("../tool/tool")
+var users = require("../db/users");
+var subjects = require("../db/subjects")
 var posts = require("../db/posts")
+var replys = require("../db/replys")
 var ObjectID = require("mongodb").ObjectID
 
 // 登陆业务
@@ -276,6 +277,53 @@ exports.submitPost = function(req, res, callback) {
                 
             })
         }
+    })
+}
+
+// 评论
+exports.getComments = function(req, res, callback) {
+        //根据id查询评论
+    replys.findData({
+        "post_id": req.query.post_id
+    }, function(data){
+        if (data.length == 0 ){
+            callback(0)
+        } else {
+            callback(data[0])
+        }
+    })
+}
+
+// 提交评论
+exports.commitComment = function(req, res, callback) {
+    var form  = fd.IncomingForm()
+    form.parse(req, function(err, fields){
+        console.log(req.session.username, fields.post_user_name)
+        tools.showTime(function(time){
+            // 更新replys
+            replys.updateReplys({
+                post_id: fields.post_id
+            },{
+                from_user_name : req.session.username, 
+                to_user_name : fields.post_user_name, 
+                time : time, 
+                content: fields.content 
+            },function(data){
+                if(data.result.ok){
+                    // 更新posts
+                    posts.replyNumber({
+                       _id: ObjectID(fields.post_id) 
+                    },{
+                        reply_num: 1
+                    },function(num){
+                        console.log(num.result.ok)
+                        callback("1")
+                    })
+                }else {
+                    callback("0")
+                }
+            })
+        })
     })
 }
 

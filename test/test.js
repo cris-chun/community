@@ -4,6 +4,7 @@
 var users = require("../db/users.js");
 var posts = require("../db/posts.js")
 var subjects = require("../db/subjects.js")
+var replys = require("../db/replys.js")
 var ObjectID = require('mongodb').ObjectID;
 var tools = require('../tool/tool')
 
@@ -71,6 +72,24 @@ var postsData = require("./posts.json")
 // posts.findData({},function(data){
 //     console.log(data)
 // })
-posts.findDataBySort({}, {time: 1}, 10, 2,function(data){
-    console.log(data)
+
+// posts.findDataBySort({}, {time: 1}, 10, 2,function(data){
+//     console.log(data)
+// })
+
+// replys.updateReplys({post_id: '5a7452b9f8f4100f35a310fa'}, {
+//     "from_user_name" : "crisZhou", 
+//     "to_user_name" : "ztchun", 
+//     "time" : "2018.02.22 10:00:00", 
+//     "content" : "crisZhou comments"
+// },function(data){
+//     console.log(data.result)
+// })
+
+posts.replyNumber({
+    _id: ObjectID('5a7452b9f8f4100f35a310fa')
+},{
+    reply_num: 1
+},function(data){
+    console.log(data.result)
 })

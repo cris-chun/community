@@ -243,6 +243,31 @@
     .subejct_form input{
         height: 30px;
     }
+    .search-menu{
+        margin-left: 50px;
+        float: left;
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+    .search input{
+        float: right;
+        width: 200px;
+        height: 30px;
+        border-radius: 15px;
+    }
+    .search-icon{
+        color: #f4630b;
+        margin-left: -25px;
+        z-index: 100;
+        font-size:18px;
+        font-weight: 900;
+    }
+    .sub-menu{
+        color: #fff;
+    }
 
 </style>
 <body>
@@ -262,10 +287,22 @@
             <el-menu-item index="3"><a href="/whiteWall">表白墙</a></el-menu-item>
             <el-submenu index="4">
                 <template slot="title">我的</template>
-                <el-menu-item index="5">选项1</el-menu-item>
-                <el-menu-item index="6">选项2</el-menu-item>
-                <el-menu-item index="7">选项3</el-menu-item>
+                <el-menu-item index="4"><a href="/mine?index=4" class="sub-menu">账号设置</a></el-menu-item>
+                <el-menu-item index="5"><a href="/mine?index=5" class="sub-menu">我的吧</a></el-menu-item>
+                <el-menu-item index="6"><a href="/mine?index=6" class="sub-menu">我的关注</a></el-menu-item>
+                <el-menu-item index="7"><a href="/mine?index=7" class="sub-menu">我的帖子</a></el-menu-item>
+                <el-menu-item index="8"><a href="/mine?index=8" class="sub-menu">我的消息</a></el-menu-item>
+                <el-menu-item index="9"><a href="/mine?index=9" class="sub-menu">帮助和反馈</a></el-menu-item>
+                <el-menu-item index="10"><a href="/mine?index=10" class="sub-menu">退出</a></el-menu-item>
             </el-submenu>
+            <div class="search-menu">
+                <el-input class="search"
+                    placeholder="请输入内容"
+                    v-model="search"
+                    clearable>
+                </el-input>
+                <i class="el-icon-search search-icon"></i>
+            </div>
         </el-menu>
 
         <div class="content">
@@ -281,7 +318,7 @@
             <div class="manager">
                 <template>
                     <el-tabs v-model="activeName" @tab-click="handleClick">
-                        <el-tab-pane label="用户管理" name="first">
+                        <el-tab-pane label="用户管理" name="4">
                             <!-- 账号管理 -->
                             <el-form :model="user" :rules="rules" ref="user" label-width="100px" class="demo-ruleForm">
                                 <div class="form">
@@ -350,7 +387,7 @@
                                 </div>
                             </el-form>
                         </el-tab-pane>
-                        <el-tab-pane label="我的话题" name="fifth">
+                        <el-tab-pane label="我的吧" name="5">
                             <!-- 我的话题 -->
                             <el-table :data="manager_subjects" style="width: 100%">
                                 <el-table-column type="expand">
@@ -416,7 +453,7 @@
                                 </el-table-column>
                           </el-table>
                         </el-tab-pane>
-                        <el-tab-pane label="我的关注" name="second">
+                        <el-tab-pane label="我的关注" name="6">
                             <!-- 我的关注 -->
                             <div class="subjects">
                                 <div class="subject" v-for="subject in subjects">
@@ -441,7 +478,7 @@
                             </div>
                         </el-tab-pane>
 
-                        <el-tab-pane label="我的帖子" name="third">
+                        <el-tab-pane label="我的帖子" name="7">
                             <!-- 我的帖子 -->
                             <el-collapse v-model="postActive" class="posts" accordion>
                                 <el-collapse-item :title="post.post_title" class="post" :name="index" v-for="(post,index) in posts">
@@ -470,7 +507,7 @@
                             </el-collapse>
                         </el-tab-pane>
 
-                        <el-tab-pane>
+                        <el-tab-pane name="8">
                             <!-- 我的消息 -->
                             <span slot="label">
                                     <el-badge :value="12" class="item">
@@ -513,8 +550,9 @@
         el: '#app',
         data: function() {
             return {
-                activeIndex: '5',
-                activeName: 'first',
+                search: '',
+                activeIndex: '4',
+                activeName: '4',
                 user:{},
                 options: [],
                 rules:{},
@@ -597,48 +635,51 @@
                     }
                 ],
                 manager_subjects: [
-                {
-                    subject_name: 'subject_name',
-                    user_name: 'user_name',
-                    time: 'time',
-                    follows: 32,
-                    post_num: 32,
-                    subject_level: 1,
-                    desc: 'desc',
-                    image: '/avatar.jpg'
-                }, {
-                    subject_name: 'subject_name',
-                    user_name: 'user_name',
-                    time: 'time',
-                    follows: 32,
-                    post_num: 32,
-                    subject_level: 1,
-                    desc: 'fesc',
-                    image: '/avatar.jpg'
-                }, {
-                    subject_name: 'subject_name',
-                    user_name: 'user_name',
-                    time: 'time',
-                    follows: 32,
-                    post_num: 32,
-                    subject_level: 1,
-                    desc: 'desc',
-                    image: '/avatar.jpg'
-                }, {
-                    subject_name: 'subject_name',
-                    user_name: 'user_name',
-                    time: 'time',
-                    follows: 32,
-                    post_num: 32,
-                    subject_level: 1,
-                    desc: 'desc',
-                    image: '/avatar.jpg'
-                }
+                    {
+                        subject_name: 'subject_name',
+                        user_name: 'user_name',
+                        time: 'time',
+                        follows: 32,
+                        post_num: 32,
+                        subject_level: 1,
+                        desc: 'desc',
+                        image: '/avatar.jpg'
+                    }, {
+                        subject_name: 'subject_name',
+                        user_name: 'user_name',
+                        time: 'time',
+                        follows: 32,
+                        post_num: 32,
+                        subject_level: 1,
+                        desc: 'fesc',
+                        image: '/avatar.jpg'
+                    }, {
+                        subject_name: 'subject_name',
+                        user_name: 'user_name',
+                        time: 'time',
+                        follows: 32,
+                        post_num: 32,
+                        subject_level: 1,
+                        desc: 'desc',
+                        image: '/avatar.jpg'
+                    }, {
+                        subject_name: 'subject_name',
+                        user_name: 'user_name',
+                        time: 'time',
+                        follows: 32,
+                        post_num: 32,
+                        subject_level: 1,
+                        desc: 'desc',
+                        image: '/avatar.jpg'
+                    }
                 ],
                 formdisabled: false
             }
         },
         created () {
+            let index = window.location.href.split("?")[1].slice(6) || '4'
+            this.activeIndex = index
+            this.activeName = index
             this.initCity()
         },
         watch: {

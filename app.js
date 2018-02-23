@@ -71,5 +71,17 @@ app.get("/subject", router.showSubject)
 // 我的
 app.get("/mine", router.showMine)
 
+// 全部subjects
+app.get("/subjectList", router.showSubjectList)
+
+// 获取评论
+app.get("/getComments", router.getComments)
+
+// 提交评论
+app.post("/commitComment", router.commitComment)
+
+// 赞
+app.get("/giveHeart", router.giveHeart)
+
 // 监听端口
 app.listen(3000)

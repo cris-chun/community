@@ -121,3 +121,23 @@ function findData(data, callback){
         })
     })
 }
+
+// 数字增加
+exports.replyNumber = function(oldObj, newObj, callback) {
+    if (!oldObj || !newObj) {
+        return;
+    }
+    newObj = {
+        $inc: newObj
+    }
+    db._connnection(function(db) {
+        db.collection("posts").update(oldObj, newObj, function(err, result) {
+            if (err) {
+                console.log('posts update error')
+                db.close()
+                return
+            }
+            callback(result)
+        })
+    })
+}

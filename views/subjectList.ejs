@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>表白墙</title>
+    <title>吧集</title>
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="/css/font-awesome.min.css">
 </head>
@@ -56,79 +56,65 @@ a{
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
     text-align: left;
-    padding: 15px 10px 30px 10px;
+    padding: 10px;
     background: #FFF;
 }
-.desc{
-    text-align: left;
-    color:#555;
+.operate{
+    text-align: right;
+    padding: 0 10px 10px 10px;
 }
-.desc img{
-    margin-left: 10px;
-    margin-top: 10px;
-    float: left;
-    width: 60px;
-    height: 60px;
-}
-.desc>div{
-    margin-left: 10px;
-    margin-top: 10px;
-    float: left;
-}
-.desc>div>div{
-    line-height: 1.8
-}  
-.nick{
-    text-align: left;
-    line-height: 2.5;
-    margin-left: 10px;
-    clear: both;
-} 
-.info{
-    text-align: left;
-    margin-top: 10px;
-    margin-left: 10px;
-    margin-right: 18px;
-}
-textarea{
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
-    width: 100%;
-    border: 1px solid #ddd;
-}
-.btn{
-    text-align: center;
-    padding: 2px;
-    border:1px solid #dd514c;
-    width: 100%;
-    margin-top: -4px;
-    background: #dd514c;
-    line-height: 1.5;
-    color: #fff;
-    margin-bottom: 20px;
+.operate i{
+    padding: 0 5px;
+    cursor: pointer;
 }
 .search-menu{
-        margin-left: 50px;
-        float: left;
-        margin-top: 15px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: nowrap;
-    }
-    .search input{
-        float: right;
-        width: 200px;
-        height: 30px;
-        border-radius: 15px;
-    }
-    .search-icon{
-        color: #f4630b;
-        margin-left: -25px;
-        z-index: 100;
-        font-size:18px;
-        font-weight: 900;
-    }
+    margin-left: 50px;
+    float: left;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+.search input{
+    float: right;
+    width: 200px;
+    height: 30px;
+    border-radius: 15px;
+}
+.search-icon{
+    color: #f4630b;
+    margin-left: -25px;
+    z-index: 100;
+    font-size:18px;
+    font-weight: 900;
+}
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+  .form{
+      padding: 25px;
+  }
 </style>
 <body>
     <div id="app">
@@ -167,26 +153,34 @@ textarea{
         <div class="container">
             <div class="grid">
                 <div class="grid-item">
-                    <div class="desc">
-                        <img src="/images/avatar.jpg" alt="">
-                        <div>
-                            <div>欢迎新朋友你的到来</div>
-                            <div>大胆向TA表白吧</div>
-                        </div>
-                    </div>
-                    <div class="nick">
-                        <input type="checkbox">匿名发表
-                    </div>
-                    <div class="info">
-                        <textarea name="info" cols="30" rows="5" placeholder="听说在这里表白，成功率更高哦！">
-                        </textarea>
-                        <div class="btn">填好了，起飞</div>
-                    </div>
+                    <el-form ref="form" :model="form" label-width="72px" class="form">
+                        <el-form-item label="主题名称">
+                            <el-input v-model="form.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="主题描述">
+                            <el-input type="textarea" :rows="3" v-model="form.desc"></el-input>
+                        </el-form-item>
+                        <el-form-item label="吧头像">
+                            <el-upload
+                                class="avatar-uploader"
+                                action="/"
+                                :show-file-list="false"
+                                :on-success="handleAvatarSuccess"
+                                :before-upload="beforeAvatarUpload">
+                                <img v-if="form.image" :src="form.image" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </el-form-item>
+                    </el-form>
                 </div>
-                <div class="grid-item" v-for="item in content">
-                    <div class="header">头部</div>
+                <div class="grid-item" v-for="item in subjects">
+                    <div class="header">{{item.title}}</div>
                     <div class="content">
-                        {{item.text}}
+                        {{item.content}}
+                    </div>
+                    <div class="operate">
+                        <i class="fa fa-heart" @click="goHeart(1, item)"> 关注</i>
+                        <i class="fa fa-sign-in" @click="goHeart(2, item)"> 进入</i>
                     </div>
                 </div>
             </div>
@@ -215,39 +209,74 @@ textarea{
         },
         data: function() {
             return {
-                activeIndex: '3',
-                content: [
+                activeIndex: '1',
+                subjects: [
                     {
-                        text: '情不知所起 一往情深 陈英'
+                        title: '主题名称',
+                        content: 'content',
+                        subjectId: 'subject_id'
                     },
                     {
-                        text: '算起来我们在一起到现在有117天了，你也离开了我22天了，你说让我一个月之后，用最好的自己去追你，可我等不及啊，而且我从来没追过女生，好害怕自己追不到 😡'
+                        title: '主题名称',
+                        content: 'content',
+                        subjectId: 'subject_id'
                     },
                     {
-                        text: '爱你 不是因为你的美而以'
+                        title: '主题名称',
+                        content: 'content',
+                        subjectId: 'subject_id'
                     },
                     {
-                        text: '张萧月，有些话不知道该不该说，希望以后每天都可以看到你，还有就是以后一定要早起吃早饭，否则我会心疼的 😳'
+                        title: '主题名称',
+                        content: 'content',
+                        subjectId: 'subject_id'
                     },
                     {
-                        text: '亲爱哒，啦啦啦JBL我爱你 😈'
+                        title: '主题名称',
+                        content: 'content',
+                        subjectId: 'subject_id'
                     },
                     {
-                        text: '她叫陶梦燕 是我初恋 我很想她 但是我们回不去了'
+                        title: '主题名称',
+                        content: 'content',
+                        subjectId: 'subject_id'
                     },
                     {
-                        text: '查金蕊，你今生与我携手到老，我爱你，是真的，别把这当做儿戏，我也希望彼此信任，我管着你，因为怕失去你，我真的爱你，请你相信我。 😉'
+                        title: '主题名称',
+                        content: 'content',
+                        subjectId: 'subject_id'
                     },
-                    {
-                        text: ',,,,....'
-                    }
                 ],
-                search: ''
+                search: '',
+                form: {}
             }
         },
         methods: {
+            init(){
+
+            },
             handleSelect: function(key, keyPath){
                 console.log(key, keyPath)
+            },
+            goHeart(type, item){
+                if (type == '1'){
+                    // 关注
+                    console.log(item)
+                } else {
+                    window.localtion.href = "/subject?subjectId=" + item.subjectId
+                }
+            },
+            // 上传图片
+            handleAvatarSuccess(res, file) {
+                console.log('图片上传结果',res)
+            },
+            beforeAvatarUpload(file) {
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isLt2M) {
+                this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isLt2M;
             }
         }
     })
