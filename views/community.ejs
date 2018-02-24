@@ -292,10 +292,41 @@
     .comments{
         font-size: 12px;
     }
-    .comment span{
-        margin: 5px;
+    .comment{
+        cursor: pointer;
+        position: relative;
     }
-    .comment>span:nth-child(1),.comment>span:nth-child(2){
+    .popover{
+        background: #222;
+        color: #fff;
+        position: absolute;
+        top:20px;
+        padding: 5px;
+        left:50px;
+        /* width: 60px; */
+        border-radius: 5px;
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .poparrow{
+        position: absolute;
+        top: -8px;
+        /* left: -38px; */
+        width: 0;
+        height: 0;
+        font-size: 0;
+        border: solid 4px;
+        border-color: #fff  #fff #222 #fff;
+    }
+    .popover span{
+        margin: 0 10px;
+    }
+    .comment span{
+        margin: 2px;
+    }
+    .comment>span:nth-child(1),.comment>span:nth-child(3){
         color:#bfbfbf;
     }
     .comment_input{
@@ -393,7 +424,7 @@
                                             <span>{{item.subject_name}}</span>
                                         </span>
                                         <span class="tags">
-                                            <span v-if="item.look">浏览数{{item.look}}</span>
+                                            <!-- <span v-if="item.look">浏览数{{item.look}}</span> -->
                                             <span class="fa fa-heart heart" :style="item.style.heart" @click="showHeart(index, item)"> {{item.hearts}}</span>
                                             <span class="fa fa-commenting comment"  @click="showComments(index, item)" > {{item.reply_num}}</span> 
                                             <span class="fa fa-share share" :style="item.style.share"> {{item.share}}</span>    
@@ -401,15 +432,19 @@
                                     </div>
                                     <div class="comments" v-if="item.comments">
                                         <!-- 评论区 -->
-                                        <div class="comment" v-for="reply in item.replys">
-                                            <span>{{reply.from_user_name}}</span>
-                                            评论
-                                            <span>{{reply.to_user_name}}</span>
-                                            :
-                                            <span>{{reply.content}}</span>
+                                        <div class="comment" v-for="(reply, dex) in item.replys" @mouseover="handleHover(reply, index, dex)" @mouseout="mouseOut(reply, index, dex)">
+                                            <span v-if="reply.from_user_name != reply.to_user_name">{{reply.from_user_name}}</span>
+                                            <span v-if="reply.from_user_name != reply.to_user_name">评论</span>
+                                            <span>{{reply.to_user_name}}</span>：
+                                            <span >{{reply.content}}</span>
+                                            <div class="popover" v-show="reply.show && user.username">
+                                                <div class="poparrow"></div>
+                                                <span @click="handleReply(reply)">回复</span>
+                                                <span @click="deleteReply(item.replys, reply, dex, item)" v-if="user.username == reply.from_user_name">删除</span>
+                                            </div>
                                         </div>
                                         <div class="comment_input">
-                                            <el-input class="input" v-model="input" placeholder="请输入内容"></el-input>
+                                            <el-input class="input" v-model="input" :placeholder="placeholder"></el-input>
                                             <el-button class="send" type="primary" plain @click="commitComment(index, item)">发送</el-button>
                                         </div>
                                     </div>
@@ -645,18 +680,20 @@
                 // 个人信息
                 user: {},
                 isUser: false,
-                input: ''
+                input: '',
+                heartsPosts: [],
+                placeholder: '请输入内容',
+                reply: {}
             }
         },
         created () {
             // 下拉
             this.initSelect()
-            // 展示帖子
-            this.initPost(0, 3)
             // 下拉刷新
             window.addEventListener("scroll", this.handleScroll)
             // 个人信息
             this.initUser()
+            this.initHeart()
         },
         watch: {
             dialogFormVisible (value) {
@@ -665,7 +702,7 @@
                         radio: '1'
                     }
                 }
-            }          
+            }
         },
         methods: {
             // 请求post帖子  每次请求10条数据
@@ -673,7 +710,6 @@
                 var _this = this
                 this.start += 3
                 this.handleAjax("/getPosts", 'get', {start: start, limit:limit}, function(data){
-                    // console.log(JSON.parse(data))
                     if (data == '0') {
                         return
                     } else {
@@ -689,6 +725,9 @@
                                 share: {
                                     color: '#bdbdbd'
                                 }
+                            }
+                            if (_this.heartsPosts.indexOf(value._id) >= 0){
+                                value.style.heart.color = "#f4630b"
                             }
                         })
                         _this.posts = _this.posts.concat(posts)
@@ -724,6 +763,19 @@
                         //  查询成功
                         _this.isUser = true
                         _this.user = JSON.parse(data)
+                    }
+                })
+            },
+            // 用户是否已经点赞
+            initHeart(){
+                var _this = this
+                _this.handleAjax("/isHeart", "get", {},function(data){
+                    if(data == "0"){
+                        _this.heartsPosts = []
+                        _this.initPost(0, 3)
+                    }else {
+                        _this.heartsPosts = JSON.parse(data)
+                        _this.initPost(0, 3)
                     }
                 })
             },
@@ -823,6 +875,9 @@
                     }, function(data){
                         if (data != 0) {
                             item.replys = JSON.parse(data).reply
+                            item.replys.forEach((value, index, array) => {
+                                value.show = false
+                            })
                         }
                         _this.posts[index].comments = true
                     })
@@ -830,14 +885,28 @@
                     this.posts[index].comments = false
                 }
             },
-            // 评论
+            // 提交评论
             commitComment (index, item) {
+                if(!this.isUser){
+                    this.$message({
+                        message: 'oh my god，你还没登陆哇,那就不能评论了',
+                        type: 'warning'
+                    });
+                    return
+                }
                 // info  posts  reply 三个数据库更改
                 var _this = this
+                var to_user_name = ""
+                // console.log(this.placeholder)
+                if (this.placeholder == '请输入内容'){
+                    to_user_name = item.user_name
+                }else {
+                    to_user_name = this.reply.from_user_name
+                }
                 this.handleAjax("/commitComment", 'post',{
                     post_id: item._id,
                     content: _this.input,
-                    post_user_name: item.user_name
+                    post_user_name: to_user_name
                 }, function(data){
                     if (data == 1) {
                         _this.input = ""
@@ -847,6 +916,9 @@
                         }, function(data){
                             if (data != 0) {
                                 item.replys = JSON.parse(data).reply
+                                item.replys.forEach((value, index, array) => {
+                                    value.show = false
+                                })
                                 item.reply_num += 1
                             }
                         })
@@ -855,12 +927,18 @@
             },
             // 赞
             showHeart(index, item){
-                console.log()
+                if(!this.isUser){
+                    this.$message({
+                        message: 'oh my god，你还没登陆哇,那就不能点赞了',
+                        type: 'warning'
+                    });
+                    return
+                }
                 if (item.style.heart.color == '#f4630b'){
                     item.style.heart = {
                         color: '#bfbfbf'
                     }
-                    item.heart -= 1
+                    item.hearts -= 1
                     this.showHeartFun({
                         post_id: item._id,
                         tag: -1
@@ -869,7 +947,7 @@
                     item.style.heart = {
                         color: '#f4630b'
                     }
-                    item.heart += 1
+                    item.hearts += 1
                     this.showHeartFun({
                         post_id: item._id,
                         tag: 1
@@ -877,8 +955,58 @@
                 }
             },
             showHeartFun (data) {
-                this.handleAjax("/giveHeart", 'get', data, function(data){
-                    console.log(data)
+                var _this = this
+                _this.handleAjax("/giveHeart", 'get', data, function(data){
+                    console.log("点赞成功")
+                })
+            },
+            // 回复
+            handleReply(reply){
+                // console.log(dex, reply)
+                if(!this.isUser){
+                    this.$message({
+                        message: 'oh my god，你还没登陆哇,那就不能评论了',
+                        type: 'warning'
+                    });
+                    return
+                }
+                this.reply = reply
+                this.placeholder = "回复" + reply.from_user_name
+                console.log(reply.from_user_name)
+            },
+            // 回复删除
+            handleHover(reply, index, dex) {
+                this.handleMouse(reply, index, dex, true)
+            },
+            mouseOut(reply, index, dex){
+                this.handleMouse(reply, index, dex, false)
+            },
+            handleMouse(reply, index, dex, flag){
+                var replysCopy = []
+                this.posts[index].replys.forEach((value, i) => {
+                    if (i == dex){
+                        var replyCopy = {
+                            time: reply.time,
+                            from_user_name: reply.from_user_name,
+                            to_user_name: reply.to_user_name,
+                            content: reply.content,
+                            show: flag
+                        }
+                        replysCopy.push(replyCopy)
+                    }else{
+                        replysCopy.push(value)
+                    }
+                })
+                this.posts[index].replys = replysCopy
+            },
+            // 删除回复
+            deleteReply(replys, reply, dex, item){
+                replys.splice(dex, 1)
+                reply.post_id = item._id
+                this.handleAjax("/deleteReply", 'post', reply, function(data){
+                    if (data == 1) {
+                        item.reply_num -= 1
+                    }
                 })
             }
         }

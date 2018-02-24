@@ -304,14 +304,18 @@ exports.commitComment = function(req, res, callback) {
             replys.updateReplys({
                 post_id: fields.post_id
             },{
-                from_user_name : req.session.username, 
-                to_user_name : fields.post_user_name, 
-                time : time, 
-                content: fields.content 
+                $push: {
+                    reply: {
+                        from_user_name : req.session.username, 
+                        to_user_name : fields.post_user_name, 
+                        time : time, 
+                        content: fields.content 
+                    }
+                }
             },function(data){
                 if(data.result.ok){
                     // 更新posts
-                    posts.replyNumber({
+                    posts.addNumber({
                        _id: ObjectID(fields.post_id) 
                     },{
                         reply_num: 1

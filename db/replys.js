@@ -85,11 +85,6 @@ exports.updateReplys = function(oldObj, newObj, callback) {
     if (!oldObj || !newObj) {
         return;
     }
-    newObj = {
-        $push: {
-            reply: newObj
-        }
-    }
     db._connnection(function(db) {
         db.collection("replys").update(oldObj, newObj, function(err, result) {
             if (err) {

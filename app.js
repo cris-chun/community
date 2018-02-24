@@ -83,5 +83,11 @@ app.post("/commitComment", router.commitComment)
 // 赞
 app.get("/giveHeart", router.giveHeart)
 
+// 用户是否给💕
+app.get("/isHeart", router.isHeart)
+
+// 删除评论
+app.post("/deleteReply", router.deleteReply)
+
 // 监听端口
 app.listen(3000)

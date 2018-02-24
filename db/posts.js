@@ -123,7 +123,7 @@ function findData(data, callback){
 }
 
 // 数字增加
-exports.replyNumber = function(oldObj, newObj, callback) {
+exports.addNumber = function(oldObj, newObj, callback) {
     if (!oldObj || !newObj) {
         return;
     }

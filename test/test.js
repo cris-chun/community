@@ -5,6 +5,7 @@ var users = require("../db/users.js");
 var posts = require("../db/posts.js")
 var subjects = require("../db/subjects.js")
 var replys = require("../db/replys.js")
+var user_actives_infos = require("../db/user_actives_infos.js")
 var ObjectID = require('mongodb').ObjectID;
 var tools = require('../tool/tool')
 
@@ -86,10 +87,20 @@ var postsData = require("./posts.json")
 //     console.log(data.result)
 // })
 
-posts.replyNumber({
-    _id: ObjectID('5a7452b9f8f4100f35a310fa')
+// posts.replyNumber({
+//     _id: ObjectID('5a7452b9f8f4100f35a310fa')
+// },{
+//     reply_num: 1
+// },function(data){
+//     console.log(data.result)
+// })
+
+user_actives_infos.updateData({
+    user_name: 'ztchun'
 },{
-    reply_num: 1
+    $pull: {
+        hearts: '5a7452b9f8f4100f35a310fa'
+    }
 },function(data){
     console.log(data.result)
 })

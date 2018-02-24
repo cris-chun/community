@@ -7,8 +7,10 @@ var users = require("../db/users");
 var subjects = require("../db/subjects")
 var posts = require("../db/posts")
 var user_actives_infos = require("../db/user_actives_infos")
+var replys = require("../db/replys")
 var fs = require("fs")
 var path = require("path")
+var ObjectID = require("mongodb").ObjectID
 
 //首页
 exports.showIndex = function(req,res){
@@ -208,14 +210,84 @@ exports.commitComment = function(req, res) {
 
 // 赞
 exports.giveHeart = function(req, res){
+    // 修改用户下的点赞记录
     var tag = Number(req.query.tag)
+    var isPush = {}
+    if (tag == 1){
+        isPush = {
+            $push: {
+                hearts: req.query.post_id
+            }
+        }
+    } else {
+        isPush = {
+            $pull: {
+                hearts: req.query.post_id
+            }
+        }
+    }
+    // console.log(isPush)
     user_actives_infos.updateData({
         user_name: req.session.username
-    },{
-        $push: {
-            hearts: req.query.post_id
+    }, isPush, function(data){
+        if (data.result.ok){
+            // 修改post表中的数据
+            posts.addNumber({
+                _id: ObjectID(req.query.post_id)
+            },{
+                hearts: tag
+            },function(result){
+                if(result.result.ok){
+                    res.send("1")
+                }else {
+                    res.send("0")
+                }
+            })
+        }else {
+            res.send("0")
         }
+    })
+}
+
+// 已经点赞
+exports.isHeart = function(req, res){
+    if (!req.session.username){
+        res.send("0")
+        return
+    }
+    user_actives_infos.findData({
+        user_name: req.session.username
     },function(data){
-        console.log(data)
+        res.send(JSON.stringify(data[0].hearts))
+    })
+}
+
+// 删除评论
+exports.deleteReply = function(req, res){
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields) {
+        replys.updateReplys({
+            post_id: fields.post_id
+        },{
+            $pull: {
+                reply: {
+                    from_user_name : fields.from_user_name, 
+                    to_user_name : fields.to_user_name, 
+                    time : fields.time, 
+                    content: fields.content 
+                }
+            }
+        },function(data){
+            if (data.result.ok){
+                posts.addNumber({
+                    _id: ObjectID(fields.post_id) 
+                 },{
+                     reply_num: -1
+                 },function(num){
+                     console.log(num.result.ok)
+                     res.send("1")
+                 })
+            }
+        })
     })
 }
