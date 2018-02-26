@@ -33,6 +33,8 @@ a{
 .container{
     margin: 0 auto;
     max-width: 1100px;
+    display: flex;
+    justify-content: center;
 }
 .grid-item{ 
     background: #fff;
@@ -51,13 +53,9 @@ a{
     background: #F5F5F5;
     line-height: 1.2;
 }
-.content{
-    text-indent: 2em;
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-    text-align: left;
-    padding: 15px 10px 30px 10px;
-    background: #FFF;
+.header .time{
+    color: #bfbfbf;
+    float: right;
 }
 .desc{
     text-align: left;
@@ -99,40 +97,71 @@ textarea{
 .btn{
     text-align: center;
     padding: 2px;
-    border:1px solid #dd514c;
+    border:1px solid rgb(244, 99, 11);
     width: 100%;
     margin-top: -4px;
-    background: #dd514c;
+    background: rgb(244, 99, 11);
     line-height: 1.5;
     color: #fff;
     margin-bottom: 20px;
+    cursor: pointer;
 }
 .search-menu{
-        margin-left: 50px;
-        float: left;
-        margin-top: 15px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: nowrap;
-    }
-    .search input{
-        float: right;
-        width: 200px;
-        height: 30px;
-        border-radius: 15px;
-    }
-    .search-icon{
-        color: #f4630b;
-        margin-left: -25px;
-        z-index: 100;
-        font-size:18px;
-        font-weight: 900;
-    }
+    margin-left: 50px;
+    float: left;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+.search input{
+    float: right;
+    width: 200px;
+    height: 30px;
+    border-radius: 15px;
+}
+.search-icon{
+    color: #f4630b;
+    margin-left: -25px;
+    z-index: 100;
+    font-size:18px;
+    font-weight: 900;
+}
+.content{
+    text-indent: 2em;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    text-align: left;
+    padding: 15px 10px 30px 10px;
+    background: #FFF;
+}
+.operate{
+    margin-bottom: 10px;
+    text-align: right;
+    margin-right: 10px;
+}
+.operate span{
+    padding:5px;
+}
+.snow-container{
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    /* pointer-events: none;  */
+    /* z-index: 999; */
+}
+.snow-container canvas{
+    width: 100%;
+    height: 100%;
+}
 </style>
 <body>
     <div id="app">
         <!--菜单导航-->
+        <div class="snow-container"></div>
         <el-menu
                 :default-active="activeIndex"
                 class="el-menu-demo menu-padding"
@@ -175,18 +204,25 @@ textarea{
                         </div>
                     </div>
                     <div class="nick">
-                        <input type="checkbox">匿名发表
+                        <el-checkbox v-model="whiteWall.nick">匿名发表</el-checkbox>
                     </div>
                     <div class="info">
-                        <textarea name="info" cols="30" rows="5" placeholder="听说在这里表白，成功率更高哦！">
+                        <textarea name="info" v-model="whiteWall.content" cols="30" rows="5" placeholder="听说在这里表白，成功率更高哦！">
                         </textarea>
-                        <div class="btn">填好了，起飞</div>
+                        <div class="btn" @click="commitWhiteWall">填好了，起飞</div>
                     </div>
                 </div>
                 <div class="grid-item" v-for="item in content">
-                    <div class="header">头部</div>
+                    <div class="header">
+                        <span>{{item.from_user_name}}</span>
+                        <span class="time">{{item.time}}</span>
+                    </div>
                     <div class="content">
-                        {{item.text}}
+                        <div class="words">{{item.content}}</div>
+                    </div>
+                    <div class="operate">
+                        <span class="fa fa-heart"> {{item.supportNum}}</span>
+                        <span class="fa fa-comments-o"> {{item.replysNum}}</span>
                     </div>
                 </div>
             </div>
@@ -198,56 +234,108 @@ textarea{
 <!-- 引入组件库 -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <!-- 插件使用 -->
-<script src="https://unpkg.com/masonry-layout@4.1/dist/masonry.pkgd.js"></script>
+<script src="https://unpkg.com/masonry-layout@4.1.1/dist/masonry.pkgd.min.js"></script>
+<script src="http://libs.baidu.com/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript" src="/js/snow.js"></script>
 <script>
     new Vue({
         el: '#app',
-        mounted: function(){
-            var grid = document.querySelector('.grid');
-            console.log(grid)
-            var msnry = new Masonry( grid, {
-                // options...
-                itemSelector: '.grid-item',
-                columnWidth: 350,
-                // gutterWidth: 25,
-                isFitWidth:true
-            });
-        },
         data: function() {
             return {
                 activeIndex: '3',
                 content: [
-                    {
-                        text: '情不知所起 一往情深 陈英'
-                    },
-                    {
-                        text: '算起来我们在一起到现在有117天了，你也离开了我22天了，你说让我一个月之后，用最好的自己去追你，可我等不及啊，而且我从来没追过女生，好害怕自己追不到 😡'
-                    },
-                    {
-                        text: '爱你 不是因为你的美而以'
-                    },
-                    {
-                        text: '张萧月，有些话不知道该不该说，希望以后每天都可以看到你，还有就是以后一定要早起吃早饭，否则我会心疼的 😳'
-                    },
-                    {
-                        text: '亲爱哒，啦啦啦JBL我爱你 😈'
-                    },
-                    {
-                        text: '她叫陶梦燕 是我初恋 我很想她 但是我们回不去了'
-                    },
-                    {
-                        text: '查金蕊，你今生与我携手到老，我爱你，是真的，别把这当做儿戏，我也希望彼此信任，我管着你，因为怕失去你，我真的爱你，请你相信我。 😉'
-                    },
-                    {
-                        text: ',,,,....'
-                    }
                 ],
-                search: ''
+                search: '',
+                whiteWall: {
+                    nick: false,
+                    content: ''
+                },
+                user:{},
+                isUser: false
             }
         },
+        mounted: function(){
+            this.init()
+            this.initUser()
+        },
         methods: {
+            init(){
+                var _this = this
+                _this.handleAjax("/whiteWall", 'post', {}, function(data){
+                    _this.content = JSON.parse(data)
+                    _this.content.forEach((value, index) => {
+                        value.supportNum = value.support.length
+                        value.replysNum = value.replys.length
+                    })
+                    _this.$nextTick(function() {
+                        var grid = this.$el.querySelector('.grid');
+                        var msnry = new Masonry( grid, {
+                            itemSelector: '.grid-item',
+                            columnWidth: 350,
+                            isFitWidth:true
+                        });
+                    })
+                })
+            },
+             // 个人信息请求
+             initUser () {
+                var _this = this
+                this.handleAjax("/userInfo", 'get', {}, function(data){
+                    if (data == '0') {
+                        // 未注册
+                        _this.isUser = false
+                        _this.$message.error("sorry,您还未注册哦")
+                    }else if (data == '1'){
+                        // 未登录
+                        _this.isUser = false
+                        _this.$notify.info({
+                            title: '消息',
+                            message: '您还没有登录哦',
+                            duration: 0
+                        });
+                    } else {
+                        //  查询成功
+                        _this.isUser = true
+                        _this.user = JSON.parse(data)
+                    }
+                })
+            },
             handleSelect: function(key, keyPath){
                 console.log(key, keyPath)
+            },
+            // ajax请求
+            handleAjax (url, method, data, handleSuccess) {
+                $.ajax({
+                    url: url,
+                    type: method,
+                    data: data,
+                    cache:false,
+                    success: handleSuccess,
+                    error: function(err){
+                        console.log(err)
+                    }
+                })
+            },
+            commitWhiteWall(){
+                var _this = this
+                if (!this.isUser){
+                    this.$message({
+                        message: '喂！你还没有登录呢',
+                        type: 'warning'
+                    })
+                    return
+                }
+                this.handleAjax("/commitWhiteWall", "post", this.whiteWall,function(data){
+                    if (data == "1"){
+                        _this.$message({
+                            message: '你很勇敢，发表成功',
+                            type: 'success'
+                        })
+                        _this.init()
+                    }else{
+                        _this.$message.error("sorry, 发表失败啦")
+                    }
+                })
             }
         }
     })

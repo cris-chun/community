@@ -89,5 +89,11 @@ app.get("/isHeart", router.isHeart)
 // 删除评论
 app.post("/deleteReply", router.deleteReply)
 
+// 表白墙
+app.post("/whiteWall", router.whiteWall)
+
+// 提交表白
+app.post("/commitWhiteWall", router.commitWhiteWall)
+
 // 监听端口
 app.listen(3000)

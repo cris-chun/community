@@ -8,9 +8,11 @@ var subjects = require("../db/subjects")
 var posts = require("../db/posts")
 var user_actives_infos = require("../db/user_actives_infos")
 var replys = require("../db/replys")
+var white_wall = require("../db/white_wall")
 var fs = require("fs")
 var path = require("path")
 var ObjectID = require("mongodb").ObjectID
+var tool = require("../tool/tool")
 
 //首页
 exports.showIndex = function(req,res){
@@ -288,6 +290,54 @@ exports.deleteReply = function(req, res){
                      res.send("1")
                  })
             }
+        })
+    })
+}
+
+// 表白墙
+exports.whiteWall = function(req, res){
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields){
+        if (err){
+            console.log("表白墙查询失败")
+            return
+        }
+        white_wall.findData({},function(data){
+            res.send(JSON.stringify(data))
+        })
+    })
+}
+
+exports.commitWhiteWall = function(req, res){
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields){
+        if (err){
+            console.log("提交表白失败")
+            res.send("0")
+            return
+        }
+        tool.showTime(function(time){
+            var from_user_name = ''
+            if (fields.nick){
+                from_user_name = req.session.username
+            }else{
+                from_user_name = ''
+            }
+            white_wall.insertData({
+                from_user_name: from_user_name,
+                to_user_name: '',
+                support: [],
+                time: time,
+                content: fields.content,
+                nick: fields.nick,
+                replys: []
+            },function(data){
+                if (data.result.ok){
+                    res.send("1")
+                }else {
+                    res.send("0")
+                }
+            })
         })
     })
 }

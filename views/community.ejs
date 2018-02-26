@@ -90,7 +90,7 @@
         height:0;
         font-size:0;
         border:solid 15px;
-        border-color:#dceffe #fff #dceffe #dceffe;
+        border-color:#fafafa #fff #fafafa #fafafa;
     }
     .content-row{
         margin-top: 20px;
@@ -351,6 +351,56 @@
         font-size: 12px;
         padding: 7.5px 10px;
     }
+    .my-ba{
+        background: #f3f3f3;
+        display: flex;
+        justify-content: start;
+        align-items: start;
+        flex-wrap: wrap;
+        border-radius: 4px;
+    }
+    .my-ba .ba-title{
+        font-size: 14px;
+        padding: 5px 10px;
+        width: 100%;
+        text-align: left;
+    }
+    .my-ba .ba-content{
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        font-size: 13px;
+    }
+    .ba{
+        background: #fff;
+        padding: 8px;
+        width: 38%;
+        margin: 2px;
+        border: solid 1px #f3f3f3;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .ba .star{
+        color: #f4630b;
+        text-align: left;
+        padding-right: 3px;
+    }
+    .el-tabs--border-card{
+        background: #fafafa;
+    }
+    .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active{
+        background: #fafafa;
+        color: #f4630b
+    }
+    .el-tabs--border-card>.el-tabs__header .el-tabs__item:hover{
+        color: #f4630b;
+    }
+
 </style>
 <body>
     <div id="app">
@@ -399,62 +449,69 @@
                         </div>
                     </div>
                     <!-- 内容 -->
-                    <div class="twitter">
-                        <el-row v-for="(item,index) in posts" class="content-row">
-                            <el-col :span="2" class="avatar-left">
-                                <img :src="item.avator" alt="" class="avatar">
-                            </el-col>
-                            <el-col :span="21" class="content-right">
-                                <div>
-                                    <div class="arrow"></div>
-                                    <div class="top">
-                                        <span class="username">{{item.user_name}}</span>
-                                        <span class="time">{{item.time}}</span>
-                                    </div>
-                                    <div class="post">
-                                        <div class="post-title" v-if="item.post_title">{{item.post_title}}</div>
-                                        <div class="post-content" v-if="item.post_content">{{item.post_content}}</div>
-                                        <div class="images" v-if="item.post_photos">
-                                            <img v-for="image in item.post_photos" :src="image"></img>
-                                        </div>
-                                    </div>
-                                    <div class="bottom">
-                                        <span class="looks">
-                                            <span class="fa fa-tag"></span>
-                                            <span>{{item.subject_name}}</span>
-                                        </span>
-                                        <span class="tags">
-                                            <!-- <span v-if="item.look">浏览数{{item.look}}</span> -->
-                                            <span class="fa fa-heart heart" :style="item.style.heart" @click="showHeart(index, item)"> {{item.hearts}}</span>
-                                            <span class="fa fa-commenting comment"  @click="showComments(index, item)" > {{item.reply_num}}</span> 
-                                            <span class="fa fa-share share" :style="item.style.share"> {{item.share}}</span>    
-                                        </span>
-                                    </div>
-                                    <div class="comments" v-if="item.comments">
-                                        <!-- 评论区 -->
-                                        <div class="comment" v-for="(reply, dex) in item.replys" @mouseover="handleHover(reply, index, dex)" @mouseout="mouseOut(reply, index, dex)">
-                                            <span v-if="reply.from_user_name != reply.to_user_name">{{reply.from_user_name}}</span>
-                                            <span v-if="reply.from_user_name != reply.to_user_name">评论</span>
-                                            <span>{{reply.to_user_name}}</span>：
-                                            <span >{{reply.content}}</span>
-                                            <div class="popover" v-show="reply.show && user.username">
-                                                <div class="poparrow"></div>
-                                                <span @click="handleReply(reply)">回复</span>
-                                                <span @click="deleteReply(item.replys, reply, dex, item)" v-if="user.username == reply.from_user_name">删除</span>
+                    <el-tabs type="border-card">
+                        <el-tab-pane label="全部动态">
+                            <div class="twitter">
+                                <el-row v-for="(item,index) in posts" class="content-row">
+                                    <el-col :span="2" class="avatar-left">
+                                        <img :src="item.avator" alt="" class="avatar">
+                                    </el-col>
+                                    <el-col :span="21" class="content-right">
+                                        <div>
+                                            <div class="arrow"></div>
+                                            <div class="top">
+                                                <span class="username">{{item.user_name}}</span>
+                                                <span class="time">{{item.time}}</span>
                                             </div>
-                                        </div>
-                                        <div class="comment_input">
-                                            <el-input class="input" v-model="input" :placeholder="placeholder"></el-input>
-                                            <el-button class="send" type="primary" plain @click="commitComment(index, item)">发送</el-button>
-                                        </div>
-                                    </div>
-                                    
-                                 </div>
-                            </el-col>
-                        </el-row>
-                    </div>
+                                            <div class="post">
+                                                <div class="post-title" v-if="item.post_title">{{item.post_title}}</div>
+                                                <div class="post-content" v-if="item.post_content">{{item.post_content}}</div>
+                                                <div class="images" v-if="item.post_photos">
+                                                    <img v-for="image in item.post_photos" :src="image"></img>
+                                                </div>
+                                            </div>
+                                            <div class="bottom">
+                                                <span class="looks">
+                                                    <span class="fa fa-tag"></span>
+                                                    <span>{{item.subject_name}}</span>
+                                                </span>
+                                                <span class="tags">
+                                                    <!-- <span v-if="item.look">浏览数{{item.look}}</span> -->
+                                                    <span class="fa fa-heart heart" :style="item.style.heart" @click="showHeart(index, item)"> {{item.hearts}}</span>
+                                                    <span class="fa fa-commenting comment"  @click="showComments(index, item)" > {{item.reply_num}}</span> 
+                                                    <span class="fa fa-share share" :style="item.style.share"> {{item.share}}</span>    
+                                                </span>
+                                            </div>
+                                            <div class="comments" v-if="item.comments">
+                                                <!-- 评论区 -->
+                                                <div class="comment" v-for="(reply, dex) in item.replys" @mouseover="handleHover(reply, index, dex)" @mouseout="mouseOut(reply, index, dex)">
+                                                    <span v-if="reply.from_user_name != reply.to_user_name">{{reply.from_user_name}}</span>
+                                                    <span v-if="reply.from_user_name != reply.to_user_name">评论</span>
+                                                    <span>{{reply.to_user_name}}</span>：
+                                                    <span >{{reply.content}}</span>
+                                                    <div class="popover" v-show="reply.show && user.username">
+                                                        <div class="poparrow"></div>
+                                                        <span @click="handleReply(reply)">回复</span>
+                                                        <span @click="deleteReply(item.replys, reply, dex, item)" v-if="user.username == reply.from_user_name">删除</span>
+                                                    </div>
+                                                </div>
+                                                <div class="comment_input">
+                                                    <el-input class="input" v-model="input" :placeholder="placeholder"></el-input>
+                                                    <el-button class="send" type="primary" plain @click="commitComment(index, item)">发送</el-button>
+                                                </div>
+                                            </div>
+                                            
+                                            </div>
+                                    </el-col>
+                                </el-row>
+                            </div>
+                        </el-tab-pane>
+                        <el-tab-pane label="我关注的动态">我关注的动态</el-tab-pane>
+                    </el-tabs>
                 </div>
             </el-col>
+
+
             <!-- right -->
             <el-col :span='4'>
                 <div class="right" v-if="isUser">
@@ -492,6 +549,33 @@
                                 </span>
                         </el-col>
                     </el-row>
+                </div>
+                <div class="right" v-if="isUser">
+                    <div class="my-ba">
+                        <div class="ba-title">我关注的</div>
+                        <div class="ba-content">
+                            <div class="ba" v-for="item in bas">
+                                <span v-if="item.isAttention" class="fa fa-star star"></span>
+                                <span>{{item.subject_name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right" v-if="isUser">
+                    <div class="my-ba">
+                        <div class="ba-title">热门吧推荐</div>
+                        <div class="ba-content">
+                            <div class="ba" v-for="item in bas">
+                                <span v-if="item.isAttention" class="fa fa-star star"></span>
+                                <span>{{item.subject_name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right" v-if="isUser">
+                    <div class="abs">
+                        <div class="abs-title">广告</div>
+                    </div>
                 </div>
             </el-col>
         </el-row>
@@ -683,7 +767,24 @@
                 input: '',
                 heartsPosts: [],
                 placeholder: '请输入内容',
-                reply: {}
+                reply: {},
+                bas: [
+                    {
+                        isAttention: true,
+                        subject_name: '吧名称',
+                        subject_id:''
+                    },
+                    {
+                        isAttention: true,
+                        subject_name: '吧名称',
+                        subject_id:''
+                    },
+                    {
+                        isAttention: true,
+                        subject_name: '吧名称',
+                        subject_id:''
+                    }
+                ]
             }
         },
         created () {
