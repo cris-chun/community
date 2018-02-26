@@ -308,6 +308,7 @@ exports.whiteWall = function(req, res){
     })
 }
 
+// 提交表白墙
 exports.commitWhiteWall = function(req, res){
     var form = fd.IncomingForm()
     form.parse(req, function(err, fields){
@@ -338,6 +339,27 @@ exports.commitWhiteWall = function(req, res){
                     res.send("0")
                 }
             })
+        })
+    })
+}
+
+// 获取当前用户的关注的吧
+exports.getUserSubjects = function(req, res){
+    var postCopy = []
+    var subject_ids = []
+    posts.findData({}, function(posts){
+        subjects.findDataByArr({
+            user_name: req.session.username
+        },function(subjects){
+            subjects.forEach((value, index) => {
+                subject_ids.push(value._id.toString().trim())
+            })
+            posts.forEach((value, index, array) => {
+                if(subject_ids.indexOf(value.subject_id) >= 0) {
+                    postCopy.push(value)
+                }
+            })
+            res.send(JSON.stringify(postCopy))
         })
     })
 }

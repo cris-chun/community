@@ -95,12 +95,18 @@ var postsData = require("./posts.json")
 //     console.log(data.result)
 // })
 
-user_actives_infos.updateData({
+// user_actives_infos.updateData({
+//     user_name: 'ztchun'
+// },{
+//     $pull: {
+//         hearts: '5a7452b9f8f4100f35a310fa'
+//     }
+// },function(data){
+//     console.log(data.result)
+// })
+
+subjects.findDataByArr({
     user_name: 'ztchun'
-},{
-    $pull: {
-        hearts: '5a7452b9f8f4100f35a310fa'
-    }
 },function(data){
-    console.log(data.result)
+    console.log(data)
 })

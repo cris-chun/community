@@ -95,5 +95,8 @@ app.post("/whiteWall", router.whiteWall)
 // 提交表白
 app.post("/commitWhiteWall", router.commitWhiteWall)
 
+// 查找用户的关注的吧
+app.post("/getUserSubjects", router.getUserSubjects)
+
 // 监听端口
 app.listen(3000)

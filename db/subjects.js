@@ -81,3 +81,36 @@ exports.updateData = function(oldObj, newObj, callback) {
         })
     })
 }
+
+// 根据数组中的数据查询数据
+exports.findDataByArr = function(obj, callback){
+    var array = []
+    db._connnection(function(db){
+        db.collection("subjects").find(
+            {
+                follow_user: {
+                    $elemMatch: obj
+                }
+            },
+            function(err, cursor){
+                if(err){
+                    console.log("查询关注的主题失败");
+                    db.close();
+                    return;
+                }
+                cursor.each(function(error,doc){
+                    if(error){
+                        console.log("关注的主题遍历失败");
+                        db.close();
+                        return;
+                    }
+                    if(doc){
+                        array.push(doc)
+                    }else{
+                        callback(array)
+                    }
+                })
+            }
+        )
+    })
+}
