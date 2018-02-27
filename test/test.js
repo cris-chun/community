@@ -6,6 +6,7 @@ var posts = require("../db/posts.js")
 var subjects = require("../db/subjects.js")
 var replys = require("../db/replys.js")
 var user_actives_infos = require("../db/user_actives_infos.js")
+var white_wall = require("../db/white_wall")
 var ObjectID = require('mongodb').ObjectID;
 var tools = require('../tool/tool')
 
@@ -105,8 +106,18 @@ var postsData = require("./posts.json")
 //     console.log(data.result)
 // })
 
-subjects.findDataByArr({
-    user_name: 'ztchun'
+// subjects.findDataByArr({
+//     user_name: 'ztchun'
+// },function(data){
+//     console.log(data)
+// })
+
+white_wall.updateBy({
+    _id: ObjectID('5a910c118a246643f8aa2d8f')
+},{
+    $push:{
+        support: 'ztc'
+    }
 },function(data){
-    console.log(data)
+    console.log(data.result.ok)
 })

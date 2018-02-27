@@ -319,10 +319,12 @@ exports.commitWhiteWall = function(req, res){
         }
         tool.showTime(function(time){
             var from_user_name = ''
+            fields.nick = fields.nick == 'false' ? false: true
+            console.log(fields, req.session.username)
             if (fields.nick){
-                from_user_name = req.session.username
-            }else{
                 from_user_name = ''
+            }else{
+                from_user_name = req.session.username
             }
             white_wall.insertData({
                 from_user_name: from_user_name,
@@ -361,5 +363,25 @@ exports.getUserSubjects = function(req, res){
             })
             res.send(JSON.stringify(postCopy))
         })
+    })
+}
+
+// 表白墙点赞
+exports.heartToWhiteWall = function(req, res){
+    controller.heartToWhiteWall(req, res, function(data){
+        res.send(data)
+    })
+}
+
+// 表白墙点赞初始化
+exports.whiteWallIsHeart = function(req, res){
+    if (!req.session.username){
+        res.send("0")
+        return
+    }
+    user_actives_infos.findData({
+        user_name: req.session.username
+    },function(data){
+        res.send(JSON.stringify(data[0].whiteWallHeart))
     })
 }

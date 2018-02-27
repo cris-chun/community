@@ -98,5 +98,11 @@ app.post("/commitWhiteWall", router.commitWhiteWall)
 // 查找用户的关注的吧
 app.post("/getUserSubjects", router.getUserSubjects)
 
+// 表白墙点赞
+app.post("/heartToWhiteWall", router.heartToWhiteWall)
+
+// 表白墙点赞初始化
+app.get("/whiteWallIsHeart", router.whiteWallIsHeart)
+
 // 监听端口
 app.listen(3000)

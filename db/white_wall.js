@@ -79,3 +79,16 @@ exports.updateData = function(oldObj, newObj, callback) {
         })
     })
 }
+
+exports.updateBy = function(oldObj, newObj, callback) {
+    db._connnection(function(db){
+        db.collection("white_wall").update(oldObj, newObj, function(err, result){
+            if (err){
+                console.log("white_wall update error")
+                db.close()
+                return
+            }
+            callback(result)
+        })
+    })
+}

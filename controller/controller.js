@@ -10,6 +10,8 @@ var users = require("../db/users");
 var subjects = require("../db/subjects")
 var posts = require("../db/posts")
 var replys = require("../db/replys")
+var white_wall = require("../db/white_wall")
+var user_actives_infos = require("../db/user_actives_infos")
 var ObjectID = require("mongodb").ObjectID
 
 // 登陆业务
@@ -331,4 +333,49 @@ exports.commitComment = function(req, res, callback) {
     })
 }
 
+// 表白墙点赞
+exports.heartToWhiteWall = function(req, res, callback){
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields){
+        var newObj = {},isPush = {}
+        if (fields.tag == 1){
+            newObj = {
+                $push: {
+                    support: req.session.username
+                }
+            }
+            isPush = {
+                $push: {
+                    whiteWallHeart: fields.id
+                }
+            }
+        }else{
+            newObj = {
+                $pull: {
+                    support: req.session.username
+                }
+            }
+            isPush = {
+                $pull: {
+                    whiteWallHeart: fields.id
+                }
+            }
+        }
+        white_wall.updateBy({
+            _id: ObjectID(fields.id)
+        },newObj,function(data){
+            if (data.result.ok){
+                user_actives_infos.updateData({
+                    user_name: req.session.username
+                },isPush, function(result){
+                    if (result.result.ok){
+                        callback("1")
+                    }
+                })
+            }else{
+                callback("0")
+            }
+        })
+    })
+}
     
