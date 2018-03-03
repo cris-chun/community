@@ -926,7 +926,7 @@
             // 用户是否已经点赞
             initHeart(){
                 var _this = this
-                _this.handleAjax("/isHeart", "get", {},function(data){
+                _this.handleAjax("/isHeart", "get", {}, function(data){
                     if(data == "0"){
                         _this.heartsPosts = []
                         _this.initPost(0, 3)
@@ -952,6 +952,7 @@
 
                 }
             },
+            // 上传图片
             handleUploadSuccess(res, file) {
                 if (res != 0) {
                     var index = res.indexOf("postImages")
@@ -1033,7 +1034,7 @@
                         post_id: item._id
                     }, function(data){
                         if (data != 0) {
-                            item.replys = JSON.parse(data).reply
+                            item.replys = JSON.parse(data).replys
                             item.replys.forEach((value, index, array) => {
                                 value.show = false
                             })
@@ -1074,7 +1075,7 @@
                             post_id: item._id
                         }, function(data){
                             if (data != 0) {
-                                item.replys = JSON.parse(data).reply
+                                item.replys = JSON.parse(data).replys
                                 item.replys.forEach((value, index, array) => {
                                     value.show = false
                                 })
@@ -1190,7 +1191,6 @@
                 var _this = this
                 this.handleAjax("/getUserSubjects", "post",{},function(data){
                     data = JSON.parse(data)
-                    console.log(data)
                     data.forEach((value, index, array) => {
                         value.comments = false
                         value.replys = []

@@ -349,6 +349,7 @@ exports.commitWhiteWall = function(req, res){
 exports.getUserSubjects = function(req, res){
     var postCopy = []
     var subject_ids = []
+    console.log(req.session.username)
     posts.findData({}, function(posts){
         subjects.findDataByArr({
             user_name: req.session.username

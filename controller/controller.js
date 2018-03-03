@@ -305,7 +305,7 @@ exports.commitComment = function(req, res, callback) {
                 post_id: fields.post_id
             },{
                 $push: {
-                    reply: {
+                    replys: {
                         from_user_name : req.session.username, 
                         to_user_name : fields.post_user_name, 
                         time : time, 
