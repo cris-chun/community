@@ -93,7 +93,7 @@ exports.loginCheckEmail = function(req,res,callback) {
                         username: username
                     },{
                         check: true
-                    },function(result){
+                    },function(res){
                         req.session.login = true
                         req.session.username = result[0].username
                         callback('1')
@@ -140,9 +140,7 @@ exports.registerCheck = function(req,res,callback) {
             pwd_answer: '',
             avator: '',
             tag: 0, // 0：普通用户   1：管理员
-            infos: 0,
-            follows: [],
-            posts: []
+            infos: 0
         }
         users.insertData(obj,function(data){
             if(data.result.ok == 1){

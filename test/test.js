@@ -36,9 +36,9 @@ var postsData = require("./posts.json")
 // })
 
 // users更新
-// users.updateData({username: 'ztchun'}, {check: true}, function(result){
-//     console.log(result)
-// })
+users.updateData({username: 'ztchun'}, {check: true}, function(result){
+    console.log(result)
+})
 
 // posts insert
 // posts.insertData(postsData[0],function(result){
@@ -112,12 +112,12 @@ var postsData = require("./posts.json")
 //     console.log(data)
 // })
 
-white_wall.updateBy({
-    _id: ObjectID('5a910c118a246643f8aa2d8f')
-},{
-    $push:{
-        support: 'ztc'
-    }
-},function(data){
-    console.log(data.result.ok)
-})
+// white_wall.updateBy({
+//     _id: ObjectID('5a910c118a246643f8aa2d8f')
+// },{
+//     $push:{
+//         support: 'ztc'
+//     }
+// },function(data){
+//     console.log(data.result.ok)
+// })
