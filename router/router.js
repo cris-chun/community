@@ -386,3 +386,39 @@ exports.whiteWallIsHeart = function(req, res){
         res.send(JSON.stringify(data[0].whiteWallHeart))
     })
 }
+
+// 表白墙评论提交
+exports.commitWhiteWallComment = function(req,res){
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields){
+        if (err){
+            console.log("提交评论失败")
+            res.send('0')
+            return
+        }
+        tool.showTime(function(time){
+            white_wall.updateBy({
+                _id: ObjectID(fields._id)
+            },{
+                $push: {
+                    replys: {
+                        from_user_name: req.session.username,
+                        to_user_name:fields.to_user_name,
+                        content: fields.content,
+                        time: time
+                    }
+                }
+            },function(data){
+                if (data.result.ok){
+                    var obj = JSON.stringify({
+                        from_user_name: req.session.username,
+                        to_user_name:fields.to_user_name,
+                        content: fields.content,
+                        time: time
+                    })
+                    res.send(obj)
+                }
+            })
+        })
+    })
+}

@@ -104,5 +104,8 @@ app.post("/heartToWhiteWall", router.heartToWhiteWall)
 // 表白墙点赞初始化
 app.get("/whiteWallIsHeart", router.whiteWallIsHeart)
 
+// 表白墙提交
+app.post('/commitWhiteWallComment', router.commitWhiteWallComment)
+
 // 监听端口
 app.listen(3000)

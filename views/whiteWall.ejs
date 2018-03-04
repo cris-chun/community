@@ -449,6 +449,7 @@ textarea{
                 this.content.forEach((value, i) => {
                     if (i == index) {
                         var content = {
+                            _id: item._id,
                             from_user_name: item.from_user_name,
                             to_user_name: item.to_user_name,
                             nick: item.nick,
@@ -484,9 +485,25 @@ textarea{
             },
             // 提交评论
             commitComment(index, item){
+                if (!this.isUser){
+                    this.$message({
+                        message:'sorry，没登录哇',
+                        type:'warning'
+                    })
+                    return
+                }
+                var _this = this
                 this.handleAjax("/commitWhiteWallComment", 'post', {
+                    _id: item._id,
                     content: this.input,
-                    
+                    to_user_name: item.to_user_name
+                },function(data){
+                    if (!data == "0"){
+                        console.log(data)
+                        item.replys.push(JSON.parse(data))
+                        _this.input = ""
+                        item.replysNum += 1
+                    }
                 })
             }
         }
