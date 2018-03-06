@@ -476,3 +476,28 @@ exports.changeAvator = function(req, res){
     var filePath = req.session.username
     uploadImage(req, res, dir, filePath)
 }
+
+// update user's infomation
+exports.commitUserInfo = function(req, res){
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields){
+        if (err){
+            console.log("完善用户信息出错")
+            res.send("0")
+            return
+        }
+        var obj = fields
+        console.log(fields)
+        obj.city = fields['city[]']
+        delete obj['city[]']
+        delete obj._id
+        obj.city = obj.city[0] + '-' + obj.city[1]
+        obj.sex = obj.sex == '1' ? "女":"男"
+        obj.check = obj.check == 'true'?true:false
+        console.log(obj)
+        users.updateData({username: req.session.username}, obj, function(data){
+            console.log(data.result.ok)
+            res.send("1")
+        })
+    })
+}

@@ -76,7 +76,7 @@ exports.updateData = function(oldObj, newObj, callback) {
     db._connnection(function(db) {
         db.collection("users").update(oldObj, newObj, function(err, result){
             if (err) {
-                console.log("更新users表失败")
+                console.log("更新users表失败", err)
                 db.close()
                 return
             }

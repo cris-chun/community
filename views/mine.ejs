@@ -728,7 +728,10 @@
             }
         },
         created () {
-            let index = window.location.href.split("?")[1].slice(6) || '4'
+            var index = "4"
+            if(window.location.href.indexOf("?") >= 0) {
+                let index = window.location.href.split("?")[1].slice(6) || '4'
+            }
             this.activeIndex = index
             this.activeName = index
             this.initCity()
@@ -828,8 +831,12 @@
             handleSelect: function(key, keyPath){
                 console.log(key, keyPath)
             },
+            // tab切换
             handleClick(tab, event) {
-                console.log(tab, event);
+                if (tab == "4") {
+                    this.initCity()
+                    this.initUser()
+                }
             },
             // 全国省市查询
             handleChange (value) {
@@ -842,7 +849,7 @@
                 }).then(resp=>{
                     resp.body.result.forEach((value, index, aray)=>{
                         value.label = value.name
-                        value.value = value.name
+                        value.value = value.id
                     })
                     _this.options[Number(value[0]) - 1].children = resp.body.result
                     // console.log(this.user.city)
@@ -868,11 +875,30 @@
             },
             handleDelete(index, row) {
             },
+            // 点击登录
             toLogin(){
                 window.location.href = "/login"
             },
+            // 完善信息
             commitUser (){
-                console.log(this.user)
+                var first = this.options[this.user.city[0] - 1], second = ""
+                first.children.forEach((value, index) => {
+                    if (value.id == this.user.city[1]){
+                        second = value.label
+                    }
+                })
+                this.user.city = [first.label, second]
+                var _this = this
+                this.handleAjax("/commitUserInfo", "post", this.user, function(data){
+                    if (data == "1"){
+                        _this.$message({
+                            message: '更新成功',
+                            type:'success'
+                        })
+                    }
+                    _this.initUser()
+                    _this.initCity()
+                })
             }
         }
     })

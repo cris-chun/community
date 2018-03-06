@@ -113,5 +113,8 @@ app.get("/getMineInfo", router.getMineInfo)
 // 修改头像
 app.post("/changeAvator", router.changeAvator)
 
+// update user's infomation
+app.post("/commitUserInfo", router.commitUserInfo)
+
 // 监听端口
 app.listen(3000)

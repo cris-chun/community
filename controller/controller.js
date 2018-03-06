@@ -140,7 +140,9 @@ exports.registerCheck = function(req,res,callback) {
             pwd_answer: '',
             avator: '',
             tag: 0, // 0：普通用户   1：管理员
-            infos: 0
+            infos: 0,
+            sign: '',
+            hobby: ''
         }
         users.insertData(obj,function(data){
             if(data.result.ok == 1){
@@ -219,7 +221,11 @@ exports.submitPost = function(req, res, callback) {
                        post_photos: fields['images[]'],
                        link: '',
                        user_name: req.session.username,
-                       time: time
+                       time: time,
+                       reply_num: 0, 
+                       share: 0, 
+                       look : 0, 
+                       hearts : 0
                     }
                     posts.insertData(obj,function(post){
                         if (post.result.ok == 1) {
