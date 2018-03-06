@@ -145,35 +145,45 @@ exports.registerCheck = function(req,res,callback) {
         users.insertData(obj,function(data){
             if(data.result.ok == 1){
                 console.log("注册成功")
-                // 发送email
-                // 时间戳
-                var now = Date.parse(new Date())
-                var href = 'http://localhost:3000/loginCheckEmail?username=' + fields.username + '&password=' +fields.password + '&timestamp=' + now
-                // 发送方
-                var transporter = nodemailer.createTransport({
-                    service: 'qq',
-                    auth: {
-                        user: 'ztchun@qq.com',
-                        pass: 'bsdhtkkqjkbyhaia'
+                user_actives_infos.insertData({
+                    user_name: fields.username,
+                    posts:[],
+                    subjects:[],
+                    manager_subjects:[],
+                    hearts:[],
+                    share:[],
+                    whiteWallHeart:[]
+                },function(data){
+                    // 发送email
+                    // 时间戳
+                    var now = Date.parse(new Date())
+                    var href = 'http://localhost:3000/loginCheckEmail?username=' + fields.username + '&password=' +fields.password + '&timestamp=' + now
+                    // 发送方
+                    var transporter = nodemailer.createTransport({
+                        service: 'qq',
+                        auth: {
+                            user: 'ztchun@qq.com',
+                            pass: 'bsdhtkkqjkbyhaia'
+                        }
+                    })
+                    // 接收方
+                    var mailOptions = {
+                        from: 'ztchun@qq.com',
+                        to: fields.email,
+                        subject: '校园社区邮箱验证',
+                        text: '您好，此邮件为校园社区的邮箱认证，点击下方链接认证邮箱有效性',
+                        html: '<h2>您好，此邮件为校园社区的邮箱认证，请点击下方链接认证邮箱有效性</h2>' +
+                        '<div><a href=\'' + href + '\'>链接</a></div>'
                     }
+                    transporter.sendMail(mailOptions, function(error, info){
+                        if(error){
+                            console.log(error);
+                        }else{
+                            console.log('Message sent: ' + info.response);
+                        }
+                    });
+                    callback('1')
                 })
-                // 接收方
-                var mailOptions = {
-                    from: 'ztchun@qq.com',
-                    to: fields.email,
-                    subject: '校园社区邮箱验证',
-                    text: '您好，此邮件为校园社区的邮箱认证，点击下方链接认证邮箱有效性',
-                    html: '<h2>您好，此邮件为校园社区的邮箱认证，请点击下方链接认证邮箱有效性</h2>' +
-                    '<div><a href=\'' + href + '\'>链接</a></div>'
-                }
-                transporter.sendMail(mailOptions, function(error, info){
-                    if(error){
-                        console.log(error);
-                    }else{
-                        console.log('Message sent: ' + info.response);
-                    }
-                });
-                callback('1')
             } else {
                 console.log("注册失败")
                 callback('2')

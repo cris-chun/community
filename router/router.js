@@ -9,6 +9,7 @@ var posts = require("../db/posts")
 var user_actives_infos = require("../db/user_actives_infos")
 var replys = require("../db/replys")
 var white_wall = require("../db/white_wall")
+var findData = require("../db/findData")
 var fs = require("fs")
 var path = require("path")
 var ObjectID = require("mongodb").ObjectID
@@ -124,12 +125,19 @@ exports.submitPost = function(req, res) {
 
 // 图片上传
 exports.imageUpload = function(req, res) {
+    var dir = "/../postImages/" , time = Date.parse(new Date())
+    var filePath = time + "post"
+    uploadImage(req, res, dir, filePath)
+}
+
+function uploadImage(req, res, dir, filePath) {
     var form = fd.IncomingForm()
-    form.uploadDir = path.normalize(__dirname+"/../postImages");
+    form.uploadDir = path.normalize(__dirname+dir);
     form.parse(req, function(err, fields, files) {
         var oldpath = files.file.path;
         var time = Date.parse(new Date())
-        var newpath = path.normalize(__dirname+"/../postImages/"+ time +"post.jpg");
+        var newpath = path.normalize(__dirname + dir + filePath + ".jpg");
+        console.log(newpath)
         fs.rename(oldpath,newpath,function(err){
             if(err){
                 res.send("0")
@@ -349,7 +357,6 @@ exports.commitWhiteWall = function(req, res){
 exports.getUserSubjects = function(req, res){
     var postCopy = []
     var subject_ids = []
-    console.log(req.session.username)
     posts.findData({}, function(posts){
         subjects.findDataByArr({
             user_name: req.session.username
@@ -421,4 +428,51 @@ exports.commitWhiteWallComment = function(req,res){
             })
         })
     })
+}
+
+// 获取用户信息
+exports.getMineInfo = function(req, res){
+    var index = req.query.tag,collection="",obj={},tag = ""
+    switch(index){
+        case "4": 
+            collection = "users"
+            obj = {
+                username: req.session.username
+            }
+            break
+        case "8":
+            collection = "infos"
+            obj = {
+                to_user_name: req.session.name
+            }
+            break
+        case "5":
+            collection = "user_actives_infos"
+            tag = "manager_subjects"
+            break
+        case "6":
+            collection = "user_actives_infos"
+            tag = "subjects"
+            break
+        case "7":
+            collection = "user_actives_infos"
+            tag = "posts"
+            break
+        default:
+            collection = "user"
+    }
+    findData.findData(collection, obj, function(result){
+        if (tag) {
+            res.send(JSON.stringify(result[tag]))
+        }else{
+            res.send(JSON.stringify(result))
+        }
+    })
+}
+
+// 修改头像
+exports.changeAvator = function(req, res){
+    var dir = "/../avator/" 
+    var filePath = req.session.username
+    uploadImage(req, res, dir, filePath)
 }

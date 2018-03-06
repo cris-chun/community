@@ -864,8 +864,11 @@
         methods: {
             // 请求post帖子  每次请求10条数据
             initPost (start, limit) {
+                if (start == 0) {
+                    this.posts = []
+                }
                 var _this = this
-                this.start += 3
+                this.start += 10
                 this.handleAjax("/getPosts", 'get', {start: start, limit:limit}, function(data){
                     if (data == '0') {
                         return
@@ -929,10 +932,10 @@
                 _this.handleAjax("/isHeart", "get", {}, function(data){
                     if(data == "0"){
                         _this.heartsPosts = []
-                        _this.initPost(0, 3)
+                        _this.initPost(0, 10)
                     }else {
                         _this.heartsPosts = JSON.parse(data)
-                        _this.initPost(0, 3)
+                        _this.initPost(0, 10)
                     }
                 })
             },
@@ -1002,7 +1005,7 @@
                             }else{
                                 var post = JSON.parse(data)
                                 // _this.posts.splice(0, 0, post)
-                                _this.initPost()
+                                _this.initPost(0, 10)
                             }
                         })
                     } else {
@@ -1022,7 +1025,7 @@
             // 下拉刷新
             handleScroll () {
                 if ($(window).scrollTop() >= $(document).height()-$(window).height()){
-                    this.initPost(this.start, 3)
+                    this.initPost(this.start, 10)
                 }
             },
             // 展示评论框
