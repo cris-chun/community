@@ -161,8 +161,8 @@ header{
 	align-items: center;
 	flex-wrap: wrap;
 }
-.left,.right{
-	width: 45%;
+.check_right{
+	float: left;
 }
 /*.register-btn{*/
 	/*line-height: 40px;*/

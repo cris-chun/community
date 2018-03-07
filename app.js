@@ -121,5 +121,7 @@ app.get("/exit", router.exit)
 
 app.get("/initSubjects", router.initSubjects)
 
+app.get("/showForgetPassword", router.showForgetPassword)
+
 // 监听端口
 app.listen(3000)

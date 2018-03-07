@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>登录 - 校园社区</title>
+    <link rel="stylesheet" media="all" href="/css/login.css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+</head>
+
+<style>
+    .sign .logo{
+        top:20px;
+    }
+    .sign .main {
+        width: 300px;
+    }
+    
+    body {
+        margin: 0
+    }
+    
+    .sign form .input-prepend input {
+        margin-left: -15px;
+        width: 95%;
+        font-size: 15px;
+    }
+    
+    .sign {
+        min-height: 800px;
+    }
+    
+    .sign form .input-prepend {
+        margin-bottom: 0px;
+    }
+    
+    .sign .main {
+        margin-top: 100px;
+    }
+    
+    .login input {
+        border-radius: 0 !important;
+        border-bottom: none !important;
+    }
+    
+    .sign form .input-prepend i {
+        position: absolute;
+        top: 21px;
+        left: -5px;
+        font-size: 20px;
+        color: #969696;
+    }
+    
+    input:focus {
+        outline: 0 !important;
+    }
+    
+    .sign .sign-in-button {
+        background: #f4630b;
+    }
+    
+    .sign .sign-in-button:hover {
+        background: #f4630b;
+    }
+    
+    .sign .reset-title .active,
+    .sign .title .active {
+        color: #f4630b;
+        border-bottom: 2px solid #f4630b;
+    }
+    
+    .sing-up-msg {
+        font-size: 12px;
+        color: #bfbfbf;
+    }
+</style>
+
+<body class="no-padding reader-black-font" lang="zh-CN">
+    <div class="sign">
+        <div class="logo">
+            <a href="/"><img src="/images/logo.jpg" alt="Logo" /></a>
+        </div>
+        <div class="main">
+            <h4 class="title">
+                <div class="normal-title">
+                    <a class="active" href="/login">登录</a>
+                    <b>·</b>
+                    <a id="js-sign-up-btn" class="" href="/register">注册</a>
+                </div>
+            </h4>
+            <div class="js-sign-in-container">
+                <form id="new_session" accept-charset="UTF-8">
+                    <div class="input-prepend restyle js-normal">
+                        <input placeholder="请输入用户名或者邮箱" type="text" class="username"/>
+                        <i class="fa fa-user-circle-o"></i>
+                    </div>
+                    <div class="input-prepend">
+                        <input placeholder="密码" type="password" class="password" />
+                        <i class="fa fa-key"></i>
+                    </div>
+                    <div class="remember-btn">
+                        <input type="checkbox" class="check"/><span>记住我</span>
+                    </div>
+                    <div class="forget-btn">
+                        <a class="" data-toggle="dropdown" href="">登录遇到问题?</a>
+                    </div>
+                    <input type="button" id="login" name="commit" value="登录" class="sign-in-button" />
+                </form>
+                <!-- 更多登录方式 -->
+                <!-- <div class="more-sign">
+                    <h6>社交帐号登录</h6>
+                    <ul>
+                        <li id="weibo-link-wrap" class="weibo-loading">
+                            <a class="weibo" id="weibo-link">
+                                <i class="iconfont ic-weibo"></i>
+                            </a>
+                        </li>
+                        <li><a class="weixin" target="_blank" href="/users/auth/wechat"><i class="iconfont ic-wechat"></i></a></li>
+                        <li><a class="qq" target="_blank" href="/users/auth/qq_connect"><i class="iconfont ic-qq_connect"></i></a></li>
+                        <li class="js-more-method"><a href="javascript:void(0);"><i class="iconfont ic-more"></i></a></li>
+                        <li class="js-hide-method hide"><a class="douban" target="_blank" href="/users/auth/douban"><i class="iconfont ic-douban"></i></a></li>
+                    </ul>
+
+                    <div class="weibo-geetest-captcha"></div>
+                </div> -->
+            </div>
+
+        </div>
+    </div>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        $(function() {
+            $("#login").click(function() {
+                // console.log($(".check")[0].checked)
+                $.ajax({
+                    url: "/loginCheck",
+                    type: "post",
+                    data: {
+                        username: $(".username").val(),
+                        password: $(".password").val(),
+                        check: $(".check")[0].checked
+                    },
+                    // beforeSend: function(){
+                    //     console.log("正在发送ajax请求")
+                    // },
+                    success: function(data) {
+                        console.log(data)
+                        if (data == '1') {
+                            window.location.href = "/mine?index=4"
+                        } else if (data == "2") {
+                            $(".info-text").show().text("您输入的密码错了哦")
+                        } else if (data == '3') {
+                            $(".info-text").show().text("您的邮箱还没有认证哦")
+                        } else if (data == '0') {
+                            $(".info-text").show().text("您还没有注册哦")
+                        }
+                    },
+                    error: function(err) {
+                        console.log("请求错误", err)
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>登录</title>
@@ -8,7 +9,7 @@
 </head>
 
 <style>
-    .info-text{
+    .info-text {
         display: none;
         color: red;
         line-height: 14px;
@@ -18,125 +19,126 @@
 </style>
 
 <body>
-<div class="wrap login_wrap">
-    <div class="content">
-        <div class="logo"></div>
+    <div class="wrap login_wrap">
+        <div class="content">
+            <div class="logo"></div>
             <div class="login_box">
-            <div class="login_form">
-                <div class="login_title">
-                    登录
-                </div>
-                <form action="" method="post">
-                    <div class="form_text_ipt">
-                        <input name="username" type="text" placeholder="手机号/邮箱/用户名" class="username">
+                <div class="login_form">
+                    <div class="login_title">
+                        登录
                     </div>
-                    <div class="form_text_ipt">
-                        <input name="password" type="password" placeholder="密码" class="password">
-                    </div>
-                    <div class="info-text">登录失败</div>
-                    <div class="form_check_ipt">
-                        <div class="left check_left">
+                    <form action="" method="post">
+                        <div class="form_text_ipt">
+                            <input name="username" type="text" placeholder="手机号/邮箱/用户名" class="username">
+                        </div>
+                        <div class="form_text_ipt">
+                            <input name="password" type="password" placeholder="密码" class="password">
+                        </div>
+                        <div class="info-text">登录失败</div>
+                        <div class="form_check_ipt">
+                            <!-- <div class="left check_left">
                             <label><input name="" type="checkbox"> 下次自动登录</label>
+                        </div> -->
+                            <div class="right check_right">
+                                <a href="#">忘记密码</a>
+                            </div>
                         </div>
-                        <div class="right check_right">
-                            <a href="#">忘记密码</a>
+                        <div class="form_btn">
+                            <button type="button" class="login-btn">登录</button>
                         </div>
-                    </div>
-                    <div class="form_btn">
-                        <button type="button" class="login-btn">登录</button>
-                    </div>
-                    <div class="form_reg_btn">
-                        <span>还没有帐号？</span><a href="/register">马上注册</a>
-                    </div>
-                </form>
-                <!--<div class="other_login">-->
+                        <div class="form_reg_btn">
+                            <span>还没有帐号？</span><a href="/register">马上注册</a>
+                        </div>
+                    </form>
+                    <!--<div class="other_login">-->
                     <!--<div class="left other_left">-->
-                        <!--<span>其它登录方式</span>-->
+                    <!--<span>其它登录方式</span>-->
                     <!--</div>-->
                     <!--<div class="right other_right">-->
-                        <!--<a href="#">QQ登录</a>-->
-                        <!--<a href="#">微信登录</a>-->
-                        <!--<a href="#">微博登录</a>-->
+                    <!--<a href="#">QQ登录</a>-->
+                    <!--<a href="#">微信登录</a>-->
+                    <!--<a href="#">微博登录</a>-->
                     <!--</div>-->
-                <!--</div>-->
+                    <!--</div>-->
+                </div>
             </div>
         </div>
     </div>
-</div>
-<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-<script>
-    $(function(){
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        $(function() {
 
-        var usernameCheck = false
-        var passwordCheck = false
-        //登录输入框效果
-        $('.form_text_ipt input').focus(function(){
-            $(this).parent().css({
-                'box-shadow':'0 0 3px #bbb',
+            var usernameCheck = false
+            var passwordCheck = false
+                //登录输入框效果
+            $('.form_text_ipt input').focus(function() {
+                $(this).parent().css({
+                    'box-shadow': '0 0 3px #bbb',
+                });
             });
-        });
-        $('.form_text_ipt input').blur(function(){
-            $(this).parent().css({
-                'box-shadow':'none',
+            $('.form_text_ipt input').blur(function() {
+                $(this).parent().css({
+                    'box-shadow': 'none',
+                });
+                //$(this).parent().next().hide();
             });
-            //$(this).parent().next().hide();
-        });
 
-        //表单验证  不能为空
-        $(".username").blur(function(){
-            if ($(this).val() == '') {
-                usernameCheck = false
-                $(".info-text").show().text("请输入用户名")
-            }else {
-                usernameCheck = true
-                $(".info-text").hide()
-            }
-        })
-        $(".password").blur(function(){
-            if ($(this).val() == '') {
-                passwordCheck = false
-                $(".info-text").show().text("请输入密码")
-            }else {
-                passwordCheck = true
-                $(".info-text").hide()
-            }
-        })
+            //表单验证  不能为空
+            $(".username").blur(function() {
+                if ($(this).val() == '') {
+                    usernameCheck = false
+                    $(".info-text").show().text("请输入用户名")
+                } else {
+                    usernameCheck = true
+                    $(".info-text").hide()
+                }
+            })
+            $(".password").blur(function() {
+                if ($(this).val() == '') {
+                    passwordCheck = false
+                    $(".info-text").show().text("请输入密码")
+                } else {
+                    passwordCheck = true
+                    $(".info-text").hide()
+                }
+            })
 
-        // 点击登录按钮
-        $(".login-btn").click(function(){
-            if(usernameCheck && passwordCheck) {
-                $.ajax({
-                    url: "/loginCheck",
-                    type: "post",
-                    data: {
-                        username: $(".username").val(),
-                        password: $(".password").val()
-                    },
-                    // beforeSend: function(){
-                    //     console.log("正在发送ajax请求")
-                    // },
-                    success:function(data){
-                        console.log(data)
-                        if (data == '1') {
-                            window.location.href = "/"
-                        } else if(data == "2") {
-                            $(".info-text").show().text("您输入的密码错了哦")
-                        } else if (data == '3') {
-                            $(".info-text").show().text("您的邮箱还没有认证哦")
-                        } else if (data == '0') {
-                            $(".info-text").show().text("您还没有注册哦")
+            // 点击登录按钮
+            $(".login-btn").click(function() {
+                if (usernameCheck && passwordCheck) {
+                    $.ajax({
+                        url: "/loginCheck",
+                        type: "post",
+                        data: {
+                            username: $(".username").val(),
+                            password: $(".password").val()
+                        },
+                        // beforeSend: function(){
+                        //     console.log("正在发送ajax请求")
+                        // },
+                        success: function(data) {
+                            console.log(data)
+                            if (data == '1') {
+                                window.location.href = "/"
+                            } else if (data == "2") {
+                                $(".info-text").show().text("您输入的密码错了哦")
+                            } else if (data == '3') {
+                                $(".info-text").show().text("您的邮箱还没有认证哦")
+                            } else if (data == '0') {
+                                $(".info-text").show().text("您还没有注册哦")
+                            }
+                        },
+                        error: function(err) {
+                            console.log("请求错误", err)
                         }
-                    },
-                    error:function(err){
-                        console.log("请求错误",err)
-                    }
-                })
-            }else {
-                $(".info-text").show().text("请输入用户名、密码")
-            }
+                    })
+                } else {
+                    $(".info-text").show().text("请输入用户名、密码")
+                }
 
-        })
-    });
-</script>
+            })
+        });
+    </script>
 </body>
+
 </html>
