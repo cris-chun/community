@@ -36,6 +36,18 @@ exports.showLogin = function(req, res) {
     res.render("loginCopy")
 }
 
+// 忘记密码页面
+exports.forgetPassword = function(req, res){
+    res.render("forgetPassword")
+}
+
+// 重置密码
+exports.resetPassword = function(req, res){
+    controller.resetPassword(req, res, function(data){
+        res.render("login")
+    })
+}
+
 // 登陆检查
 exports.loginCheck = function(req, res) {
     controller.loginCheck(req, res, function(data) {
@@ -53,7 +65,7 @@ exports.loginCheckEmail = function(req, res) {
                     status: '没有此用户'
                 })
                 break;
-            case '1':
+            case 'register':
                 res.redirect("/");
                 // res.render("index",{
                 //     login: '1',
@@ -69,6 +81,9 @@ exports.loginCheckEmail = function(req, res) {
                 res.render("error", {
                     status: '链接失效'
                 })
+                break;
+            case "reset":
+                res.redirect("/resetPwdSuccess");
                 break;
             default:
                 res.render("index")

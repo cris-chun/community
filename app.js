@@ -33,6 +33,17 @@ app.get("/",router.showIndex);
 // 登陆页面展示
 app.get("/login",router.showLogin);
 
+// 忘记密码页面
+app.get("/forgetPassword", router.forgetPassword)
+
+// 重置密码成功
+app.get("/resetPwdSuccess", function(req, res){
+    res.render("resetPwdSuccess")
+})
+
+// 忘记密码提交
+app.post("/resetPassword", router.resetPassword)
+
 // 登陆检查
 app.post("/loginCheck",router.loginCheck)
 

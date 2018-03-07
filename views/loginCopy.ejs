@@ -9,40 +9,41 @@
 </head>
 
 <style>
-    .sign .logo{
-        top:20px;
+    .sign .logo {
+        top: 20px;
     }
+
     .sign .main {
         width: 300px;
     }
-    
+
     body {
         margin: 0
     }
-    
+
     .sign form .input-prepend input {
         margin-left: -15px;
         width: 95%;
         font-size: 15px;
     }
-    
+
     .sign {
         min-height: 800px;
     }
-    
+
     .sign form .input-prepend {
         margin-bottom: 0px;
     }
-    
+
     .sign .main {
         margin-top: 100px;
     }
-    
+
     .login input {
         border-radius: 0 !important;
         border-bottom: none !important;
     }
-    
+
     .sign form .input-prepend i {
         position: absolute;
         top: 21px;
@@ -50,25 +51,25 @@
         font-size: 20px;
         color: #969696;
     }
-    
+
     input:focus {
         outline: 0 !important;
     }
-    
+
     .sign .sign-in-button {
         background: #f4630b;
     }
-    
+
     .sign .sign-in-button:hover {
         background: #f4630b;
     }
-    
+
     .sign .reset-title .active,
     .sign .title .active {
         color: #f4630b;
         border-bottom: 2px solid #f4630b;
     }
-    
+
     .sing-up-msg {
         font-size: 12px;
         color: #bfbfbf;
@@ -78,7 +79,9 @@
 <body class="no-padding reader-black-font" lang="zh-CN">
     <div class="sign">
         <div class="logo">
-            <a href="/"><img src="/images/logo.jpg" alt="Logo" /></a>
+            <a href="/">
+                <img src="/images/logo.jpg" alt="Logo" />
+            </a>
         </div>
         <div class="main">
             <h4 class="title">
@@ -91,7 +94,7 @@
             <div class="js-sign-in-container">
                 <form id="new_session" accept-charset="UTF-8">
                     <div class="input-prepend restyle js-normal">
-                        <input placeholder="请输入用户名或者邮箱" type="text" class="username"/>
+                        <input placeholder="请输入用户名或者邮箱" type="text" class="username" />
                         <i class="fa fa-user-circle-o"></i>
                     </div>
                     <div class="input-prepend">
@@ -99,10 +102,11 @@
                         <i class="fa fa-key"></i>
                     </div>
                     <div class="remember-btn">
-                        <input type="checkbox" class="check"/><span>记住我</span>
+                        <input type="checkbox" class="check" />
+                        <span>记住我</span>
                     </div>
                     <div class="forget-btn">
-                        <a class="" data-toggle="dropdown" href="">登录遇到问题?</a>
+                        <a class="" data-toggle="dropdown" href="">忘记密码</a>
                     </div>
                     <input type="button" id="login" name="commit" value="登录" class="sign-in-button" />
                 </form>
@@ -129,8 +133,23 @@
     </div>
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>
-        $(function() {
-            $("#login").click(function() {
+        $(function () {
+            //页面初始化时，如果帐号密码cookie存在则填充
+            console.log(getCookie('username'), getCookie('password'))
+            if (getCookie('username') && getCookie('password')) {
+                $(".username").val(getCookie('username'))
+                $(".password").val(getCookie("password"))
+            }
+
+            //复选框勾选状态发生改变时，如果未勾选则清除cookie
+            $(".check").change(function(){
+                if(!$(this)[0].checked){
+                    delCookie("username")
+                    delCookie("password")
+                }
+            })
+
+            $("#login").click(function () {
                 // console.log($(".check")[0].checked)
                 $.ajax({
                     url: "/loginCheck",
@@ -138,15 +157,20 @@
                     data: {
                         username: $(".username").val(),
                         password: $(".password").val(),
-                        check: $(".check")[0].checked
                     },
                     // beforeSend: function(){
                     //     console.log("正在发送ajax请求")
                     // },
-                    success: function(data) {
-                        console.log(data)
+                    success: function (data) {
                         if (data == '1') {
-                            window.location.href = "/mine?index=4"
+                            if ($('.check')[0].checked){
+                                setCookie("username", $(".username").val(), 7)
+                                setCookie("password", $(".password").val(), 7)
+                            }else{
+                                delCookie("username")
+                                delCookie("password")
+                            }
+                            window.location.href = "/"
                         } else if (data == "2") {
                             $(".info-text").show().text("您输入的密码错了哦")
                         } else if (data == '3') {
@@ -155,11 +179,32 @@
                             $(".info-text").show().text("您还没有注册哦")
                         }
                     },
-                    error: function(err) {
+                    error: function (err) {
                         console.log("请求错误", err)
                     }
                 })
             })
+
+            //设置cookie  记住密码
+            function setCookie(name, value, day) {
+                var date = new Date();
+                date.setDate(date.getDate() + day);
+                document.cookie = name + '=' + value + ';expires=' + date;
+            };
+            // 获取cookie  记住密码
+            function getCookie(name) {
+                var reg = RegExp(name + '=([^;]+)');
+                var arr = document.cookie.match(reg);
+                if (arr) {
+                    return arr[1];
+                } else {
+                    return '';
+                }
+            };
+            //删除cookie
+            function delCookie(name) {
+                setCookie(name, null, -1);
+            };
         })
     </script>
 </body>

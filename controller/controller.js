@@ -72,6 +72,7 @@ exports.loginCheck = function(req,res,callback){
 exports.loginCheckEmail = function(req,res,callback) {
     var username = req.query.username
     var password = req.query.password
+    var tag = req.query.tag
     var timestamp = Number(req.query.timestamp) + 24*60*60*1000  // 在时间戳的基础上加上24小时
     var now = Date.parse(new Date())
     console.log(username, password, timestamp, now)
@@ -87,23 +88,35 @@ exports.loginCheckEmail = function(req,res,callback) {
                     callback("0")
                 })
             } else {
-                if(result[0].password === password) {
-                    // 登陆成功
+                if (tag == "register"){
+                    if(result[0].password === password) {
+                        // 登陆成功
+                        users.updateData({
+                            username: username
+                        },{
+                            check: true
+                        },function(res){
+                            req.session.login = true
+                            req.session.username = result[0].username
+                            callback(tag)
+                        })
+                    } else{
+                        // 密码错误 2
+                        users.deleteData({
+                            username: username
+                        },function(){
+                            callback('2')
+                        })
+                    }
+                }else {
                     users.updateData({
                         username: username
                     },{
-                        check: true
+                        password: password
                     },function(res){
                         req.session.login = true
                         req.session.username = result[0].username
-                        callback('1')
-                    })
-                } else{
-                    // 密码错误 2
-                    users.deleteData({
-                        username: username
-                    },function(){
-                        callback('2')
+                        callback(tag)
                     })
                 }
             }
@@ -155,34 +168,7 @@ exports.registerCheck = function(req,res,callback) {
                     share:[],
                     whiteWallHeart:[]
                 },function(data){
-                    // 发送email
-                    // 时间戳
-                    var now = Date.parse(new Date())
-                    var href = 'http://localhost:3000/loginCheckEmail?username=' + fields.username + '&password=' +fields.password + '&timestamp=' + now
-                    // 发送方
-                    var transporter = nodemailer.createTransport({
-                        service: 'qq',
-                        auth: {
-                            user: 'ztchun@qq.com',
-                            pass: 'bsdhtkkqjkbyhaia'
-                        }
-                    })
-                    // 接收方
-                    var mailOptions = {
-                        from: 'ztchun@qq.com',
-                        to: fields.email,
-                        subject: '校园社区邮箱验证',
-                        text: '您好，此邮件为校园社区的邮箱认证，点击下方链接认证邮箱有效性',
-                        html: '<h2>您好，此邮件为校园社区的邮箱认证，请点击下方链接认证邮箱有效性</h2>' +
-                        '<div><a href=\'' + href + '\'>链接</a></div>'
-                    }
-                    transporter.sendMail(mailOptions, function(error, info){
-                        if(error){
-                            console.log(error);
-                        }else{
-                            console.log('Message sent: ' + info.response);
-                        }
-                    });
+                    sendEmail(fields.email, fields.username, fields.password, 'register')
                     callback('1')
                 })
             } else {
@@ -192,6 +178,73 @@ exports.registerCheck = function(req,res,callback) {
         })
 
     })
+}
+
+// 重置密码
+exports.resetPassword = function(req, res, callback){
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields){
+        if (err){
+            console.log("重置密码失败")
+            return
+        }
+        var password = fields.password
+        var username = fields.username
+        var param = {}
+        // 手机号的登陆
+        if (username.indexOf("@") >= 0) {
+            param = {
+                email: username
+            }
+        } else {
+            param = {
+                username: username
+            }
+        }
+        users.findData(param,function(result){
+            if (result.length == 0) {
+                // 没有此用户
+                callback("0")
+            } else {
+                // tag reset：重置密码  register：注册
+                sendEmail(result[0].email, result[0].username, password, 'reset')
+                callback("1")
+            }
+        })
+
+    })
+}
+
+// 发送邮箱
+function sendEmail(email, username, password, tag){
+    // 发送email
+    // 时间戳
+    var now = Date.parse(new Date())
+    var href = 'http://localhost:3000/loginCheckEmail?username=' + username + '&password=' + password + '&tag=' + tag + '&timestamp=' + now
+    // 发送方
+    var transporter = nodemailer.createTransport({
+        service: 'qq',
+        auth: {
+            user: 'ztchun@qq.com',
+            pass: 'bsdhtkkqjkbyhaia'
+        }
+    })
+    // 接收方
+    var mailOptions = {
+        from: 'ztchun@qq.com',
+        to: email,
+        subject: '校园社区邮箱验证',
+        text: '您好，此邮件为校园社区的邮箱认证，点击下方链接认证邮箱有效性',
+        html: '<h2>您好，此邮件为校园社区的邮箱认证，请点击下方链接认证邮箱有效性</h2>' +
+        '<div><a href=\'' + href + '\'>链接</a></div>'
+    }
+    transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            console.log(error);
+        }else{
+            console.log('Message sent: ' + info.response);
+        }
+    });
 }
 
 // 提交帖子
