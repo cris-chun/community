@@ -116,5 +116,10 @@ app.post("/changeAvator", router.changeAvator)
 // update user's infomation
 app.post("/commitUserInfo", router.commitUserInfo)
 
+// EXIT
+app.get("/exit", router.exit)
+
+app.get("/initSubjects", router.initSubjects)
+
 // 监听端口
 app.listen(3000)

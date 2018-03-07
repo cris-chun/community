@@ -501,3 +501,17 @@ exports.commitUserInfo = function(req, res){
         })
     })
 }
+
+//退出
+exports.exit = function(req, res){
+    req.session.username = ""
+    res.send("1")
+}
+
+// init subjects  关注的吧
+exports.initSubjects = function(req, res){
+    var data = []
+    subjects.findData({}, function(result){
+        res.send(JSON.stringify(result))
+    })
+}

@@ -176,6 +176,7 @@
         background: #f3f3f3;
         text-align: left;
         font-size: 14px;
+        cursor: pointer;
     }
     .list i{
         color:#f4630b;
@@ -378,7 +379,7 @@
     .ba{
         background: #fff;
         padding: 8px;
-        width: 38%;
+        width: 90%;
         margin: 2px;
         border: solid 1px #f3f3f3;
         display: flex;
@@ -389,6 +390,7 @@
         color: #f4630b;
         text-align: left;
         padding-right: 3px;
+        cursor: pointer;
     }
     .el-tabs--border-card{
         background: #fafafa;
@@ -399,6 +401,14 @@
     }
     .el-tabs--border-card>.el-tabs__header .el-tabs__item:hover{
         color: #f4630b;
+    }
+    .extenal{
+        line-height: 60px;
+        color: #fff;
+    }
+    .extenal a{
+        color: #fff;
+        text-decoration: none;
     }
 
 </style>
@@ -434,6 +444,10 @@
                     clearable>
                 </el-input>
                 <i class="el-icon-search search-icon"></i>
+            </div>
+            <div class="extenal" v-if="!isUser">
+                <a href="/login">登录</a>
+                <a href="/register">注册</a>
             </div>
         </el-menu>
 
@@ -584,7 +598,7 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                        <div class="list" v-for='item in list'>
+                        <div class="list" v-for='(item,index) in list' @click="toMine(item, index)">
                             <i :class="item.icon"></i>
                             <span>{{item.text}}</span>
                         </div>
@@ -620,7 +634,7 @@
                     <div class="my-ba">
                         <div class="ba-title">热门吧推荐</div>
                         <div class="ba-content">
-                            <div class="ba" v-for="item in bas">
+                            <div class="ba" v-for="item in hotbas">
                                 <span v-if="item.isAttention" class="fa fa-star star"></span>
                                 <span>{{item.subject_name}}</span>
                             </div>
@@ -750,24 +764,31 @@
                 list: [
                     {
                         icon: 'fa fa-pencil-square-o',
-                        text: '账号设置'
+                        text: '账号设置',
+                        link: '/mine?index=4'
+                    },
+                    {
+                        icon: 'fa fa-bookmark-o',
+                        text: '我的吧',
+                        link: '/mine?index=5'
                     },
                     {
                         icon: 'fa fa-star-o',
-                        text: '我的关注'
+                        text: '我的关注',
+                        link: '/mine?index=6'
                     },
+                    
                     {
                         icon: 'fa fa-sticky-note-o',
-                        text: '我的帖子'
+                        text: '我的帖子',
+                        link: '/mine?index=7'
                     },
                     {
                         icon: 'fa fa-bullhorn',
-                        text: '系统通知'
+                        text: '我的消息',
+                        link: '/mine?index=8'
                     },
                     {
-                        icon: 'fa fa-envelope-o',
-                        text: '个人私信'
-                    },{
                         icon: 'fa fa-lightbulb-o',
                         text: '帮助和反馈'
                     },{
@@ -825,22 +846,8 @@
                 reply: {},
                 tabName: 'all',
                 bas: [
-                    {
-                        isAttention: true,
-                        subject_name: '吧名称',
-                        subject_id:''
-                    },
-                    {
-                        isAttention: true,
-                        subject_name: '吧名称',
-                        subject_id:''
-                    },
-                    {
-                        isAttention: true,
-                        subject_name: '吧名称',
-                        subject_id:''
-                    }
-                ]
+                ],
+                hotbas:[]
             }
         },
         created () {
@@ -851,6 +858,7 @@
             // 个人信息
             this.initUser()
             this.initHeart()
+            this.initSubjects()
         },
         watch: {
             dialogFormVisible (value) {
@@ -938,6 +946,38 @@
                         _this.initPost(0, 10)
                     }
                 })
+            },
+            // 获取关注的吧
+            initSubjects () {
+                var _this = this
+                this.handleAjax("/initSubjects", "get", {}, function(data){
+                    var result = JSON.parse(data)
+                    result.forEach((value, index) => {
+                        value.follow_num = value.follow_user.length
+                        value.follow_user.forEach((value2, index2) => {
+                            if (value2.user_name == _this.user.username){
+                                value.isAttention = true
+                                _this.bas.push(value)
+                            }
+                        })
+                    })
+                    result.sort(_this.compare('follow_num'))
+                    _this.hotbas = result
+                    _this.hotbas.slice(0, 5)
+                })
+            },
+            compare(prop){
+                return function(obj1, obj2){
+                    var value1 = obj1[prop]
+                    var value2 = obj2[prop]
+                    if (value1 > value2){
+                        return -1
+                    }else if(value1 < value2){
+                        return 1
+                    }else {
+                        return 0
+                    }
+                }
             },
             // 下拉
             handleSelect: function(key, keyPath){
@@ -1211,8 +1251,26 @@
                     })
                     _this.posts = data
                 })
+            },
+            // to mine page
+            toMine(item, index){
+                if(item.link){
+                    window.location.href = item.link
+                }
+                // 退出
+                var _this = this
+                if (index == 6){
+                    this.handleAjax("/exit", "get", {}, function(data){
+                        if (data == "1"){
+                            _this.$message({
+                                message: '退出成功',
+                                type: 'warning'
+                            })
+                            window.location.href = "/community"
+                        }
+                    })
+                }
             }
-
         }
     })
 </script>
