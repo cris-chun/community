@@ -74,6 +74,12 @@
         font-size: 12px;
         color: #bfbfbf;
     }
+    .errorMsg{
+        display: none;
+        color: red;
+        margin-top: 20px;
+        margin-bottom: -20px;
+    }
 </style>
 
 <body class="no-padding reader-black-font" lang="zh-CN">
@@ -107,6 +113,10 @@
                     <div class="input-prepend">
                         <input placeholder="密码" type="password" class="password" />
                         <i class="fa fa-key"></i>
+                    </div>
+
+                    <div class="errorMsg">
+                        错误
                     </div>
                     <input type="button" name="commit" id="register" value="注册" class="sign-in-button" />
                     <p class="sing-up-msg">
@@ -143,12 +153,24 @@
                 if(/^(.+)@(.+)$/.test($(this).val())){
                     email = true
                 } else {
+                    if ($(".email").val() != ""){
+                        $(".errorMsg").show().text("邮箱地址错误")
+                    }
                     email = false
                 }
             })
 
+            $("input").focus(function(){
+                $(".errorMsg").hide()
+            })
+
             $("#register").click(function(){
+                if (!email || $(".username").val() == '' || $(".password").val() == '' ||$(".email").val() == ''){
+                    $(".errorMsg").show().text("用户名、密码、邮箱不能为空")
+                    return
+                }
                 if (email){
+                    $(".errorMsg").hide()
                     $.ajax({
                         url: "/registerCheck",
                         type: "post",

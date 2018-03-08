@@ -33,7 +33,12 @@ exports.showIndex = function(req, res) {
 //登陆页面
 exports.showLogin = function(req, res) {
     // 查询是否是从邮箱过来的登陆
-    res.render("loginCopy")
+    if(req.session.login){
+        // 已经登录 就直接跳转到首页
+        res.redirect("/")
+    }else{
+        res.render("loginCopy")
+    }
 }
 
 // 忘记密码页面
@@ -44,7 +49,7 @@ exports.forgetPassword = function(req, res){
 // 重置密码
 exports.resetPassword = function(req, res){
     controller.resetPassword(req, res, function(data){
-        res.render("login")
+        res.send(data)
     })
 }
 

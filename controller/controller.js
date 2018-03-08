@@ -75,7 +75,7 @@ exports.loginCheckEmail = function(req,res,callback) {
     var tag = req.query.tag
     var timestamp = Number(req.query.timestamp) + 24*60*60*1000  // 在时间戳的基础上加上24小时
     var now = Date.parse(new Date())
-    console.log(username, password, timestamp, now)
+    // console.log(username, password, timestamp, now)
     if (timestamp > now) {
         users.findData({
             username: username

@@ -6,8 +6,52 @@
     <meta charset="UTF-8"/>
     <title>找回密码</title>
 </head>
-<body class="user-forgot ">
+<style>
+    body{
+        text-align: center;
+    }
+    .container{
+        margin: 0 auto;
+        font-size: 16px;
+        margin-top: 50px;
+        flex-wrap: nowrap;
+    }
+    .btns{
+        margin-top: 40px;
+        cursor: pointer;
+    }
+    .btns>span{
+        background: #f4630b;
+        border-radius: 8px;
+        border: 1px solid #f4630b;
+        height: 80px;
+        color: #fff;
+    }
+    .login{
+        margin-right: 10px;
+        padding: 5px 20px;
+    }
+    .sui{
+        margin-left: 10px;
+        padding: 5px 10px;
+    }
+</style>
+
+<body>
 <div class="container">
-重置密码成功
+    <div class="reset"> 重置密码成功</div>
+    <div class="btns">
+        <span class="login" onclick="handleClick(1)">去登陆</span>
+        <span class="sui" onclick="handleClick(2)">随便逛逛</span>
+    </div>
+    <script type="text/javascript">
+        function handleClick(type){
+            if (type == "1"){
+                window.location.href = "/login"
+            }else{
+                window.location.href = "/community"
+            }
+        }
+    </script>
 </body>
 </html>

@@ -74,6 +74,11 @@
         font-size: 12px;
         color: #bfbfbf;
     }
+    .errorMsg{
+        display: none;
+        color: red !important;
+        margin-left: 20px !important;
+    }
 </style>
 
 <body class="no-padding reader-black-font" lang="zh-CN">
@@ -105,8 +110,11 @@
                         <input type="checkbox" class="check" />
                         <span>记住我</span>
                     </div>
+                    <div class="remember-btn">
+                        <span class="errorMsg">密码错误</span>
+                    </div>
                     <div class="forget-btn">
-                        <a class="" data-toggle="dropdown" href="">忘记密码</a>
+                        <a class="" data-toggle="dropdown" href="/forgetPassword">忘记密码</a>
                     </div>
                     <input type="button" id="login" name="commit" value="登录" class="sign-in-button" />
                 </form>
@@ -149,8 +157,15 @@
                 }
             })
 
+            $("input").focus(function(){
+                $(".errorMsg").hide()
+            })
+
             $("#login").click(function () {
-                // console.log($(".check")[0].checked)
+                if ($(".username").val() == '' || $('.password').val() == ''){
+                    $(".errorMsg").show().text("请输入用户名和密码")
+                    return
+                }
                 $.ajax({
                     url: "/loginCheck",
                     type: "post",
@@ -172,11 +187,11 @@
                             }
                             window.location.href = "/"
                         } else if (data == "2") {
-                            $(".info-text").show().text("您输入的密码错了哦")
+                            $(".errorMsg").show().text("您输入的密码错了哦")
                         } else if (data == '3') {
-                            $(".info-text").show().text("您的邮箱还没有认证哦")
+                            $(".errorMsg").show().text("您的邮箱还没有认证哦")
                         } else if (data == '0') {
-                            $(".info-text").show().text("您还没有注册哦")
+                            $(".errorMsg").show().text("您还没有注册哦")
                         }
                     },
                     error: function (err) {
