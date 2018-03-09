@@ -273,6 +273,7 @@ exports.submitPost = function(req, res, callback) {
                        post_photos: fields['images[]'],
                        link: '',
                        user_name: req.session.username,
+                       avator: '/avatar.jpg',
                        time: time,
                        reply_num: 0, 
                        share: 0, 

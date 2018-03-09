@@ -56,6 +56,9 @@ app.get("/register",router.showRegister);
 // 注册检查
 app.post("/registerCheck", router.registerCheck)
 
+// 注册username是否重复
+app.post("/checkUsername", router.checkUsername)
+
 // 主页面
 app.get("/community",router.showCommunity);
 
@@ -130,8 +133,10 @@ app.post("/commitUserInfo", router.commitUserInfo)
 // EXIT
 app.get("/exit", router.exit)
 
+// 获取帖子
 app.get("/initSubjects", router.initSubjects)
 
+// 展示忘记密码页面
 app.get("/showForgetPassword", router.showForgetPassword)
 
 // 监听端口

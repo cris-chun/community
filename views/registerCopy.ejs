@@ -148,6 +148,30 @@
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>
         $(function() {
+            var username =  false
+            $(".username").blur(function(){
+                $.ajax({
+                    url: "/checkUsername",
+                    type: "post",
+                    data: {
+                        username: $(".username").val()
+                    },
+                    success:function(data){
+                        console.log(data)
+                        if (data == '0') {
+                            username = false
+                            $(".errorMsg").show().text("sorry,此用户名已经被占用，请重新输入一个哦")
+                            $(".username").val("")
+                        }else{
+                            username = true
+                        }
+                    },
+                    error:function(err){
+                        console.log("请求错误",err)
+                    }
+                })
+            })
+
             var email = false
             $(".email").blur(function(){
                 if(/^(.+)@(.+)$/.test($(this).val())){
@@ -165,37 +189,41 @@
             })
 
             $("#register").click(function(){
-                if (!email || $(".username").val() == '' || $(".password").val() == '' ||$(".email").val() == ''){
+                if (!email){
+                    $(".errorMsg").show().text("请输入正确的邮箱地址")
+                    return
+                }
+                if(!username){
+                    $(".errorMsg").show().text("请重新选择一个用户名称")
+                    return
+                }
+                if ( $(".username").val() == '' || $(".password").val() == '' ||$(".email").val() == ''){
                     $(".errorMsg").show().text("用户名、密码、邮箱不能为空")
                     return
                 }
-                if (email){
-                    $(".errorMsg").hide()
-                    $.ajax({
-                        url: "/registerCheck",
-                        type: "post",
-                        data: {
-                            username: $(".username").val(),
-                            email: $(".email").val(),
-                            password: $(".password").val(),
-                        },
-                        beforeSend: function(){
-                            console.log("正在发送ajax请求")
-                        },
-                        success:function(data){
-                            console.log(data)
-                            if (data == '1') {
-                                window.location.href = "/login"
-                            } else if (data == '2'){
-                                $(".info-text").show().text("sorry,注册失败")
-                                $(".register-href").css("marginTop", "10px")
-                            }
-                        },
-                        error:function(err){
-                            console.log("请求错误",err)
+                $.ajax({
+                    url: "/registerCheck",
+                    type: "post",
+                    data: {
+                        username: $(".username").val(),
+                        email: $(".email").val(),
+                        password: $(".password").val(),
+                    },
+                    beforeSend: function(){
+                        console.log("正在发送ajax请求")
+                    },
+                    success:function(data){
+                        console.log(data)
+                        if (data == '1') {
+                            window.location.href = "/login"
+                        } else if (data == '2'){
+                            $(".errorMsg").show().text("sorry,注册失败")
                         }
-                    })
-                }
+                    },
+                    error:function(err){
+                        console.log("请求错误",err)
+                    }
+                })
             })
         })
     </script>

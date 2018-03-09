@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>社区话题</title>
@@ -7,40 +8,49 @@
     <link rel="stylesheet" href="/css/font-awesome.min.css">
 </head>
 <style type="text/css">
-    body{
+    body {
         margin: 0;
         padding: 0;
         background: #dceffe;
     }
-    a{
+    
+    a {
         text-decoration: none;
     }
-    .left,.right{
+    
+    .left,
+    .right {
         margin: 0 auto;
     }
-    #app{
+    
+    #app {
         text-align: center;
     }
-    .left{
+    
+    .left {
         /* padding-left:15%; */
         margin-left: -8px;
         width: 100%;
     }
-    .right{
+    
+    .right {
         margin-top: 15px;
         margin-left: 8px;
         width: 100%;
     }
-    .menu-padding{
+    
+    .menu-padding {
         padding-left: 35%;
     }
-    .content{
+    
+    .content {
         background: #fff;
         width: 98%;
         margin: 15px auto;
         cursor: pointer;
     }
-    .sub-content{
+    
+    .sub-content {
         width: 115px;
         height: 100px;
         border-right: 1px solid #ededef;
@@ -53,23 +63,29 @@
         -moz-border-radius: 5px;
         border-radius: 5px;
     }
-    .text{
-        font-size:12px;
+    
+    .text {
+        font-size: 12px;
     }
-    .sub-content:last-child{
+    
+    .sub-content:last-child {
         border: none;
     }
-    .twitter{
+    
+    .twitter {
         width: 100%;
         /*margin: 15px auto;*/
     }
-    .avatar{
+    
+    .avatar {
         width: 100%;
     }
-    .avatar-left{
+    
+    .avatar-left {
         padding-right: 10px;
     }
-    .content-right{
+    
+    .content-right {
         text-align: left;
         margin-left: 20px;
         background: #fff;
@@ -78,45 +94,56 @@
         -moz-border-radius: 8px;
         border-radius: 8px;
     }
-    .content-right>div{
+    
+    .content-right>div {
         position: relative;
         background: #fff;
     }
-    .arrow{
+    
+    .arrow {
         position: absolute;
         top: 5px;
         left: -38px;
-        width:0;
-        height:0;
-        font-size:0;
-        border:solid 15px;
-        border-color:#fafafa #fff #fafafa #fafafa;
+        width: 0;
+        height: 0;
+        font-size: 0;
+        border: solid 15px;
+        border-color: #fafafa #fff #fafafa #fafafa;
     }
-    .content-row{
+    
+    .content-row {
         margin-top: 20px;
     }
-    .post{
+    
+    .post {
         margin-top: 10px;
         margin-bottom: 10px;
         clear: both;
     }
-    .top{
+    
+    .top {
         border-bottom: 1px solid #d8d8d8;
         padding: 7px;
     }
-    .bottom{
+    
+    .bottom {
         cursor: pointer;
         clear: both;
         border-top: 1px solid #d8d8d8;
         padding: 7px;
     }
-    .top span,.bottom span{
+    
+    .top span,
+    .bottom span {
         color: #bdbdbd;
     }
-    .time,.tags{
+    
+    .time,
+    .tags {
         float: right;
     }
-    .tags span{
+    
+    .tags span {
         margin-left: 5px;
         margin-right: 5px;
         font-size: 14px;
@@ -124,81 +151,99 @@
     /* .heart-number,.comment-number{
         font-size:14px;
     } */
-    .images{
+    
+    .images {
         display: flex;
         justify-content: flex-start;
         align-items: center;
         margin: 10px 30px;
         flex-wrap: wrap;
     }
-    .images img{
+    
+    .images img {
         width: 21%;
         padding: 10px;
     }
-    .info{
-        background: #f3f3f3;
+    
+    .info {
+        background: #f5f7fa;
         border: 1px solid #dfdfdf;
     }
-    .name{
-        font-size:15px;
+    
+    .name {
+        font-size: 15px;
         font-weight: 700;
         border-right: 2px solid #fff;
     }
-    .name>div{
+    
+    .name>div {
         margin-left: 20px;
         margin-top: 10px;
         height: 50px;
         text-align: left;
         line-height: 60px;
     }
-    .name>div>span,.name>div>a{
+    
+    .name>div>span,
+    .name>div>a {
         display: block;
         line-height: 20px;
     }
-    .name .ztc{
+    
+    .name .ztc {
         color: #f4630b
     }
-    .name>div>a{
+    
+    .name>div>a {
         font-weight: 400;
     }
-    .icon-dropdown>i{
+    
+    .icon-dropdown>i {
         font-weight: 600;
         font-size: 25px;
         line-height: 60px;
     }
-    .list{
+    
+    .list {
         padding-top: 8px;
         padding-bottom: 8px;
         padding-left: 15px;
         border-bottom: 1px solid #dfdfdf;
         border-left: 1px solid #dfdfdf;
         border-right: 1px solid #dfdfdf;
-        background: #f3f3f3;
+        background: #f5f7fa;
         text-align: left;
         font-size: 14px;
         cursor: pointer;
     }
-    .list i{
-        color:#f4630b;
+    
+    .list i {
+        color: #f4630b;
     }
-    .list span{
+    
+    .list span {
         margin-left: 15px;
     }
-    .list:nth-child(1){
+    
+    .list:nth-child(1) {
         /* margin-top: 5px; */
         border-top: 2px solid #dfdfdf;
     }
-    .dialog-form{
+    
+    .dialog-form {
         margin: 25px;
     }
-    .dialog-select{
+    
+    .dialog-select {
         width: 100%;
     }
-    .dialog-upload{
+    
+    .dialog-upload {
         display: flex;
         justify-content: flex-start;
         align-items: center;
     }
+    
     .avatar-uploader .el-upload {
         border: 1px dashed #d9d9d9;
         border-radius: 6px;
@@ -206,9 +251,11 @@
         position: relative;
         overflow: hidden;
     }
+    
     .avatar-uploader .el-upload:hover {
         border-color: #409EFF;
     }
+    
     .avatar-uploader-icon {
         font-size: 28px;
         color: #8c939d;
@@ -217,31 +264,37 @@
         line-height: 178px;
         text-align: center;
     }
+    
     .avatar2 {
         width: 178px;
         height: 178px;
         display: block;
     }
-    .uploadimgs{
+    
+    .uploadimgs {
         display: flex;
         justify-content: center;
         align-items: center;
     }
-    .uploadimgs img{
+    
+    .uploadimgs img {
         margin: 5px;
     }
-    .post-title{
+    
+    .post-title {
         margin-left: 15px;
         margin-right: 15px;
         font-size: 16px;
     }
-    .post-content{
+    
+    .post-content {
         margin-left: 35px;
         margin-right: 35px;
         color: #848484;
         font-size: 13px;
     }
-    .search-menu{
+    
+    .search-menu {
         margin-left: 50px;
         float: left;
         margin-top: 15px;
@@ -250,27 +303,32 @@
         align-items: center;
         flex-wrap: nowrap;
     }
-    .search input{
+    
+    .search input {
         float: right;
         width: 200px;
         height: 30px;
         border-radius: 15px;
     }
-    .search-icon{
+    
+    .search-icon {
         color: #f4630b;
         margin-left: -25px;
         z-index: 100;
-        font-size:18px;
+        font-size: 18px;
         font-weight: 900;
     }
-    .login{
+    
+    .login {
         font-size: 40px;
         color: #bdbdbd;
     }
-    .name_login span{
+    
+    .name_login span {
         margin-top: -10px;
     }
-    .name_login>a{
+    
+    .name_login>a {
         font-size: 14px;
         margin-left: 20px;
         margin-top: -10px;
@@ -279,31 +337,37 @@
         padding: 5px 10px;
         border-radius: 8px;
     }
-    .name_login{
+    
+    .name_login {
         display: flex;
         justify-content: flex-start;
         align-items: center;
     }
-    .el-notification.right{
+    
+    .el-notification.right {
         width: 300px;
     }
-    .sub-menu{
-        color:#fff;
+    
+    .sub-menu {
+        color: #fff;
     }
-    .comments{
+    
+    .comments {
         font-size: 12px;
     }
-    .comment{
+    
+    .comment {
         cursor: pointer;
         position: relative;
     }
-    .popover{
+    
+    .popover {
         background: #222;
         color: #fff;
         position: absolute;
-        top:20px;
+        top: 20px;
         padding: 5px;
-        left:50px;
+        left: 50px;
         /* width: 60px; */
         border-radius: 5px;
         z-index: 1000;
@@ -311,7 +375,8 @@
         justify-content: center;
         align-items: center;
     }
-    .poparrow{
+    
+    .poparrow {
         position: absolute;
         top: -8px;
         /* left: -38px; */
@@ -319,54 +384,67 @@
         height: 0;
         font-size: 0;
         border: solid 4px;
-        border-color: #fff  #fff #222 #fff;
+        border-color: #fff #fff #222 #fff;
     }
-    .popover span{
+    
+    .popover span {
         margin: 0 10px;
     }
-    .comment span{
+    
+    .comment span {
         margin: 2px;
     }
-    .comment>span:nth-child(1),.comment>span:nth-child(3){
-        color:#bfbfbf;
+    
+    .comment>span:nth-child(1),
+    .comment>span:nth-child(3) {
+        color: #bfbfbf;
     }
-    .comment_input{
+    
+    .comment_input {
         display: flex;
         flex-wrap: nowrap;
         justify-content: center;
         align-items: center;
         margin-top: 10px;
     }
-    .comment_input .input,.comment_input .send{
+    
+    .comment_input .input,
+    .comment_input .send {
         margin: 5px;
     }
-    .comment_input .el-input__inner{
+    
+    .comment_input .el-input__inner {
         height: 30px;
     }
-    .comment_input .el-button--primary.is-plain{
+    
+    .comment_input .el-button--primary.is-plain {
         color: #f4630b;
         border-color: #dcdfe6;
         background: #fff;
     }
-    .comment_input .el-button{
+    
+    .comment_input .el-button {
         font-size: 12px;
         padding: 7.5px 10px;
     }
-    .my-ba{
-        background: #f3f3f3;
+    
+    .my-ba {
+        background: #f5f7fa;
         display: flex;
         justify-content: start;
         align-items: start;
         flex-wrap: wrap;
         border-radius: 4px;
     }
-    .my-ba .ba-title{
+    
+    .my-ba .ba-title {
         font-size: 14px;
         padding: 5px 10px;
         width: 100%;
         text-align: left;
     }
-    .my-ba .ba-content{
+    
+    .my-ba .ba-content {
         padding-left: 10px;
         padding-right: 10px;
         padding-bottom: 10px;
@@ -376,7 +454,36 @@
         flex-wrap: wrap;
         font-size: 13px;
     }
-    .ba{
+    
+    .hotba {
+        /* margin: 5px; */
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        border-bottom: 1px dotted #dcdcdc;
+        margin-top: 8px;
+        padding-bottom: 5px;
+    }
+    
+    .hotba img {
+        width: 50px;
+    }
+    
+    .hotba_info {
+        text-align: left;
+        margin-left: 3px;
+        margin-right: 3px;
+    }
+    
+    .subejct_desc {
+        height: 39px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+    
+    .ba {
         background: #fff;
         padding: 8px;
         width: 90%;
@@ -386,43 +493,46 @@
         justify-content: flex-start;
         align-items: center;
     }
-    .ba .star{
+    
+    .ba .star {
         color: #f4630b;
         text-align: left;
         padding-right: 3px;
         cursor: pointer;
     }
-    .el-tabs--border-card{
+    
+    .el-tabs--border-card {
         background: #fafafa;
     }
-    .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active{
+    
+    .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active {
         background: #fafafa;
         color: #f4630b
     }
-    .el-tabs--border-card>.el-tabs__header .el-tabs__item:hover{
+    
+    .el-tabs--border-card>.el-tabs__header .el-tabs__item:hover {
         color: #f4630b;
     }
-    .extenal{
+    
+    .extenal {
         line-height: 60px;
         color: #fff;
     }
-    .extenal a{
+    
+    .extenal a {
         color: #fff;
         text-decoration: none;
     }
-
+    
+    .noguan {
+        color: #bfbfbf;
+    }
 </style>
+
 <body>
     <div id="app">
         <!--菜单导航-->
-        <el-menu
-                :default-active="activeIndex"
-                class="el-menu-demo menu-padding"
-                mode="horizontal"
-                @select="handleSelect"
-                background-color="#f4630b"
-                text-color="#fff"
-                active-text-color="#ffd04b">
+        <el-menu :default-active="activeIndex" class="el-menu-demo menu-padding" mode="horizontal" @select="handleSelect" background-color="#f4630b" text-color="#fff" active-text-color="#ffd04b">
             <el-menu-item index="0"><a href="/">首页</a></el-menu-item>
             <el-menu-item index="1"><a href="/community">校论区</a></el-menu-item>
             <el-menu-item index="2"><a href="/life">生活休闲</a></el-menu-item>
@@ -438,10 +548,7 @@
                 <el-menu-item index="10" @click="exit">退出</el-menu-item>
             </el-submenu>
             <div class="search-menu">
-                <el-input class="search"
-                    placeholder="请输入内容"
-                    v-model="search"
-                    clearable>
+                <el-input class="search" placeholder="请输入内容" v-model="search" clearable>
                 </el-input>
                 <i class="el-icon-search search-icon"></i>
             </div>
@@ -487,13 +594,13 @@
                                             <div class="bottom">
                                                 <span class="looks">
                                                     <span class="fa fa-tag"></span>
-                                                    <span>{{item.subject_name}}</span>
+                                                <span>{{item.subject_name}}</span>
                                                 </span>
                                                 <span class="tags">
                                                     <!-- <span v-if="item.look">浏览数{{item.look}}</span> -->
-                                                    <span class="fa fa-heart heart" :style="item.style.heart" @click="showHeart(index, item)"> {{item.hearts}}</span>
-                                                    <span class="fa fa-commenting comment"  @click="showComments(index, item)" > {{item.reply_num}}</span> 
-                                                    <span class="fa fa-share share" :style="item.style.share"> {{item.share}}</span>    
+                                                <span class="fa fa-heart heart" :style="item.style.heart" @click="showHeart(index, item)"> {{item.hearts}}</span>
+                                                <span class="fa fa-commenting comment" @click="showComments(index, item)"> {{item.reply_num}}</span>
+                                                <span class="fa fa-share share" :style="item.style.share"> {{item.share}}</span>
                                                 </span>
                                             </div>
                                             <div class="comments" v-if="item.comments">
@@ -502,7 +609,7 @@
                                                     <span v-if="reply.from_user_name != reply.to_user_name">{{reply.from_user_name}}</span>
                                                     <span v-if="reply.from_user_name != reply.to_user_name">评论</span>
                                                     <span>{{reply.to_user_name}}</span>：
-                                                    <span >{{reply.content}}</span>
+                                                    <span>{{reply.content}}</span>
                                                     <div class="popover" v-show="reply.show && user.username">
                                                         <div class="poparrow"></div>
                                                         <span @click="handleReply(reply)">回复</span>
@@ -514,8 +621,8 @@
                                                     <el-button class="send" type="primary" plain @click="commitComment(index, item)">发送</el-button>
                                                 </div>
                                             </div>
-                                            
-                                            </div>
+
+                                        </div>
                                     </el-col>
                                 </el-row>
                             </div>
@@ -543,13 +650,13 @@
                                             <div class="bottom">
                                                 <span class="looks">
                                                     <span class="fa fa-tag"></span>
-                                                    <span>{{item.subject_name}}</span>
+                                                <span>{{item.subject_name}}</span>
                                                 </span>
                                                 <span class="tags">
                                                     <!-- <span v-if="item.look">浏览数{{item.look}}</span> -->
-                                                    <span class="fa fa-heart heart" :style="item.style.heart" @click="showHeart(index, item)"> {{item.hearts}}</span>
-                                                    <span class="fa fa-commenting comment"  @click="showComments(index, item)" > {{item.reply_num}}</span> 
-                                                    <span class="fa fa-share share" :style="item.style.share"> {{item.share}}</span>    
+                                                <span class="fa fa-heart heart" :style="item.style.heart" @click="showHeart(index, item)"> {{item.hearts}}</span>
+                                                <span class="fa fa-commenting comment" @click="showComments(index, item)"> {{item.reply_num}}</span>
+                                                <span class="fa fa-share share" :style="item.style.share"> {{item.share}}</span>
                                                 </span>
                                             </div>
                                             <div class="comments" v-if="item.comments">
@@ -558,7 +665,7 @@
                                                     <span v-if="reply.from_user_name != reply.to_user_name">{{reply.from_user_name}}</span>
                                                     <span v-if="reply.from_user_name != reply.to_user_name">评论</span>
                                                     <span>{{reply.to_user_name}}</span>：
-                                                    <span >{{reply.content}}</span>
+                                                    <span>{{reply.content}}</span>
                                                     <div class="popover" v-show="reply.show && user.username">
                                                         <div class="poparrow"></div>
                                                         <span @click="handleReply(reply)">回复</span>
@@ -570,8 +677,8 @@
                                                     <el-button class="send" type="primary" plain @click="commitComment(index, item)">发送</el-button>
                                                 </div>
                                             </div>
-                                            
-                                            </div>
+
+                                        </div>
                                     </el-col>
                                 </el-row>
                             </div>
@@ -592,7 +699,7 @@
                             </div>
                         </el-col>
                         <el-col :span="6">
-                                <span class="icon-dropdown">
+                            <span class="icon-dropdown">
                                     <i class="el-icon-arrow-down el-icon--right"></i>
                                 </span>
                         </el-col>
@@ -602,7 +709,7 @@
                             <i :class="item.icon"></i>
                             <span>{{item.text}}</span>
                         </div>
-                    </el-row>   
+                    </el-row>
                 </div>
                 <div v-else class="right">
                     <el-row class="info">
@@ -613,7 +720,7 @@
                             </div>
                         </el-col>
                         <el-col :span="6">
-                                <span class="icon-dropdown">
+                            <span class="icon-dropdown">
                                     <i class="el-icon-arrow-down el-icon--right"></i>
                                 </span>
                         </el-col>
@@ -622,21 +729,25 @@
                 <div class="right" v-if="isUser">
                     <div class="my-ba">
                         <div class="ba-title">我关注的</div>
-                        <div class="ba-content">
+                        <div class="ba-content" v-if="bas.length != 0">
                             <div class="ba" v-for="item in bas">
                                 <span v-if="item.isAttention" class="fa fa-star star"></span>
                                 <span>{{item.subject_name}}</span>
                             </div>
                         </div>
+                        <div class="ba-content noguan" v-else>您还没有任何关注，快去关注吧</div>
                     </div>
                 </div>
                 <div class="right" v-if="isUser">
                     <div class="my-ba">
                         <div class="ba-title">热门吧推荐</div>
                         <div class="ba-content">
-                            <div class="ba" v-for="item in hotbas">
-                                <span v-if="item.isAttention" class="fa fa-star star"></span>
-                                <span>{{item.subject_name}}</span>
+                            <div class="hotba" v-for="item in hotbas">
+                                <img :src="item.subject_image">
+                                <div class="hotba_info">
+                                    <div>{{item.subject_name}}</div>
+                                    <div class="subejct_desc">{{item.subject_desc}}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -660,14 +771,10 @@
                 </el-form-item>
 
                 <el-form-item label="主题名称" prop="subject" label-width="80px" v-if="form.radio == 1">
-                        <el-select class="dialog-select" v-model="form.subject" placeholder="请选择">
-                            <el-option
-                                v-for="(item, index) in options"
-                                :key="index"
-                                :label="item.subject_name"
-                                :value="item._id">
-                            </el-option>
-                        </el-select>
+                    <el-select class="dialog-select" v-model="form.subject" placeholder="请选择">
+                        <el-option v-for="(item, index) in options" :key="index" :label="item.subject_name" :value="item._id">
+                        </el-option>
+                    </el-select>
                 </el-form-item>
 
                 <el-form-item label="主题名称" prop="subject2" label-width="80px" v-if="form.radio == 2">
@@ -676,30 +783,21 @@
                 <el-form-item label="主题描述" prop="desc" label-width="80px" v-if="form.radio == 2">
                     <el-input v-model="form.desc" placeholder="请输入主题描述"></el-input>
                 </el-form-item>
-            
+
                 <el-form-item label="帖子标题" prop="title" label-width="80px">
                     <el-input v-model="form.title" placeholder="请输入帖子标题"></el-input>
                 </el-form-item>
                 <el-form-item label="帖子内容" label-width="80px">
-                    <el-input
-                        type="textarea"
-                        :rows="4"
-                        placeholder="请输入帖子内容"
-                        v-model="form.content">
+                    <el-input type="textarea" :rows="4" placeholder="请输入帖子内容" v-model="form.content">
                     </el-input>
                 </el-form-item>
                 <el-form-item label="帖子图片" label-width="80px">
-                    <el-upload
-                        class="avatar-uploader dialog-upload"
-                        :action="upload"
-                        :show-file-list="false"
-                        :on-success="handleUploadSuccess"
-                        :before-upload="beforeUpload">
+                    <el-upload class="avatar-uploader dialog-upload" :action="upload" :show-file-list="false" :on-success="handleUploadSuccess" :before-upload="beforeUpload">
                         <div class="uploadimgs">
                             <!-- <img :src="image" class="avatar2"> -->
                             <i class="el-icon-plus avatar-uploader-icon"></i>
                         </div>
-                      </el-upload>
+                    </el-upload>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -725,73 +823,60 @@
                 // 导航条
                 activeIndex: '1',
                 // 二级菜单
-                menus: [
-                    {
-                        icon: 'fa-plus-square-o',
-                        text: '发布吧贴',
-                        subjectId:'subjectId'
-                    },
-                    {
-                        icon: 'fa-object-group',
-                        text: '乡情校谊',
-                        subjectId:'subjectId'
-                    },
-                    {
-                        icon: 'fa-shopping-basket',
-                        text: '二手集市',
-                        subjectId:'subjectId'
-                    },
-                    {
-                        icon: 'fa-graduation-cap',
-                        text: '学霸论区',
-                        subjectId:'subjectId'
-                    },
-                    {
-                        icon: 'fa-music',
-                        text: '知音',
-                        subjectId:'subjectId'
-                    },
-                    {
-                        icon: 'fa-navicon',
-                        text: '更多',
-                        subjectId:'subjectId'
-                    }
-                ],
+                menus: [{
+                    icon: 'fa-plus-square-o',
+                    text: '发布吧贴',
+                    subjectId: 'subjectId'
+                }, {
+                    icon: 'fa-object-group',
+                    text: '乡情校谊',
+                    subjectId: 'subjectId'
+                }, {
+                    icon: 'fa-shopping-basket',
+                    text: '二手集市',
+                    subjectId: 'subjectId'
+                }, {
+                    icon: 'fa-graduation-cap',
+                    text: '学霸论区',
+                    subjectId: 'subjectId'
+                }, {
+                    icon: 'fa-music',
+                    text: '知音',
+                    subjectId: 'subjectId'
+                }, {
+                    icon: 'fa-navicon',
+                    text: '更多',
+                    subjectId: 'subjectId'
+                }],
                 // 帖子内容
-                posts: [
-                ],
+                posts: [],
                 // 右侧个人信息
-                list: [
-                    {
+                list: [{
                         icon: 'fa fa-pencil-square-o',
                         text: '账号设置',
                         link: '/mine?index=4'
-                    },
-                    {
+                    }, {
                         icon: 'fa fa-bookmark-o',
                         text: '我的吧',
                         link: '/mine?index=5'
-                    },
-                    {
+                    }, {
                         icon: 'fa fa-star-o',
                         text: '我的关注',
                         link: '/mine?index=6'
                     },
-                    
+
                     {
                         icon: 'fa fa-sticky-note-o',
                         text: '我的帖子',
                         link: '/mine?index=7'
-                    },
-                    {
+                    }, {
                         icon: 'fa fa-bullhorn',
                         text: '我的消息',
                         link: '/mine?index=8'
-                    },
-                    {
+                    }, {
                         icon: 'fa fa-lightbulb-o',
                         text: '帮助和反馈'
-                    },{
+                    }, {
                         icon: 'fa fa-power-off',
                         text: '退出'
                     },
@@ -806,34 +891,27 @@
                     desc: ''
                 },
                 // 下拉
-                options: [
-                ],
+                options: [],
                 image: '',
                 images: [],
                 imageVisible: false,
                 dialogFormVisible: false,
                 rules: {
-                    subject:[
-                        {
-                            required: true,
-                            message: '请填写主题名称',
-                            trigger: 'blur'
-                        }
-                    ],
-                    title:[
-                        {
-                            required: true,
-                            message: '请填写帖子名称',
-                            trigger: 'blur'
-                        }
-                    ],
-                    subject2: [
-                    {
-                            required: true,
-                            message: '请填写主题名称',
-                            trigger: 'blur'
-                        }
-                    ]
+                    subject: [{
+                        required: true,
+                        message: '请填写主题名称',
+                        trigger: 'blur'
+                    }],
+                    title: [{
+                        required: true,
+                        message: '请填写帖子名称',
+                        trigger: 'blur'
+                    }],
+                    subject2: [{
+                        required: true,
+                        message: '请填写主题名称',
+                        trigger: 'blur'
+                    }]
                 },
                 upload: '/imageUpload',
                 start: 0,
@@ -845,24 +923,23 @@
                 placeholder: '请输入内容',
                 reply: {},
                 tabName: 'all',
-                bas: [
-                ],
-                hotbas:[]
+                bas: [],
+                hotbas: []
             }
         },
-        created () {
+        created() {
             // 下拉
             this.initSelect()
-            // 下拉刷新
+                // 下拉刷新
             window.addEventListener("scroll", this.handleScroll)
-            // 个人信息
+                // 个人信息
             this.initUser()
             this.initHeart()
             this.initSubjects()
         },
         watch: {
-            dialogFormVisible (value) {
-                if (!value){
+            dialogFormVisible(value) {
+                if (!value) {
                     this.form = {
                         radio: '1'
                     }
@@ -871,18 +948,21 @@
         },
         methods: {
             // 请求post帖子  每次请求10条数据
-            initPost (start, limit) {
+            initPost(start, limit) {
                 if (start == 0) {
                     this.posts = []
                 }
                 var _this = this
                 this.start += 10
-                this.handleAjax("/getPosts", 'get', {start: start, limit:limit}, function(data){
+                this.handleAjax("/getPosts", 'get', {
+                    start: start,
+                    limit: limit
+                }, function(data) {
                     if (data == '0') {
                         return
                     } else {
                         var posts = JSON.parse(data)
-                        // 评论框隐藏
+                            // 评论框隐藏
                         posts.forEach((value, index, array) => {
                             value.comments = false
                             value.replys = []
@@ -894,7 +974,7 @@
                                     color: '#bdbdbd'
                                 }
                             }
-                            if (_this.heartsPosts.indexOf(value._id) >= 0){
+                            if (_this.heartsPosts.indexOf(value._id) >= 0) {
                                 value.style.heart.color = "#f4630b"
                             }
                         })
@@ -905,21 +985,21 @@
             // 下拉框请求数据
             initSelect() {
                 var _this = this
-                this.handleAjax('/selectOptions', 'get', {}, function(data){
+                this.handleAjax('/selectOptions', 'get', {}, function(data) {
                     var jsonArray = JSON.parse(data)
                     _this.options = jsonArray
-                    // console.log(_this.options)
+                        // console.log(_this.options)
                 })
             },
             // 个人信息请求
-            initUser () {
+            initUser() {
                 var _this = this
-                this.handleAjax("/userInfo", 'get', {}, function(data){
+                this.handleAjax("/userInfo", 'get', {}, function(data) {
                     if (data == '0') {
                         // 未注册
                         _this.isUser = false
                         _this.$message.error("sorry,您还未注册哦")
-                    }else if (data == '1'){
+                    } else if (data == '1') {
                         // 未登录
                         _this.isUser = false
                         _this.$notify.info({
@@ -935,60 +1015,62 @@
                 })
             },
             // 用户是否已经点赞
-            initHeart(){
+            initHeart() {
                 var _this = this
-                _this.handleAjax("/isHeart", "get", {}, function(data){
-                    if(data == "0"){
+                _this.handleAjax("/isHeart", "get", {}, function(data) {
+                    if (data == "0") {
                         _this.heartsPosts = []
                         _this.initPost(0, 10)
-                    }else {
+                    } else {
                         _this.heartsPosts = JSON.parse(data)
                         _this.initPost(0, 10)
                     }
                 })
             },
             // 获取关注的吧
-            initSubjects () {
+            initSubjects() {
                 var _this = this
-                this.handleAjax("/initSubjects", "get", {}, function(data){
+                this.handleAjax("/initSubjects", "get", {}, function(data) {
                     var result = JSON.parse(data)
                     result.forEach((value, index) => {
                         value.follow_num = value.follow_user.length
                         value.follow_user.forEach((value2, index2) => {
-                            if (value2.user_name == _this.user.username){
+                            if (value2.user_name == _this.user.username) {
                                 value.isAttention = true
                                 _this.bas.push(value)
                             }
                         })
                     })
                     result.sort(_this.compare('follow_num'))
-                    _this.hotbas = result
-                    _this.hotbas.slice(0, 5)
+                    _this.hotbas = result.slice(0, 5)
+                    console.log(result)
+                        // _this.hotbas = result
+                        // _this.hotbas.slice(0, 5)
                 })
             },
-            compare(prop){
-                return function(obj1, obj2){
+            compare(prop) {
+                return function(obj1, obj2) {
                     var value1 = obj1[prop]
                     var value2 = obj2[prop]
-                    if (value1 > value2){
+                    if (value1 > value2) {
                         return -1
-                    }else if(value1 < value2){
+                    } else if (value1 < value2) {
                         return 1
-                    }else {
+                    } else {
                         return 0
                     }
                 }
             },
             // 下拉
-            handleSelect: function(key, keyPath){
+            handleSelect: function(key, keyPath) {
                 console.log(key, keyPath)
             },
             // 点击menu
-            handleClick(item,index) {
+            handleClick(item, index) {
                 // 发布贴吧
                 if (index == 0) {
                     this.dialogFormVisible = true
-                } else if(index == 5) {
+                } else if (index == 5) {
                     window.location.href = "/subjectList"
                 } else {
                     window.location.href = "/subject?subjectId=" + item.subjectId
@@ -999,31 +1081,31 @@
             handleUploadSuccess(res, file) {
                 if (res != 0) {
                     var index = res.indexOf("postImages")
-                    this.image = res.slice(index+10)
+                    this.image = res.slice(index + 10)
                     this.images.push(this.image)
-                    // 创建元素
+                        // 创建元素
                     $img = $("<img src=\" " + this.image + " \" style='width: 178px;height: 178px;display: inline-block;'>")
                     $(".uploadimgs").append($img)
                 }
-                
+
             },
             beforeUpload(file) {
                 const isLt2M = file.size / 1024 / 1024 < 2;
-        
+
                 if (!isLt2M) {
                     this.$message.error('上传头像图片大小不能超过 2MB!');
                 }
                 return isLt2M
             },
             // ajax请求
-            handleAjax (url, method, data, handleSuccess) {
+            handleAjax(url, method, data, handleSuccess) {
                 $.ajax({
                     url: url,
                     type: method,
                     data: data,
-                    cache:false,
+                    cache: false,
                     success: handleSuccess,
-                    error: function(err){
+                    error: function(err) {
                         console.log(err)
                     }
                 })
@@ -1035,16 +1117,16 @@
                     if (valid) {
                         this.dialogFormVisible = false
                         _this.form.images = this.images
-                        // console.log(_this.form)
-                        _this.handleAjax('/submitPost', 'post', _this.form, function(data){
+                            // console.log(_this.form)
+                        _this.handleAjax('/submitPost', 'post', _this.form, function(data) {
                             console.log(data)
-                            if(data == '0') {
+                            if (data == '0') {
                                 _this.$message.error("您还未登录, 请先登录再发布吧贴吧！")
-                            } else if (data == '2'){
+                            } else if (data == '2') {
                                 _this.$message.error("soory, 发布失败")
-                            }else{
+                            } else {
                                 var post = JSON.parse(data)
-                                // _this.posts.splice(0, 0, post)
+                                    // _this.posts.splice(0, 0, post)
                                 _this.initPost(0, 10)
                             }
                         })
@@ -1054,7 +1136,7 @@
                 });
             },
             // 取消表单
-            handleCancle(){
+            handleCancle() {
                 this.dialogFormVisible = false
             },
             radioChange(value) {
@@ -1063,19 +1145,19 @@
                 }
             },
             // 下拉刷新
-            handleScroll () {
-                if ($(window).scrollTop() >= $(document).height()-$(window).height()){
+            handleScroll() {
+                if ($(window).scrollTop() >= $(document).height() - $(window).height()) {
                     this.initPost(this.start, 10)
                 }
             },
             // 展示评论框
-            showComments(index, item){
+            showComments(index, item) {
                 // 请求评论
                 if (item.comments == false) {
                     var _this = this
                     _this.handleAjax('/getComments', 'get', {
                         post_id: item._id
-                    }, function(data){
+                    }, function(data) {
                         if (data != 0) {
                             item.replys = JSON.parse(data).replys
                             item.replys.forEach((value, index, array) => {
@@ -1089,8 +1171,8 @@
                 }
             },
             // 提交评论
-            commitComment (index, item) {
-                if(!this.isUser){
+            commitComment(index, item) {
+                if (!this.isUser) {
                     this.$message({
                         message: 'oh my god，你还没登陆哇,那就不能评论了',
                         type: 'warning'
@@ -1100,23 +1182,23 @@
                 // info  posts  reply 三个数据库更改
                 var _this = this
                 var to_user_name = ""
-                // console.log(this.placeholder)
-                if (this.placeholder == '请输入内容'){
+                    // console.log(this.placeholder)
+                if (this.placeholder == '请输入内容') {
                     to_user_name = item.user_name
-                }else {
+                } else {
                     to_user_name = this.reply.from_user_name
                 }
-                this.handleAjax("/commitComment", 'post',{
+                this.handleAjax("/commitComment", 'post', {
                     post_id: item._id,
                     content: _this.input,
                     post_user_name: to_user_name
-                }, function(data){
+                }, function(data) {
                     if (data == 1) {
                         _this.input = ""
-                        // 评论需要刷新
+                            // 评论需要刷新
                         _this.handleAjax('/getComments', 'get', {
                             post_id: item._id
-                        }, function(data){
+                        }, function(data) {
                             if (data != 0) {
                                 item.replys = JSON.parse(data).replys
                                 item.replys.forEach((value, index, array) => {
@@ -1129,15 +1211,15 @@
                 })
             },
             // 赞
-            showHeart(index, item){
-                if(!this.isUser){
+            showHeart(index, item) {
+                if (!this.isUser) {
                     this.$message({
                         message: 'oh my god，你还没登陆哇,那就不能点赞了',
                         type: 'warning'
                     });
                     return
                 }
-                if (item.style.heart.color == '#f4630b'){
+                if (item.style.heart.color == '#f4630b') {
                     item.style.heart = {
                         color: '#bfbfbf'
                     }
@@ -1146,7 +1228,7 @@
                         post_id: item._id,
                         tag: -1
                     })
-                }else {
+                } else {
                     item.style.heart = {
                         color: '#f4630b'
                     }
@@ -1157,16 +1239,16 @@
                     })
                 }
             },
-            showHeartFun (data) {
+            showHeartFun(data) {
                 var _this = this
-                _this.handleAjax("/giveHeart", 'get', data, function(data){
+                _this.handleAjax("/giveHeart", 'get', data, function(data) {
                     console.log("点赞成功")
                 })
             },
             // 回复
-            handleReply(reply){
+            handleReply(reply) {
                 // console.log(dex, reply)
-                if(!this.isUser){
+                if (!this.isUser) {
                     this.$message({
                         message: 'oh my god，你还没登陆哇,那就不能评论了',
                         type: 'warning'
@@ -1182,13 +1264,13 @@
                 this.handleMouse(reply, index, dex, true)
             },
             // 鼠标mouseover
-            mouseOut(reply, index, dex){
+            mouseOut(reply, index, dex) {
                 this.handleMouse(reply, index, dex, false)
             },
-            handleMouse(reply, index, dex, flag){
+            handleMouse(reply, index, dex, flag) {
                 var replysCopy = []
                 this.posts[index].replys.forEach((value, i) => {
-                    if (i == dex){
+                    if (i == dex) {
                         var replyCopy = {
                             time: reply.time,
                             from_user_name: reply.from_user_name,
@@ -1197,34 +1279,34 @@
                             show: flag
                         }
                         replysCopy.push(replyCopy)
-                    }else{
+                    } else {
                         replysCopy.push(value)
                     }
                 })
                 this.posts[index].replys = replysCopy
             },
             // 删除回复
-            deleteReply(replys, reply, dex, item){
+            deleteReply(replys, reply, dex, item) {
                 replys.splice(dex, 1)
                 reply.post_id = item._id
-                this.handleAjax("/deleteReply", 'post', reply, function(data){
+                this.handleAjax("/deleteReply", 'post', reply, function(data) {
                     if (data == 1) {
                         item.reply_num -= 1
                     }
                 })
             },
             // tab change
-            tabClick(val){
-                if (val.name == 'all'){
+            tabClick(val) {
+                if (val.name == 'all') {
                     this.initHeart()
-                } else{
+                } else {
                     this.getUserSubject()
                 }
             },
             // 获取到用户的关注的贴吧帖子
-            getUserSubject () {
+            getUserSubject() {
                 this.posts = []
-                if (!this.isUser){
+                if (!this.isUser) {
                     this.$message({
                         message: '还没登陆哇',
                         type: 'warning'
@@ -1232,7 +1314,7 @@
                     return
                 }
                 var _this = this
-                this.handleAjax("/getUserSubjects", "post",{},function(data){
+                this.handleAjax("/getUserSubjects", "post", {}, function(data) {
                     data = JSON.parse(data)
                     data.forEach((value, index, array) => {
                         value.comments = false
@@ -1245,7 +1327,7 @@
                                 color: '#bdbdbd'
                             }
                         }
-                        if (_this.heartsPosts.indexOf(value._id) >= 0){
+                        if (_this.heartsPosts.indexOf(value._id) >= 0) {
                             value.style.heart.color = "#f4630b"
                         }
                     })
@@ -1253,21 +1335,21 @@
                 })
             },
             // to mine page
-            toMine(item, index){
-                if(item.link){
+            toMine(item, index) {
+                if (item.link) {
                     window.location.href = item.link
                     return
                 }
                 // 退出
                 var _this = this
-                if (index == 6){
+                if (index == 6) {
                     _this.exit()
                 }
             },
-            exit(){
+            exit() {
                 var _this = this
-                this.handleAjax("/exit", "get", {}, function(data){
-                    if (data == "1"){
+                this.handleAjax("/exit", "get", {}, function(data) {
+                    if (data == "1") {
                         _this.$message({
                             message: '退出成功',
                             type: 'warning'
@@ -1279,4 +1361,5 @@
         }
     })
 </script>
+
 </html>

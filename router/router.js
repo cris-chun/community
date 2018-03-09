@@ -108,6 +108,30 @@ exports.registerCheck = function(req, res) {
     })
 }
 
+// 注册检查是否有重复付username
+exports.checkUsername = function(req, res){
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields){
+        if (err){
+            console.log("username检查出错")
+            return
+        }
+        users.findData({}, function(data){
+            var check = true
+            data.forEach((value, index) => {
+                if (value.username == fields.username){
+                    check = false
+                }
+            })
+            if (check){
+                res.send("1")
+            }else{
+                res.send("0")
+            }
+        })
+    })
+}
+
 //社区页面
 exports.showCommunity = function(req, res) {
     res.render("community")
@@ -301,7 +325,7 @@ exports.deleteReply = function(req, res) {
             post_id: fields.post_id
         }, {
             $pull: {
-                reply: {
+                replys: {
                     from_user_name: fields.from_user_name,
                     to_user_name: fields.to_user_name,
                     time: fields.time,
