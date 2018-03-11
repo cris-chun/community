@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <title>热门专题 - 简书</title>
+    <title>吧列</title>
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" media="all" href="/css/subjectList.css" />
     <link rel="stylesheet" href="/css/font-awesome.min.css">
@@ -62,6 +62,38 @@
         color: #fff;
         text-decoration: none;
     }
+    
+    .subject-tab {
+        margin: 0 auto;
+        margin-top: 20px;
+        width: 65%;
+    }
+    
+    .el-tabs__item.is-active {
+        color: #f4630b;
+    }
+    
+    .el-tabs__item:hover {
+        color: #f4630b;
+    }
+    
+    .el-tabs__active-bar {
+        background: #f4630b;
+    }
+    
+    .fa {
+        padding-right: 8px;
+    }
+    
+    .g-ft {
+        padding-bottom: 30px;
+        text-align: center;
+        font-size: 11px;
+    }
+    
+    .sub-menu {
+        color: #fff;
+    }
 </style>
 
 <body class="reader-black-font">
@@ -91,302 +123,46 @@
                 <a href="/register">注册</a>
             </div>
         </el-menu>
-        <div class="container recommend">
-            <div class="row" id="list-container">
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/95/1.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">故事</h4>
-                            <p class="collection-description">故事专题，不论是旅行生活中亲身经历的真实故事，还是童话玄幻遐想的虚构故...</p>
-                        </a>
-                        <div class="count"><a target="_blank">161798篇帖子</a> · 749.9K人关注</div>
+
+        <el-tabs v-model="activeName" @tab-click="handleClick" class="subject-tab">
+            <el-tab-pane name="first">
+                <span slot="label"><i class="fa fa-star"></i>热门吧</span>
+                <div class="container recommend">
+                    <div class="row" id="list-container">
+                        <div class="col-xs-8" v-for="subject in subjects">
+                            <div class="collection-wrap">
+                                <a target="_blank">
+                                    <img class="avatar-collection" :src="subject.image" alt="180" />
+                                    <h4 class="name">{{subject.title}}</h4>
+                                    <p class="collection-description">{{subject.desc}}</p>
+                                    <div class="follow">+ 关注</div>
+                                </a>
+                                <div class="count"><a target="_blank">{{subject.posts}}篇帖子</a> · {{subject.follow_num}}人关注</div>
+                            </div>
+                        </div>
                     </div>
+
+                    <a class="btnn btn-load" href="">加载更多</a>
                 </div>
+            </el-tab-pane>
+            <el-tab-pane name="second">
+                <span slot="label"><i class="fa fa-th-list"></i>全部吧</span>
+            </el-tab-pane>
+        </el-tabs>
 
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/4/sy_20091020135145113016.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">读书</h4>
-                            <p class="collection-description">投稿须知： 读书专题仅收录与读书有关的书评、读书笔记、阅读方法、读书...
-                            </p>
-                        </a>
-                        <a class="follow-btn"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="">162791篇文章</a> · 2541.9K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/b676c24f7d60">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/494271/51164a1egd7b1a4a7c491_690.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">人文社科</h4>
-                            <p class="collection-description">欢迎关注公众号简宝玉( 公众号ID : jianshu4321 )后台...</p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="494271"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/b676c24f7d60">6895篇文章</a> · 233.6K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/1hjajt">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/21/20120316041115481.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">简书电影</h4>
-                            <p class="collection-description">欢迎关注公众号简宝玉( 公众号ID : jianshu4321 )后台...</p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="21"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/1hjajt">76822篇文章</a> · 1259.3K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/5AUzod">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/13/%E5%95%8A.png?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">旅行·在路上</h4>
-                            <p class="collection-description">邂逅一座城池，讲述一段故事，分享你的旅行。欢迎来到「旅行·在路上」专题...</p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="13"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/5AUzod">97453篇文章</a> · 1869.9K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/V2CqjW">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/14/6249340_194140034135_2.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">@IT·互联网</h4>
-                            <p class="collection-description">欢迎关注公众号简宝玉( 公众号ID : jianshu4321 )后台...</p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="14"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/V2CqjW">42564篇文章</a> · 1148.9K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/8c92f845cd4d">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/283250/%E6%BC%AB%E7%94%BB%E4%B8%93%E9%A2%98.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">手绘</h4>
-                            <p class="collection-description">欢迎关注公众号简宝玉( 公众号ID : jianshu4321 )后台...</p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="283250"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/8c92f845cd4d">94069篇文章</a> · 1183.4K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/7b2be866f564">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/83/1.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">摄影</h4>
-                            <p class="collection-description">欢迎关注公众号简宝玉( 公众号ID : jianshu4321 )后台...</p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="83"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/7b2be866f564">56784篇文章</a> · 1394.6K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/e7d2d4045b36">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/75/22.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">历史</h4>
-                            <p class="collection-description">本专题主要收录历史阐述与分析类文章，也收录历史小说等带一定想象性的文章...</p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="75"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/e7d2d4045b36">42303篇文章</a> · 1418.5K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/cc7808b775b4">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/76/12.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">自然科普</h4>
-                            <p class="collection-description">本专题仅收涉及自然科学（生物、天文、物理等）的科普、介绍、发现类文章，...</p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="76"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/cc7808b775b4">3118篇文章</a> · 654.3K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/20f7f4031550">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/261938/man-hands-reading-boy-large.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">社会热点</h4>
-                            <p class="collection-description">欢迎关注公众号简宝玉( 公众号ID : jianshu4321 )后台...</p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="261938"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/20f7f4031550">44140篇文章</a> · 1229.9K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/dqfRwQ">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/11/20100120161805563.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">短篇小说</h4>
-                            <p class="collection-description">借一斑略知全豹 ，以一目尽传精神。 阅读简书最好看的故事，欢迎订...
-
-                            </p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="11"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/dqfRwQ">68881篇文章</a> · 1743.0K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/qqfxgN">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/30/IMG_2226.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">美食</h4>
-                            <p class="collection-description">欢迎关注公众号简宝玉( 公众号ID : jianshu4321 )后台...</p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="30"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/qqfxgN">33781篇文章</a> · 1383.3K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/NEt52a">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/16/computer_guy.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">程序员</h4>
-                            <p class="collection-description">欢迎关注公众号简宝玉( 公众号ID : jianshu4321 )后台...</p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="16"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/NEt52a">81834篇文章</a> · 700.6K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/e50258a6a44b">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/277031/645317897236768460.png?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">娱乐圈</h4>
-                            <p class="collection-description">欢迎关注公众号简宝玉( 公众号ID : jianshu4321 )后台...</p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="277031"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/e50258a6a44b">24187篇文章</a> · 653.9K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/Jgq3Wc">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/28/%E4%B8%8A%E7%8F%AD%E8%BF%99%E7%82%B9%E4%BA%8B%E5%84%BF.jpeg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">上班这点事儿</h4>
-                            <p class="collection-description">欢迎关注公众号简宝玉( 公众号ID : jianshu4321 )后台...</p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="28"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/Jgq3Wc">59091篇文章</a> · 999.2K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/70b8514fb442">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/256739/461792731394569594.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">婚姻育儿</h4>
-                            <p class="collection-description">婚姻是细水长流；养儿育女则是一门需要长久耐心的过程。 婚姻育儿专...
-
-                            </p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="256739"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/70b8514fb442">78960篇文章</a> · 490.4K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/xYuZYD">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/61/0__15815600_401_00.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">连载小说</h4>
-                            <p class="collection-description">欢迎关注公众号简宝玉( 公众号ID : jianshu4321 )后台...</p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="61"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/xYuZYD">134239篇文章</a> · 937.1K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/742422443ad3">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/105/2.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">国学与传统文化</h4>
-                            <p class="collection-description">国学即中国固有的学术，而传统文化是指中国传统社会，中华民族的整体生活方...</p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="105"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/742422443ad3">27832篇文章</a> · 517.6K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/bd38bd199ec6">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/509834/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20170810142951.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">简书交友</h4>
-                            <p class="collection-description">据说在简书认真写作的人都可以在这里找到TA的灵魂伴侣。 玩转简书...
-
-                            </p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="509834"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/bd38bd199ec6">2837篇文章</a> · 279.1K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/vHz3Uc">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/38/android.graphics.Bitmap_f3edcb1.jpeg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">诗</h4>
-                            <p class="collection-description">欢迎关注公众号简宝玉( 公众号ID : jianshu4321 )后台...</p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="38"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/vHz3Uc">249695篇文章</a> · 1358.7K人关注</div>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="collection-wrap">
-                        <a target="_blank" href="/c/LLCyGH">
-                            <img class="avatar-collection" src="//upload.jianshu.io/collections/images/26/android.graphics.Bitmap_34d0eb2.jpeg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180" alt="180" />
-                            <h4 class="name">创业</h4>
-                            <p class="collection-description">欢迎关注公众号简宝玉( 公众号ID : jianshu4321 )后台...</p>
-                        </a>
-                        <a class="follow-btn" props-data-following="false" props-data-collection-id="26"></a>
-                        <hr>
-                        <div class="count"><a target="_blank" href="/c/LLCyGH">18144篇文章</a> · 835.9K人关注</div>
-                    </div>
-                </div>
-
+        <div class="g-ft">
+            <div class="m-ft2">
+                <a target="_blank" rel="nofollow" href="/">首页</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">社区话题</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">休闲区</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">表白墙</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">个人主页</a></div>
+            <div style="margin-top:10px;">ztchun版权所有　&copy;2017 - 2018　校园社区
             </div>
-
-            <a class="btn btn-danger load-more-btn display_true" data-next-page="2" data-order-by="recommend" href="">加载更多</a>
         </div>
     </div>
 </body>
@@ -398,11 +174,98 @@
     new Vue({
         el: '#app',
         data: function() {
-            return {}
+            return {
+                search: '',
+                activeIndex: '1',
+                activeName: 'first',
+                subjects: [{
+                    title: '故事',
+                    image: '//upload.jianshu.io/collections/images/95/1.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180',
+                    desc: '故事专题，不论是旅行生活中亲身经历的真实故事，还是童话玄幻遐想的虚构故...',
+                    posts: '17823',
+                    follow_num: 123
+                }, {
+                    title: '故事',
+                    image: '//upload.jianshu.io/collections/images/95/1.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180',
+                    desc: '故事专题，不论是旅行生活中亲身经历的真实故事，还是童话玄幻遐想的虚构故...',
+                    posts: '17823',
+                    follow_num: 123
+                }, {
+                    title: '故事',
+                    image: '//upload.jianshu.io/collections/images/95/1.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180',
+                    desc: '故事专题，不论是旅行生活中亲身经历的真实故事，还是童话玄幻遐想的虚构故...',
+                    posts: '17823',
+                    follow_num: 123
+                }, {
+                    title: '故事',
+                    image: '//upload.jianshu.io/collections/images/95/1.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180',
+                    desc: '故事专题，不论是旅行生活中亲身经历的真实故事，还是童话玄幻遐想的虚构故...',
+                    posts: '17823',
+                    follow_num: 123
+                }],
+                user: {},
+                isUser: false
+            }
         },
-        created() {},
+        created() {
+            this.initUser()
+        },
         watch: {},
-        methods: {}
+        methods: {
+            initUser() {
+                var _this = this
+                this.handleAjax("/userInfo", 'get', {}, function(data) {
+                    if (data == '0') {
+                        // 未注册
+                        _this.isUser = false
+                        _this.$message.error("sorry,您还未注册哦")
+                    } else if (data == '1') {
+                        // 未登录
+                        _this.isUser = false
+                        _this.$notify.info({
+                            title: '消息',
+                            message: '您还没有登录哦',
+                            duration: 0
+                        });
+                    } else {
+                        //  查询成功
+                        _this.isUser = true
+                        _this.user = JSON.parse(data)
+                    }
+                })
+            },
+            // ajax请求
+            handleAjax(url, method, data, handleSuccess) {
+                $.ajax({
+                    url: url,
+                    type: method,
+                    data: data,
+                    cache: false,
+                    success: handleSuccess,
+                    error: function(err) {
+                        console.log(err)
+                    }
+                })
+            },
+            handleSelect(val) {
+                console.log(val)
+            },
+            handleClick(val) {
+                console.log(val)
+            },
+            exit() {
+                var _this = this
+                this.handleAjax("/exit", "get", {}, function(data) {
+                    if (data == "1") {
+                        _this.$message({
+                            message: '退出成功',
+                            type: 'warning'
+                        })
+                        window.location.href = "/login"
+                    }
+                })
+            }
+        }
     })
 </script>
 

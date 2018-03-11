@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>表白墙</title>
@@ -7,234 +8,272 @@
     <link rel="stylesheet" href="/css/font-awesome.min.css">
 </head>
 <style type="text/css">
-body{
-    font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #ededef;
-}
-#app{
-    text-align: center;
-}
-.menu-padding{
-    margin: 0 auto;
-    padding-left: 35%;
-}
-.sub-menu{
-    color: #fff;
-}
-a{
-    text-decoration: none;
-}
-.grid{
-    color:#555;
-    font-size:13px;
-}
-.container{
-    margin: 0 auto;
-    max-width: 1100px;
-    display: flex;
-    justify-content: center;
-}
-.grid-item{ 
-    background: #fff;
-    border-radius: 2px;
-    margin-top: 20px;
-    border: 1px solid #ddd;
-    width: 330px;
-    margin-left: 9px;
-    margin-right: 9px;
-}   
-.header{
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
-    text-align:left;
-    padding: 6px;
-    background: #F5F5F5;
-    line-height: 1.2;
-}
-.header .time{
-    color: #bfbfbf;
-    float: right;
-}
-.desc{
-    text-align: left;
-    color:#555;
-}
-.desc img{
-    margin-left: 10px;
-    margin-top: 10px;
-    float: left;
-    width: 60px;
-    height: 60px;
-}
-.desc>div{
-    margin-left: 10px;
-    margin-top: 10px;
-    float: left;
-}
-.desc>div>div{
-    line-height: 1.8
-}  
-.nick{
-    text-align: left;
-    line-height: 2.5;
-    margin-left: 10px;
-    clear: both;
-} 
-.info{
-    text-align: left;
-    margin-top: 10px;
-    margin-left: 10px;
-    margin-right: 18px;
-}
-textarea{
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
-    width: 100%;
-    border: 1px solid #ddd;
-}
-.btn{
-    text-align: center;
-    padding: 2px;
-    border:1px solid rgb(244, 99, 11);
-    width: 100%;
-    margin-top: -4px;
-    background: rgb(244, 99, 11);
-    line-height: 1.5;
-    color: #fff;
-    margin-bottom: 20px;
-    cursor: pointer;
-}
-.search-menu{
-    margin-left: 50px;
-    float: left;
-    margin-top: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: nowrap;
-}
-.search input{
-    float: right;
-    width: 200px;
-    height: 30px;
-    border-radius: 15px;
-}
-.search-icon{
-    color: #f4630b;
-    margin-left: -25px;
-    z-index: 100;
-    font-size:18px;
-    font-weight: 900;
-}
-.content{
-    text-indent: 2em;
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-    text-align: left;
-    padding: 15px 10px 30px 10px;
-    background: #FFF;
-}
-.operate{
-    margin-bottom: 10px;
-    text-align: right;
-    margin-right: 10px;
-}
-.operate span{
-    padding:5px;
-    cursor: pointer;
-}
-.snow-container{
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    /* pointer-events: none;  */
-    /* z-index: 999; */
-}
-.snow-container canvas{
-    width: 100%;
-    height: 100%;
-}
-.comments{
-    border-top: 1px solid #EAEAEA;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex-wrap: wrap;
-}
-.comments .comment{
-    text-align: left;
-    padding: 1px 10px;
-    width: 80%;
-}
-.comments .comment>span:nth-child(1){
-    color: #bfbfbf;
-}
-.comment_input{
-    width: 100%;
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
-}
-.comment_input .input,.comment_input .send{
-    margin: 5px;
-}
-.comment_input .el-input__inner{
-    height: 30px;
-}
-.comment_input .el-button--primary.is-plain{
-    color: #f4630b;
-    border-color: #dcdfe6;
-    background: #fff;
-}
-.comment_input .el-button{
-    font-size: 12px;
-    padding: 7.5px 10px;
-}
-.extenal{
-    line-height: 60px;
-    color: #fff;
-}
-.extenal a{
-    color: #fff;
-    text-decoration: none;
-}
+    body {
+        font-family: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", FontAwesome, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #ededef;
+    }
+    
+    #app {
+        text-align: center;
+    }
+    
+    .menu-padding {
+        margin: 0 auto;
+        padding-left: 35%;
+    }
+    
+    .sub-menu {
+        color: #fff;
+    }
+    
+    a {
+        text-decoration: none;
+    }
+    
+    .grid {
+        color: #555;
+        font-size: 13px;
+    }
+    
+    .container {
+        margin: 0 auto;
+        max-width: 1100px;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .grid-item {
+        background: #fff;
+        border-radius: 2px;
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        width: 330px;
+        margin-left: 9px;
+        margin-right: 9px;
+    }
+    
+    .header {
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        text-align: left;
+        padding: 6px;
+        background: #F5F5F5;
+        line-height: 1.2;
+    }
+    
+    .header .time {
+        color: #bfbfbf;
+        float: right;
+    }
+    
+    .desc {
+        text-align: left;
+        color: #555;
+    }
+    
+    .desc img {
+        margin-left: 10px;
+        margin-top: 10px;
+        float: left;
+        width: 60px;
+        height: 60px;
+    }
+    
+    .desc>div {
+        margin-left: 10px;
+        margin-top: 10px;
+        float: left;
+    }
+    
+    .desc>div>div {
+        line-height: 1.8
+    }
+    
+    .nick {
+        text-align: left;
+        line-height: 2.5;
+        margin-left: 10px;
+        clear: both;
+    }
+    
+    .info {
+        text-align: left;
+        margin-top: 10px;
+        margin-left: 10px;
+        margin-right: 18px;
+    }
+    
+    textarea {
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        width: 100%;
+        border: 1px solid #ddd;
+    }
+    
+    .btn {
+        text-align: center;
+        padding: 2px;
+        border: 1px solid rgb(244, 99, 11);
+        width: 100%;
+        margin-top: -4px;
+        background: rgb(244, 99, 11);
+        line-height: 1.5;
+        color: #fff;
+        margin-bottom: 20px;
+        cursor: pointer;
+    }
+    
+    .search-menu {
+        margin-left: 50px;
+        float: left;
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+    
+    .search input {
+        float: right;
+        width: 200px;
+        height: 30px;
+        border-radius: 15px;
+    }
+    
+    .search-icon {
+        color: #f4630b;
+        margin-left: -25px;
+        z-index: 100;
+        font-size: 18px;
+        font-weight: 900;
+    }
+    
+    .content {
+        text-indent: 2em;
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+        text-align: left;
+        padding: 15px 10px 30px 10px;
+        background: #FFF;
+    }
+    
+    .operate {
+        margin-bottom: 10px;
+        text-align: right;
+        margin-right: 10px;
+    }
+    
+    .operate span {
+        padding: 5px;
+        cursor: pointer;
+    }
+    
+    .snow-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* pointer-events: none;  */
+        /* z-index: 999; */
+    }
+    
+    .snow-container canvas {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .comments {
+        border-top: 1px solid #EAEAEA;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+    
+    .comments .comment {
+        text-align: left;
+        padding: 1px 10px;
+        width: 80%;
+    }
+    
+    .comments .comment>span:nth-child(1) {
+        color: #bfbfbf;
+    }
+    
+    .comment_input {
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .comment_input .input,
+    .comment_input .send {
+        margin: 5px;
+    }
+    
+    .comment_input .el-input__inner {
+        height: 30px;
+    }
+    
+    .comment_input .el-button--primary.is-plain {
+        color: #f4630b;
+        border-color: #dcdfe6;
+        background: #fff;
+    }
+    
+    .comment_input .el-button {
+        font-size: 12px;
+        padding: 7.5px 10px;
+    }
+    
+    .extenal {
+        line-height: 60px;
+        color: #fff;
+    }
+    
+    .extenal a {
+        color: #fff;
+        text-decoration: none;
+    }
+    
+    .g-ft {
+        padding-top: 30px;
+        padding-bottom: 30px;
+        text-align: center;
+        font-size: 11px;
+    }
+    
+    .sub-menu {
+        color: #fff;
+    }
 </style>
+
 <body>
     <div id="app">
         <!--菜单导航-->
         <div class="snow-container"></div>
-        <el-menu
-                :default-active="activeIndex"
-                class="el-menu-demo menu-padding"
-                mode="horizontal"
-                @select="handleSelect"
-                background-color="#f4630b"
-                text-color="#fff"
-                active-text-color="#ffd04b">
+        <el-menu :default-active="activeIndex" class="el-menu-demo menu-padding" mode="horizontal" @select="handleSelect" background-color="#f4630b" text-color="#fff" active-text-color="#ffd04b">
             <el-menu-item index="0"><a href="/">首页</a></el-menu-item>
             <el-menu-item index="1"><a href="/community">校论区</a></el-menu-item>
             <el-menu-item index="2"><a href="/life">生活休闲</a></el-menu-item>
             <el-menu-item index="3"><a href="/whiteWall">表白墙</a></el-menu-item>
             <el-submenu index="4">
-                    <template slot="title">我的</template>
-                    <el-menu-item index="4"><a href="/mine?index=4" class="sub-menu">账号设置</a></el-menu-item>
-                    <el-menu-item index="5"><a href="/mine?index=5" class="sub-menu">我的吧</a></el-menu-item>
-                    <el-menu-item index="6"><a href="/mine?index=6" class="sub-menu">我的关注</a></el-menu-item>
-                    <el-menu-item index="7"><a href="/mine?index=7" class="sub-menu">我的帖子</a></el-menu-item>
-                    <el-menu-item index="8"><a href="/mine?index=8" class="sub-menu">我的消息</a></el-menu-item>
-                    <el-menu-item index="9"><a href="/mine?index=9" class="sub-menu">帮助和反馈</a></el-menu-item>
-                    <el-menu-item index="10" @click="exit">退出</el-menu-item>
+                <template slot="title">我的</template>
+                <el-menu-item index="4"><a href="/mine?index=4" class="sub-menu">账号设置</a></el-menu-item>
+                <el-menu-item index="5"><a href="/mine?index=5" class="sub-menu">我的吧</a></el-menu-item>
+                <el-menu-item index="6"><a href="/mine?index=6" class="sub-menu">我的关注</a></el-menu-item>
+                <el-menu-item index="7"><a href="/mine?index=7" class="sub-menu">我的帖子</a></el-menu-item>
+                <el-menu-item index="8"><a href="/mine?index=8" class="sub-menu">我的消息</a></el-menu-item>
+                <el-menu-item index="9"><a href="/mine?index=9" class="sub-menu">帮助和反馈</a></el-menu-item>
+                <el-menu-item index="10" @click="exit">退出</el-menu-item>
             </el-submenu>
             <div class="search-menu">
-                <el-input class="search"
-                    placeholder="请输入内容"
-                    v-model="search"
-                    clearable>
+                <el-input class="search" placeholder="请输入内容" v-model="search" clearable>
                 </el-input>
                 <i class="el-icon-search search-icon"></i>
             </div>
@@ -288,6 +327,21 @@ textarea{
                 </div>
             </div>
         </div>
+
+        <div class="g-ft">
+            <div class="m-ft2">
+                <a target="_blank" rel="nofollow" href="/">首页</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">社区话题</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">休闲区</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">表白墙</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">个人主页</a></div>
+            <div style="margin-top:10px;">ztchun版权所有　&copy;2017 - 2018　校园社区
+            </div>
+        </div>
     </div>
 </body>
 <!-- 先引入 Vue -->
@@ -307,76 +361,74 @@ textarea{
                     color: '#555'
                 },
                 activeIndex: '3',
-                content: [
-                ],
+                content: [],
                 search: '',
                 whiteWall: {
                     nick: false,
                     content: ''
                 },
-                user:{},
+                user: {},
                 isUser: false,
                 whiteWallHearts: [],
                 input: ''
             }
         },
-        mounted: function(){
+        mounted: function() {
             this.initColor()
             this.initUser()
         },
-        watch: {
-        },
+        watch: {},
         methods: {
-            init(){
+            init() {
                 var _this = this
-                _this.handleAjax("/whiteWall", 'post', {}, function(data){
+                _this.handleAjax("/whiteWall", 'post', {}, function(data) {
                     _this.content = JSON.parse(data)
                     _this.content.forEach((value, index) => {
                         value.supportNum = value.support.length
                         value.replysNum = value.replys.length
                         value.color = {
-                            color : '#555'
+                            color: '#555'
                         }
                         value.isComments = false
-                        if (_this.whiteWallHearts.indexOf(value._id) >= 0){
+                        if (_this.whiteWallHearts.indexOf(value._id) >= 0) {
                             value.color.color = '#f4630b'
                         }
                     })
                     _this.$nextTick(function() {
                         var grid = this.$el.querySelector('.grid');
-                        var msnry = new Masonry( grid, {
+                        var msnry = new Masonry(grid, {
                             itemSelector: '.grid-item',
                             columnWidth: 350,
-                            isFitWidth:true
+                            isFitWidth: true
                         });
                     })
                 })
             },
-            initColor(){
+            initColor() {
                 var _this = this
-                this.handleAjax("/whiteWallIsHeart", "get", {}, function(data){
+                this.handleAjax("/whiteWallIsHeart", "get", {}, function(data) {
                     if (data == "0") {
-                       _this.$message({
-                           message: '还没登陆哇！',
-                           type: 'warning'
-                       }) 
-                       _this.whiteWallHearts = []
-                       _this.init()
-                    }else{
+                        _this.$message({
+                            message: '还没登陆哇！',
+                            type: 'warning'
+                        })
+                        _this.whiteWallHearts = []
+                        _this.init()
+                    } else {
                         _this.whiteWallHearts = JSON.parse(data)
                         _this.init()
                     }
                 })
             },
-             // 个人信息请求
-            initUser () {
+            // 个人信息请求
+            initUser() {
                 var _this = this
-                this.handleAjax("/userInfo", 'get', {}, function(data){
+                this.handleAjax("/userInfo", 'get', {}, function(data) {
                     if (data == '0') {
                         // 未注册
                         _this.isUser = false
                         _this.$message.error("sorry,您还未注册哦")
-                    }else if (data == '1'){
+                    } else if (data == '1') {
                         // 未登录
                         _this.isUser = false
                         _this.$notify.info({
@@ -391,58 +443,58 @@ textarea{
                     }
                 })
             },
-            handleSelect: function(key, keyPath){
+            handleSelect: function(key, keyPath) {
                 console.log(key, keyPath)
             },
             // ajax请求
-            handleAjax (url, method, data, handleSuccess) {
+            handleAjax(url, method, data, handleSuccess) {
                 $.ajax({
                     url: url,
                     type: method,
                     data: data,
-                    cache:false,
+                    cache: false,
                     success: handleSuccess,
-                    error: function(err){
+                    error: function(err) {
                         console.log(err)
                     }
                 })
             },
             // 提交表白墙
-            commitWhiteWall(){
+            commitWhiteWall() {
                 var _this = this
-                if (!this.isUser){
+                if (!this.isUser) {
                     this.$message({
                         message: '喂！你还没有登录呢',
                         type: 'warning'
                     })
                     return
                 }
-                this.handleAjax("/commitWhiteWall", "post", this.whiteWall,function(data){
-                    if (data == "1"){
+                this.handleAjax("/commitWhiteWall", "post", this.whiteWall, function(data) {
+                    if (data == "1") {
                         _this.$message({
                             message: '你很勇敢，发表成功',
                             type: 'success'
                         })
                         _this.init()
-                    }else{
+                    } else {
                         _this.$message.error("sorry, 发表失败啦")
                     }
                 })
             },
             // 支持
-            heartToWhiteWall(index, item){
-                if (item.color.color == '#f4630b'){
+            heartToWhiteWall(index, item) {
+                if (item.color.color == '#f4630b') {
                     item.supportNum -= 1
                     this.changeContent('#555', item.isComments, item, index)
                     this.handleHeart(-1, item)
-                } else{
+                } else {
                     item.supportNum += 1
                     this.changeContent('#f4630b', item.isComments, item, index)
                     this.handleHeart(1, item)
                 }
             },
-            handleHeart(tag, item){
-                if (!this.isUser){
+            handleHeart(tag, item) {
+                if (!this.isUser) {
                     this.$message({
                         message: '不好意思，你还没有登陆哇',
                         type: 'warning'
@@ -452,11 +504,11 @@ textarea{
                 this.handleAjax("/heartToWhiteWall", 'post', {
                     tag: tag,
                     id: item._id
-                }, function(data){
+                }, function(data) {
                     console.log('支持成功')
                 })
             },
-            changeContent(val, isComments, item, index){
+            changeContent(val, isComments, item, index) {
                 var contentCopy = []
                 this.content.forEach((value, i) => {
                     if (i == index) {
@@ -477,30 +529,30 @@ textarea{
                             }
                         }
                         contentCopy.push(content)
-                    }else{
+                    } else {
                         contentCopy.push(value)
                     }
                 })
                 this.content = contentCopy
             },
             // 展示评论框
-            whiteWallComments(index, item){
+            whiteWallComments(index, item) {
                 this.changeContent(item.color.color, !item.isComments, item, index)
                 this.$nextTick(function() {
                     var grid = this.$el.querySelector('.grid');
-                    var msnry = new Masonry( grid, {
+                    var msnry = new Masonry(grid, {
                         itemSelector: '.grid-item',
                         columnWidth: 350,
-                        isFitWidth:true
+                        isFitWidth: true
                     });
                 })
             },
             // 提交评论
-            commitComment(index, item){
-                if (!this.isUser){
+            commitComment(index, item) {
+                if (!this.isUser) {
                     this.$message({
-                        message:'sorry，没登录哇',
-                        type:'warning'
+                        message: 'sorry，没登录哇',
+                        type: 'warning'
                     })
                     return
                 }
@@ -509,8 +561,8 @@ textarea{
                     _id: item._id,
                     content: this.input,
                     to_user_name: item.to_user_name
-                },function(data){
-                    if (!data == "0"){
+                }, function(data) {
+                    if (!data == "0") {
                         console.log(data)
                         item.replys.push(JSON.parse(data))
                         _this.input = ""
@@ -518,10 +570,10 @@ textarea{
                     }
                 })
             },
-            exit(){
+            exit() {
                 var _this = this
-                this.handleAjax("/exit", "get", {}, function(data){
-                    if (data == "1"){
+                this.handleAjax("/exit", "get", {}, function(data) {
+                    if (data == "1") {
                         _this.$message({
                             message: '退出成功',
                             type: 'warning'
@@ -533,4 +585,5 @@ textarea{
         }
     })
 </script>
+
 </html>

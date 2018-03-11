@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>社区话题</title>
@@ -7,65 +8,80 @@
     <link rel="stylesheet" href="/css/font-awesome.min.css">
 </head>
 <style type="text/css">
-    body{
+    body {
         margin: 0;
         padding: 0;
         background: #ededef;
     }
-    a{
+    
+    a {
         text-decoration: none;
     }
-    .left,.right{
+    
+    .left,
+    .right {
         margin: 0 auto;
     }
-    #app{
+    
+    #app {
         text-align: center;
     }
-    .left{
+    
+    .left {
         /* padding-left:15%; */
         margin-left: -8px;
         width: 100%;
     }
-    .right{
+    
+    .right {
         margin-top: 15px;
         margin-left: 8px;
         width: 100%;
     }
-    .menu-padding{
+    
+    .menu-padding {
         padding-left: 35%;
     }
-    .info{
+    
+    .info {
         background: #f3f3f3;
         border: 1px solid #dfdfdf;
     }
-    .name{
-        font-size:15px;
+    
+    .name {
+        font-size: 15px;
         font-weight: 700;
         border-right: 2px solid #fff;
     }
-    .name>div{
+    
+    .name>div {
         margin-left: 20px;
         margin-top: 10px;
         height: 50px;
         text-align: left;
         line-height: 60px;
     }
-    .name>div>span{
+    
+    .name>div>span {
         display: block;
         line-height: 20px;
     }
-    .name>div>span:nth-child(2){
+    
+    .name>div>span:nth-child(2) {
         font-weight: 400;
     }
-    .icon-dropdown>i{
+    
+    .icon-dropdown>i {
         font-weight: 600;
         font-size: 25px;
         line-height: 60px;
     }
-    .dropdown-ul{
+    
+    .dropdown-ul {
         padding: 0 10px;
     }
-    .list{
+    
+    .list {
         padding-top: 8px;
         padding-bottom: 8px;
         padding-left: 15px;
@@ -76,17 +92,21 @@
         text-align: left;
         font-size: 14px;
     }
-    .list i{
-        color:#CFCFCF;
+    
+    .list i {
+        color: #CFCFCF;
     }
-    .list span{
+    
+    .list span {
         margin-left: 15px;
     }
-    .list:nth-child(1){
+    
+    .list:nth-child(1) {
         /* margin-top: 5px; */
         border-top: 2px solid #dfdfdf;
     }
-    .school_news{
+    
+    .school_news {
         width: 97%;
         background: #fff;
         border-radius: 2px;
@@ -99,19 +119,25 @@
         text-align: left;
         flex-wrap: wrap;
     }
-    .school_left,.school_right{
+    
+    .school_left,
+    .school_right {
         padding: 10px 15px;
         width: 45%;
     }
-    .school_left>div:nth-child(1),.school_right>div:nth-child(1){
+    
+    .school_left>div:nth-child(1),
+    .school_right>div:nth-child(1) {
         font-size: 15px;
         padding: 5px 0;
         color: #f4630b
     }
-    .school_left{
+    
+    .school_left {
         border-right: 1px dotted #dfdfdf;
     }
-    .title{
+    
+    .title {
         width: 100%;
         font-size: 16px;
         padding: 10px;
@@ -119,40 +145,51 @@
         color: #f4630b
     }
     /* elementui css */
-    .el-collapse-item__header{
+    
+    .el-collapse-item__header {
         height: 30px;
         line-height: 30px;
     }
-    .el-collapse-item__arrow{
+    
+    .el-collapse-item__arrow {
         line-height: 30px;
     }
-    .el-collapse-item__content{
+    
+    .el-collapse-item__content {
         padding-bottom: 5px;
     }
-    .music{
+    
+    .music {
         border-top: 5px solid #5cae97;
     }
-    .music>.title{
+    
+    .music>.title {
         color: #5cae97;
     }
-    .xiaohua>.text{
+    
+    .xiaohua>.text {
         padding: 10px;
         border-bottom: 1px dotted #dfdfdf;
     }
-    .weather{
+    
+    .weather {
         border-top: 5px solid #f8d0ab;
     }
-    .weather>.title{
+    
+    .weather>.title {
         color: #f8d0ab
     }
-    .weather_item{
+    
+    .weather_item {
         text-align: center;
         width: 33%;
     }
-    .xiaohua{
+    
+    .xiaohua {
         border-top: 5px solid #e97c62;
     }
-    .search-menu{
+    
+    .search-menu {
         margin-left: 50px;
         float: left;
         margin-top: 15px;
@@ -161,42 +198,48 @@
         align-items: center;
         flex-wrap: nowrap;
     }
-    .search input{
+    
+    .search input {
         float: right;
         width: 200px;
         height: 30px;
         border-radius: 15px;
     }
-    .search-icon{
+    
+    .search-icon {
         color: #f4630b;
         margin-left: -25px;
         z-index: 100;
-        font-size:18px;
+        font-size: 18px;
         font-weight: 900;
     }
-    .extenal{
+    
+    .extenal {
         line-height: 60px;
         color: #fff;
     }
-    .extenal a{
+    
+    .extenal a {
         color: #fff;
         text-decoration: none;
     }
-    .sub-menu{
+    
+    .sub-menu {
         color: #fff;
     }
+    
+    .g-ft {
+        padding-top: 30px;
+        padding-bottom: 30px;
+        text-align: center;
+        font-size: 11px;
+    }
 </style>
+
 <body>
     <div id="app">
         <!--菜单导航-->
-        <el-menu
-                :default-active="activeIndex"
-                class="el-menu-demo menu-padding"
-                mode="horizontal"
-                @select="handleSelect"
-                background-color="#f4630b"
-                text-color="#fff"
-                active-text-color="#ffd04b">
+        <el-menu :default-active="activeIndex" class="el-menu-demo menu-padding" mode="horizontal" @select="handleSelect" background-color="#f4630b" text-color="#fff" active-text-color="#ffd04b">
             <el-menu-item index="0"><a href="/">首页</a></el-menu-item>
             <el-menu-item index="1"><a href="/community">校论区</a></el-menu-item>
             <el-menu-item index="2"><a href="/life">生活休闲</a></el-menu-item>
@@ -212,10 +255,7 @@
                 <el-menu-item index="10" @click="exit">退出</el-menu-item>
             </el-submenu>
             <div class="search-menu">
-                <el-input class="search"
-                    placeholder="请输入内容"
-                    v-model="search"
-                    clearable>
+                <el-input class="search" placeholder="请输入内容" v-model="search" clearable>
                 </el-input>
                 <i class="el-icon-search search-icon"></i>
             </div>
@@ -300,10 +340,26 @@
                             <i :class="item.icon"></i>
                             <span>{{item.text}}</span>
                         </div>
-                    </el-row>   
+                    </el-row>
                 </div>
             </el-col>
         </el-row>
+
+        <div class="g-ft">
+            <div class="m-ft2">
+                <a target="_blank" rel="nofollow" href="/">首页</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">社区话题</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">休闲区</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">表白墙</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">个人主页</a></div>
+            <div style="margin-top:10px;">ztchun版权所有　&copy;2017 - 2018　校园社区
+            </div>
+        </div>
+
     </div>
 </body>
 <!-- 先引入 Vue -->
@@ -316,183 +372,153 @@
         data: function() {
             return {
                 activeIndex: '2',
-                list: [
-                    {
-                        icon: 'fa fa-file-text',
-                        text: '我的内容'
-                    },
-                    {
-                        icon: 'fa fa-vcard',
-                        text: '我的关注'
-                    },
-                    {
-                        icon: 'fa fa-bullhorn',
-                        text: '通知'
-                    },
-                    {
-                        icon: 'fa fa-envelope',
-                        text: '私信'
-                    },{
-                        icon: 'fa fa-home',
-                        text: '我的主页'
-                    }
-                ],
+                list: [{
+                    icon: 'fa fa-file-text',
+                    text: '我的内容'
+                }, {
+                    icon: 'fa fa-vcard',
+                    text: '我的关注'
+                }, {
+                    icon: 'fa fa-bullhorn',
+                    text: '通知'
+                }, {
+                    icon: 'fa fa-envelope',
+                    text: '私信'
+                }, {
+                    icon: 'fa fa-home',
+                    text: '我的主页'
+                }],
                 newLeftActive: '1',
                 newRightActive: '2',
-                leftNews: [
-                    {
-                        name: 1,
-                        title: '标题',
-                        subTitle: '副标题',
-                        desc: '描述',
-                        text: '正文'
-                    },
-                    {
-                        name: 2,
-                        title: '标题',
-                        subTitle: '副标题',
-                        desc: '描述',
-                        text: '正文'
-                    },
-                    {
-                        name: 3,
-                        title: '标题',
-                        subTitle: '副标题',
-                        desc: '描述',
-                        text: '正文'
-                    },
-                    {
-                        name: 4,
-                        title: '标题',
-                        subTitle: '副标题',
-                        desc: '描述',
-                        text: '正文'
-                    },
-                    {
-                        name: 5,
-                        title: '标题',
-                        subTitle: '副标题',
-                        desc: '描述',
-                        text: '正文'
-                    },
-                    {
-                        name: 6,
-                        title: '标题',
-                        subTitle: '副标题',
-                        desc: '描述',
-                        text: '正文'
-                    }
-                ],
-                rightNews: [
-                    {
-                        name: 1,
-                        title: '标题',
-                        subTitle: '副标题',
-                        desc: '描述',
-                        text: '正文'
-                    },
-                    {
-                        name: 2,
-                        title: '标题',
-                        subTitle: '副标题',
-                        desc: '描述',
-                        text: '正文'
-                    },
-                    {
-                        name: 3,
-                        title: '标题',
-                        subTitle: '副标题',
-                        desc: '描述',
-                        text: '正文'
-                    },
-                    {
-                        name: 4,
-                        title: '标题',
-                        subTitle: '副标题',
-                        desc: '描述',
-                        text: '正文'
-                    },
-                    {
-                        name: 5,
-                        title: '标题',
-                        subTitle: '副标题',
-                        desc: '描述',
-                        text: '正文'
-                    },
-                    {
-                        name: 6,
-                        title: '标题',
-                        subTitle: '副标题',
-                        desc: '描述',
-                        text: '正文'
-                    },
-                ],
-                xiaohua: [
-                    {
-                        title:'你TM现在在我心里就是个菩萨',
-                        text: '小侄子刚考试完，我不由得感慨：“以前我们小时候要过几天才能到学校拿成绩单，现在信息发达，直接微信就可以看到成绩了，多好啊！ ”小侄子：“有啥好？挨揍都会提前……”'
-                    },
-                    {
-                        title:'你TM现在在我心里就是个菩萨',
-                        text: '小侄子刚考试完，我不由得感慨：“以前我们小时候要过几天才能到学校拿成绩单，现在信息发达，直接微信就可以看到成绩了，多好啊！ ”小侄子：“有啥好？挨揍都会提前……”'
-                    },
-                    {
-                        title:'你TM现在在我心里就是个菩萨',
-                        text: '小侄子刚考试完，我不由得感慨：“以前我们小时候要过几天才能到学校拿成绩单，现在信息发达，直接微信就可以看到成绩了，多好啊！ ”小侄子：“有啥好？挨揍都会提前……”'
-                    }
-                ],
-                weather:[
-                    {
-                        image: 'http://app1.showapi.com/weather/icon/day/00.png',
-                        title: '晴天',
-                        desc: '9度-18度'
-                    },
-                    {
-                        image: 'http://app1.showapi.com/weather/icon/day/00.png',
-                        title: '晴天',
-                        desc: '9度-18度'
-                    },
-                    {
-                        image: 'http://app1.showapi.com/weather/icon/day/00.png',
-                        title: '晴天',
-                        desc: '9度-18度'
-                    }
-                ],
-                music: [
-                    {
-                        image: 'http://pic.xiami.net/images/album/img29/2629/141351470297389.jpg@4e_1c_100Q_185w_185h',
-                        title: '海阔天空',
-                        desc: '海阔天空专辑'
-                    },
-                    {
-                        image: 'http://pic.xiami.net/images/album/img29/2629/141351470297389.jpg@4e_1c_100Q_185w_185h',
-                        title: '海阔天空',
-                        desc: '海阔天空专辑'
-                    },{
-                        image: 'http://pic.xiami.net/images/album/img29/2629/141351470297389.jpg@4e_1c_100Q_185w_185h',
-                        title: '海阔天空',
-                        desc: '海阔天空专辑'
-                    }
-                ],
+                leftNews: [{
+                    name: 1,
+                    title: '标题',
+                    subTitle: '副标题',
+                    desc: '描述',
+                    text: '正文'
+                }, {
+                    name: 2,
+                    title: '标题',
+                    subTitle: '副标题',
+                    desc: '描述',
+                    text: '正文'
+                }, {
+                    name: 3,
+                    title: '标题',
+                    subTitle: '副标题',
+                    desc: '描述',
+                    text: '正文'
+                }, {
+                    name: 4,
+                    title: '标题',
+                    subTitle: '副标题',
+                    desc: '描述',
+                    text: '正文'
+                }, {
+                    name: 5,
+                    title: '标题',
+                    subTitle: '副标题',
+                    desc: '描述',
+                    text: '正文'
+                }, {
+                    name: 6,
+                    title: '标题',
+                    subTitle: '副标题',
+                    desc: '描述',
+                    text: '正文'
+                }],
+                rightNews: [{
+                    name: 1,
+                    title: '标题',
+                    subTitle: '副标题',
+                    desc: '描述',
+                    text: '正文'
+                }, {
+                    name: 2,
+                    title: '标题',
+                    subTitle: '副标题',
+                    desc: '描述',
+                    text: '正文'
+                }, {
+                    name: 3,
+                    title: '标题',
+                    subTitle: '副标题',
+                    desc: '描述',
+                    text: '正文'
+                }, {
+                    name: 4,
+                    title: '标题',
+                    subTitle: '副标题',
+                    desc: '描述',
+                    text: '正文'
+                }, {
+                    name: 5,
+                    title: '标题',
+                    subTitle: '副标题',
+                    desc: '描述',
+                    text: '正文'
+                }, {
+                    name: 6,
+                    title: '标题',
+                    subTitle: '副标题',
+                    desc: '描述',
+                    text: '正文'
+                }, ],
+                xiaohua: [{
+                    title: '你TM现在在我心里就是个菩萨',
+                    text: '小侄子刚考试完，我不由得感慨：“以前我们小时候要过几天才能到学校拿成绩单，现在信息发达，直接微信就可以看到成绩了，多好啊！ ”小侄子：“有啥好？挨揍都会提前……”'
+                }, {
+                    title: '你TM现在在我心里就是个菩萨',
+                    text: '小侄子刚考试完，我不由得感慨：“以前我们小时候要过几天才能到学校拿成绩单，现在信息发达，直接微信就可以看到成绩了，多好啊！ ”小侄子：“有啥好？挨揍都会提前……”'
+                }, {
+                    title: '你TM现在在我心里就是个菩萨',
+                    text: '小侄子刚考试完，我不由得感慨：“以前我们小时候要过几天才能到学校拿成绩单，现在信息发达，直接微信就可以看到成绩了，多好啊！ ”小侄子：“有啥好？挨揍都会提前……”'
+                }],
+                weather: [{
+                    image: 'http://app1.showapi.com/weather/icon/day/00.png',
+                    title: '晴天',
+                    desc: '9度-18度'
+                }, {
+                    image: 'http://app1.showapi.com/weather/icon/day/00.png',
+                    title: '晴天',
+                    desc: '9度-18度'
+                }, {
+                    image: 'http://app1.showapi.com/weather/icon/day/00.png',
+                    title: '晴天',
+                    desc: '9度-18度'
+                }],
+                music: [{
+                    image: 'http://pic.xiami.net/images/album/img29/2629/141351470297389.jpg@4e_1c_100Q_185w_185h',
+                    title: '海阔天空',
+                    desc: '海阔天空专辑'
+                }, {
+                    image: 'http://pic.xiami.net/images/album/img29/2629/141351470297389.jpg@4e_1c_100Q_185w_185h',
+                    title: '海阔天空',
+                    desc: '海阔天空专辑'
+                }, {
+                    image: 'http://pic.xiami.net/images/album/img29/2629/141351470297389.jpg@4e_1c_100Q_185w_185h',
+                    title: '海阔天空',
+                    desc: '海阔天空专辑'
+                }],
                 search: ''
             }
         },
         methods: {
             // 折叠板
-            handleChange (type) {
-                if(type == 1){
+            handleChange(type) {
+                if (type == 1) {
 
                 }
             },
             // 导航
-            handleSelect: function(key, keyPath){
+            handleSelect: function(key, keyPath) {
                 console.log(key, keyPath)
             },
             // 退出
-            exit(){
+            exit() {
                 var _this = this
-                this.handleAjax("/exit", "get", {}, function(data){
-                    if (data == "1"){
+                this.handleAjax("/exit", "get", {}, function(data) {
+                    if (data == "1") {
                         _this.$message({
                             message: '退出成功',
                             type: 'warning'
@@ -504,4 +530,5 @@
         }
     })
 </script>
+
 </html>

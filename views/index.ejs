@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>校园社区</title>
@@ -8,415 +9,468 @@
 </head>
 
 <style>
-    body{
-        margin:0;
-        padding:0;
+    body {
+        margin: 0;
+        padding: 0;
     }
-    .bg{
+    
+    .bg {
         position: relative;
         width: 100%;
-        height:400px;
+        height: 400px;
         overflow: hidden;
     }
-    .bg-image{
-        position: absolute;
-        width:100%;
-        height:550px;
-    }
-    #bg{
+    
+    .bg-image {
         position: absolute;
         width: 100%;
-        height:400px;
-        background: rgba(0,0,0,0.4);
+        height: 550px;
     }
-    .content{
+    
+    #bg {
+        position: absolute;
+        width: 100%;
+        height: 400px;
+        background: rgba(0, 0, 0, 0.4);
+    }
+    
+    .content {
         position: absolute;
         text-align: left;
-        color:#fff;
+        color: #fff;
     }
-    .content>h3{
-        font-size:33px;
-        margin-top:90px;
-        margin-left:100px;
+    
+    .content>h3 {
+        font-size: 33px;
+        margin-top: 90px;
+        margin-left: 100px;
     }
-    .content>h2{
-        font-size:40px;
-        margin-top:20px;
-        margin-left:100px;
+    
+    .content>h2 {
+        font-size: 40px;
+        margin-top: 20px;
+        margin-left: 100px;
     }
-    .content>p{
-        font-size:20px;
+    
+    .content>p {
+        font-size: 20px;
         margin-top: -25px;
-        margin-left:100px;
+        margin-left: 100px;
     }
-    .content>div{
-        font-size:20px;
-        margin-top:20px;
-        margin-left:90px;
+    
+    .content>div {
+        font-size: 20px;
+        margin-top: 20px;
+        margin-left: 90px;
     }
-    .content>div>button{
-        border:1px solid #f4630b;
-        -webkit-border-radius:2px;
-        -moz-border-radius:2px;
-        border-radius:2px;
+    
+    .content>div>button {
+        border: 1px solid #f4630b;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        border-radius: 2px;
         background: #f4630b;
-        color:#fff;
-        font-size:15px;
-        padding:10px 22px;
-        margin:5px 10px;
+        color: #fff;
+        font-size: 15px;
+        padding: 10px 22px;
+        margin: 5px 10px;
     }
-    .content a{
-        color:#fff;
+    
+    .content a {
+        color: #fff;
         text-decoration: none;
     }
-    .first{
+    
+    .first {
         background: #f7f7f7;
         text-align: center;
-        color:#000;
-        height:600px;
-        padding-top:30px;
+        color: #000;
+        height: 600px;
+        padding-top: 30px;
         overflow: hidden;
     }
-    .second{
+    
+    .second {
         background: #fff;
         text-align: center;
-        color:#000;
-        padding-top:30px;
+        color: #000;
+        padding-top: 30px;
         overflow: hidden;
-        margin-bottom:20px;
+        margin-bottom: 20px;
     }
-    #slide{
+    
+    #slide {
         float: left;
         width: 4590px;
-        margin-left:-450px;
+        margin-left: -450px;
     }
-    .first-image{
-        margin-top:10px;
+    
+    .first-image {
+        margin-top: 10px;
     }
-    .second-image{
-        margin:20px;
+    
+    .second-image {
+        margin: 20px;
     }
-    .third{
+    
+    .third {
         text-align: center;
-        color:#000;
-        padding-top:30px;
-        padding-bottom:20px;
+        color: #000;
+        padding-top: 30px;
+        padding-bottom: 20px;
     }
-    .awesome{
-        color:#f4630b;
+    
+    .awesome {
+        color: #f4630b;
         display: flex;
         justify-content: center;
-        align-items:center;
+        align-items: center;
     }
-    .awesome i{
-        padding:5px;
-        font-size:80px;
+    
+    .awesome i {
+        padding: 5px;
+        font-size: 80px;
     }
-    .tab{
-        margin-top:20px;
+    
+    .tab {
+        margin-top: 20px;
         display: inline;
         width: 25%;
     }
-    .tab > div{
-        margin-top:-10px;
-        color:#000;
+    
+    .tab>div {
+        margin-top: -10px;
+        color: #000;
     }
-    .title{
-        color:#f4630b;
+    
+    .title {
+        color: #f4630b;
     }
-    .fourth{
+    
+    .fourth {
         background: #f7f7f7;
         text-align: center;
-        color:#000;
-        padding-top:20px;
+        color: #000;
+        padding-top: 20px;
         overflow: hidden;
-        padding-bottom:40px;
+        padding-bottom: 40px;
     }
-    .fourth button{
+    
+    .fourth button {
         width: 220px;
-        color:#fff;
-        -webkit-border-radius:2px;
-        -moz-border-radius:2px;
-        border-radius:2px;
-        padding:10px 30px;
-        margin:10px 20px;
-        font-size:20px;
+        color: #fff;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        border-radius: 2px;
+        padding: 10px 30px;
+        margin: 10px 20px;
+        font-size: 20px;
     }
-    .btn1{
+    
+    .btn1 {
         background: #9966CC;
-        border:1px solid #9966CC;
+        border: 1px solid #9966CC;
     }
-    .btn2{
+    
+    .btn2 {
         background: #6699CC;
-        border:1px solid #6699CC;
+        border: 1px solid #6699CC;
     }
-    .btn3{
+    
+    .btn3 {
         background: #FFCC00;
-        border:1px solid #FFCC00;
+        border: 1px solid #FFCC00;
     }
-    .fourth button i{
-        margin-right:10px;
+    
+    .fourth button i {
+        margin-right: 10px;
     }
-    .fourth a{
-        color:#fff;
+    
+    .fourth a {
+        color: #fff;
         text-decoration: none;
     }
-    .g-ft{
+    
+    .g-ft {
         margin-top: 20px;
-        padding-top:30px;
-        padding-bottom:30px;
+        padding-top: 30px;
+        padding-bottom: 30px;
         text-align: center;
-        font-size:11px;
+        font-size: 11px;
     }
-    .life{
-        margin-top:30px;
+    
+    .life {
+        margin-top: 30px;
         display: flex;
         justify-content: center;
         flex-wrap: nowrap;
         align-items: center;
     }
-    .left{
+    
+    .left {
         text-align: left;
-        width:30%;
-        padding:20px 20px 20px 50px;
+        width: 30%;
+        padding: 20px 20px 20px 50px;
     }
-    .left h2{
-        font-weight:500;
+    
+    .left h2 {
+        font-weight: 500;
     }
-    .left p{
+    
+    .left p {
         line-height: 2;
     }
-    .right{
+    
+    .right {
         width: 40%;
         float: left;
     }
-    .right img{
+    
+    .right img {
         width: 80%;
     }
-    .second-life{
-        padding-top:40px;
-        padding-bottom:20px;
+    
+    .second-life {
+        padding-top: 40px;
+        padding-bottom: 20px;
     }
-    .love{
+    
+    .love {
         display: flex;
         justify-content: center;
         align-items: center;
         margin-top: 40px;
     }
-    .love-first,.love-second,.love-third{
+    
+    .love-first,
+    .love-second,
+    .love-third {
         width: 20%;
         height: 300px;
-        padding:10px;
+        padding: 10px;
         color: #fff;
     }
-    .love-first p,.love-second p,.love-third p{
-        line-height:1.8;
+    
+    .love-first p,
+    .love-second p,
+    .love-third p {
+        line-height: 1.8;
     }
-    .love-first{
-        background:#EEE685;
+    
+    .love-first {
+        background: #EEE685;
     }
-    .love-second{
+    
+    .love-second {
         background: #CC9999;
     }
-    .love-third{
+    
+    .love-third {
         background: #C6E2FF;
     }
-    .first-love{
+    
+    .first-love {
         background: #f7f7f7;
         text-align: center;
-        color:#000;
-        padding-top:30px;
+        color: #000;
+        padding-top: 30px;
         overflow: hidden;
-        padding-bottom:50px;
+        padding-bottom: 50px;
     }
-    .href{
+    
+    .href {
         text-decoration: none;
         color: #f4630b;
     }
-    .black{
+    
+    .black {
         color: #222;
     }
-    .welcome{
+    
+    .welcome {
         padding-left: 10px;
     }
-    .extenal{
+    
+    .extenal {
         line-height: 60px;
         color: #fff;
     }
-    .extenal a{
+    
+    .extenal a {
         color: #fff;
         text-decoration: none;
     }
 </style>
 
 <body>
-<div id="app">
-    <!--header-->
-    <div class="bg">
-        <img src="/images/bg.jpg" alt="" class="bg-image">
-        <div id="bg"></div>
-        <div class="content">
-            <h3>随性的校园生活</h3>
-            <h2> WELCOME TO OUR COLORFUL CAMPUS LIFE </h2>
-            <p>聚焦校园生活，发现新生活，发现身边的有趣，我们在这里等你，带着你的随性，COME ON</p>
-            <%if(login == '2'){%>
-                <div>
-                    <button> <a href='/login'>登录 Go </a></button>
-                    <button> <a href="/register">注册 Go</a></button>
+    <div id="app">
+        <!--header-->
+        <div class="bg">
+            <img src="/images/bg.jpg" alt="" class="bg-image">
+            <div id="bg"></div>
+            <div class="content">
+                <h3>随性的校园生活</h3>
+                <h2> WELCOME TO OUR COLORFUL CAMPUS LIFE </h2>
+                <p>聚焦校园生活，发现新生活，发现身边的有趣，我们在这里等你，带着你的随性，COME ON</p>
+                <%if(login == '2'){%>
+                    <div>
+                        <button> <a href='/login'>登录 Go </a></button>
+                        <button> <a href="/register">注册 Go</a></button>
+                    </div>
+                    <%} else {%>
+                        <div class="welcome">welcome
+                            <%=username%>
+                        </div>
+                        <%}%>
+            </div>
+        </div>
+        <!--second-->
+        <div class="second">
+            <h1>彰显个性的校园</h1>
+            <p>让兴趣.更有趣，让个性.更有料</p>
+            <p>随时随地的记录与分享，让你的兴趣成为大家的兴趣，让你的个性成为别人认识你的理由</p>
+            <div id="slide">
+                <img src="/images/blog-2.jpg" alt="" class="second-image" data-id="1">
+                <img src="/images/blog-1.jpg" alt="" class="second-image" data-id="2">
+                <img src="/images/blog-3.jpg" alt="" class="second-image" data-id="3">
+                <img src="/images/blog-4.jpg" alt="" class="second-image" data-id="4">
+                <img src="/images/blog-5.jpg" alt="" class="second-image" data-id="5">
+                <img src="/images/blog-6.jpg" alt="" class="second-image" data-id="6">
+            </div>
+        </div>
+        <!--first-->
+        <div class="first">
+            <h1>校论区—发现共同爱好的人</h1>
+            <p>汇聚共同爱好者，并不断衍生出更多的兴趣圈子，</p>
+            <p>读书、运动、交友、社团、电影评论等等都会有精彩的人与内容不断产出</p>
+            <div>
+                <img src="/images/quanzi.jpg" alt="" class="first-image">
+            </div>
+        </div>
+        <div class="second second-life">
+            <h1>生活休闲—接触生活的方式</h1>
+            <p>查看你的星座运势、舒听音乐</p>
+            <p>在这里，接触不一样的随性生活，让我们陪伴你走过无聊的闲暇岁月</p>
+            <div class="life">
+                <div class="left">
+                    <h2>生活从无聊变得有趣</h2>
+                    <p>生活不仅仅只有我们所遇见的风景，更多的风景在等着我们去发现 剥去了刺身，你才发现你错过的不仅仅是笑容, 试着打开心扉去接触不一样的人分享生活的乐趣
+                    </p>
                 </div>
-            <%} else {%>
-                <div class="welcome">welcome <%=username%></div>
-            <%}%>
-        </div>
-    </div>
-    <!--second-->
-    <div class="second">
-        <h1>彰显个性的校园</h1>
-        <p>让兴趣.更有趣，让个性.更有料</p>
-        <p>随时随地的记录与分享，让你的兴趣成为大家的兴趣，让你的个性成为别人认识你的理由</p>
-        <div id="slide">
-            <img src="/images/blog-2.jpg" alt="" class="second-image" data-id="1">
-            <img src="/images/blog-1.jpg" alt="" class="second-image" data-id="2">
-            <img src="/images/blog-3.jpg" alt="" class="second-image" data-id="3">
-            <img src="/images/blog-4.jpg" alt="" class="second-image" data-id="4">
-            <img src="/images/blog-5.jpg" alt="" class="second-image" data-id="5">
-            <img src="/images/blog-6.jpg" alt="" class="second-image" data-id="6">
-        </div>
-    </div>
-    <!--first-->
-    <div class="first">
-        <h1>校论区—发现共同爱好的人</h1>
-        <p>汇聚共同爱好者，并不断衍生出更多的兴趣圈子，</p>
-        <p>读书、运动、交友、社团、电影评论等等都会有精彩的人与内容不断产出</p>
-        <div>
-            <img src="/images/quanzi.jpg" alt="" class="first-image">
-        </div>
-    </div>
-    <div class="second second-life">
-        <h1>生活休闲—接触生活的方式</h1>
-        <p>查看你的星座运势、舒听音乐</p>
-        <p>在这里，接触不一样的随性生活，让我们陪伴你走过无聊的闲暇岁月</p>
-        <div class="life">
-            <div class="left">
-                <h2>生活从无聊变得有趣</h2>
-                <p>生活不仅仅只有我们所遇见的风景，更多的风景在等着我们去发现
-                剥去了刺身，你才发现你错过的不仅仅是笑容,
-                试着打开心扉去接触不一样的人分享生活的乐趣</p>
-            </div>
-            <div class="right">
-                <img src="/images/life.jpg" alt="">
+                <div class="right">
+                    <img src="/images/life.jpg" alt="">
+                </div>
             </div>
         </div>
-    </div>
-    <div class="first-love">
-        <h1>表白墙—找到心中的女（男）神</h1>
-        <p>大声说出你的爱，告诉他（她），我们来帮你</p>
-        <p>表白，是一件很严肃的事情，也是一件需要勇气的事情，让我们来帮助你找到心中的另一半吧</p>
-        <div class="love">
-            <div class="love-first">
-                <h2>模板1</h2>
-                <p>求职！专业：爱情本科。特长：洗碗刷锅。能力：爱你没说。薪水要求：你的真心一颗。理想合同期：长年有效，永不跳槽！
-                    我不小心把“我爱你”误发给你了。如果你接受那就储存起来，如果你不接受，就把这三个字返发给我。</p>
-            </div>
-            <div class="love-second">
-                <h2>模板2</h2>
-                <p>吼吼吼，越来越心有灵犀了，嗯，纪念一下，刚发完上条动态，陆某人就带着我的小情敌来喊我打游戏了</p>
-            </div>
-            <div class="love-third">
-                <h2>模板3</h2>
-                <p>cxw 虽然你是一个污力涛涛的大逗逼 有时候你特别的讨厌 让人想上去踹几脚 到不得不承认 我好像有点喜欢你 
-                    因为在和你说话的时候 我发现自己好像特别脸红</p>
+        <div class="first-love">
+            <h1>表白墙—找到心中的女（男）神</h1>
+            <p>大声说出你的爱，告诉他（她），我们来帮你</p>
+            <p>表白，是一件很严肃的事情，也是一件需要勇气的事情，让我们来帮助你找到心中的另一半吧</p>
+            <div class="love">
+                <div class="love-first">
+                    <h2>模板1</h2>
+                    <p>求职！专业：爱情本科。特长：洗碗刷锅。能力：爱你没说。薪水要求：你的真心一颗。理想合同期：长年有效，永不跳槽！ 我不小心把“我爱你”误发给你了。如果你接受那就储存起来，如果你不接受，就把这三个字返发给我。
+                    </p>
+                </div>
+                <div class="love-second">
+                    <h2>模板2</h2>
+                    <p>吼吼吼，越来越心有灵犀了，嗯，纪念一下，刚发完上条动态，陆某人就带着我的小情敌来喊我打游戏了</p>
+                </div>
+                <div class="love-third">
+                    <h2>模板3</h2>
+                    <p>cxw 虽然你是一个污力涛涛的大逗逼 有时候你特别的讨厌 让人想上去踹几脚 到不得不承认 我好像有点喜欢你 因为在和你说话的时候 我发现自己好像特别脸红</p>
+                </div>
             </div>
         </div>
-    </div>
-    <!--third-->
-    <div class="third">
-        <h1>精彩内容等你来</h1>
-        <p>更多精彩社区，更多话题</p>
-        <p>更多话题等你来发现，更多社区等你来挖掘，在这里你会发现不一样的大学生活</p>
-        <div class="awesome">
-            <div class="tab">
+        <!--third-->
+        <div class="third">
+            <h1>精彩内容等你来</h1>
+            <p>更多精彩社区，更多话题</p>
+            <p>更多话题等你来发现，更多社区等你来挖掘，在这里你会发现不一样的大学生活</p>
+            <div class="awesome">
+                <div class="tab">
                     <a href="/community" class="href">
-                    <i class="fa fa-comments-o"></i>
-                    <div>
-                        <p class="title">校论区</p>
-                        <p class="black">找到属于你的话题社区</p>
-                    </div>
-                </a>
+                        <i class="fa fa-comments-o"></i>
+                        <div>
+                            <p class="title">校论区</p>
+                            <p class="black">找到属于你的话题社区</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="tab">
+                    <a href="/life" class="href">
+                        <i class="fa fa-camera"></i>
+                        <div>
+                            <p class="title">休闲活动</p>
+                            <p class="black">来这里休闲一下吧</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="tab">
+                    <a href="/whiteWall" class="href">
+                        <i class="fa fa-gratipay"></i>
+                        <div>
+                            <p class="title">表白墙</p>
+                            <p class="black">找到你的另一位</p>
+                        </div>
+                    </a>
+                </div>
             </div>
-            <div class="tab">
-                        <a href="/life" class="href">
-                    <i class="fa fa-camera"></i>
-                    <div>
-                        <p class="title">休闲活动</p>
-                        <p class="black">来这里休闲一下吧</p>
-                    </div>
-                </a>
-            </div>
-            <div class="tab">
-                <a href="/whiteWall" class="href">
-                    <i class="fa fa-gratipay"></i>
-                    <div>
-                        <p class="title">表白墙</p>
-                        <p class="black">找到你的另一位</p>
-                    </div>
-                </a>
+        </div>
+
+        <!--fourth-->
+        <div class="fourth">
+            <h1>社区.让兴趣.更有趣</h1>
+            <a href="/login"><button class="btn1"><i class="fa fa-user"></i> 登录</button></a>
+            <a href="/register"><button class="btn2"><i class="fa fa-user-plus"></i>注册</button></a>
+            <a href="/"><button class="btn3"><i class="fa fa-navicon"></i>其他方式登录</button></a>
+        </div>
+
+        <div class="g-ft">
+            <div class="m-ft2">
+                <a target="_blank" rel="nofollow" href="/">首页</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">社区话题</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">休闲区</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">表白墙</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">个人主页</a></div>
+            <div style="margin-top:10px;">ztchun版权所有　&copy;2017 - 2018　校园社区
             </div>
         </div>
     </div>
-
-    <!--fourth-->
-    <div class="fourth">
-        <h1>社区.让兴趣.更有趣</h1>
-        <a href="/login"><button class="btn1"><i class="fa fa-user"></i> 登录</button></a>
-        <a href="/register"><button class="btn2"><i class="fa fa-user-plus"></i>注册</button></a>
-        <a href="/"><button class="btn3"><i class="fa fa-navicon"></i>其他方式登录</button></a>
-    </div>
-
-    <div class="g-ft">
-        <div class="m-ft2">
-            <a target="_blank" rel="nofollow" href="/">首页</a>
-            <span>|</span>
-            <a target="_blank" rel="nofollow" href="/">社区话题</a>
-            <span>|</span>
-            <a target="_blank" rel="nofollow" href="/">休闲区</a>
-            <span>|</span>
-            <a target="_blank" rel="nofollow" href="/">表白墙</a>
-            <span>|</span>
-            <a target="_blank" rel="nofollow" href="/">个人主页</a></div>
-        <div style="margin-top:10px;">ztchun版权所有　&copy;2017 - 2018　校园社区
-    </div>
-</div>
-</div>
 </body>
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript">
-    $(function(){
-        $(".second-image").click(function(e){
+    $(function() {
+        $(".second-image").click(function(e) {
             var id = $(this).attr("data-id");
             var x = e.clientX;
             //点击第一个
-            if(id == 1){
+            if (id == 1) {
                 $("#slide").animate({
-                    "margin-left":"0"
-                },500);
-            }else if(id == 6){
+                    "margin-left": "0"
+                }, 500);
+            } else if (id == 6) {
                 // 点击最后一个
                 $("#slide").animate({
-                    "margin-left":"-450"
-                },500);
-            }else{
-                if(x > 740){
+                    "margin-left": "-450"
+                }, 500);
+            } else {
+                if (x > 740) {
                     $("#slide").animate({
-                        "margin-left":"-=770"
-                    },500);
-                }else{
+                        "margin-left": "-=770"
+                    }, 500);
+                } else {
                     $("#slide").animate({
-                        "margin-left":"+=770"
-                    },500);
+                        "margin-left": "+=770"
+                    }, 500);
                 }
             }
         })
     })
 </script>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>社区话题</title>
@@ -7,21 +8,25 @@
     <link rel="stylesheet" href="/css/font-awesome.min.css">
 </head>
 <style type="text/css">
-    body{
+    body {
         margin: 0;
         padding: 0;
         background: #dceffe;
     }
-    #app{
+    
+    #app {
         text-align: center;
     }
-    .menu-padding{
+    
+    .menu-padding {
         padding-left: 35%;
     }
-    a{
+    
+    a {
         text-decoration: none;
     }
-    .content{
+    
+    .content {
         margin: 0 auto;
         display: flex;
         justify-content: flex-start;
@@ -31,30 +36,35 @@
         padding: 20px;
         flex-wrap: wrap;
     }
-    .content>div{
+    
+    .content>div {
         text-align: left;
         width: 100%;
     }
-    .user{
+    
+    .user {
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
         width: 100%;
         flex-wrap: nowrap;
     }
-    .avator img{
+    
+    .avator img {
         cursor: pointer;
         width: 150px;
         border-radius: 50%;
     }
-    .info{
+    
+    .info {
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
         flex-wrap: wrap;
         margin-top: 20px;
     }
-    .info2{
+    
+    .info2 {
         /* display: flex;
         justify-content: center;
         align-items: center;
@@ -62,33 +72,41 @@
         margin: 10px;
         color: #bfbfbf;
     }
-    .info div{
+    
+    .info div {
         width: 100%;
         text-align: left;
         margin-left: 40px;
     }
-    .info .username{
+    
+    .info .username {
         font-size: 20px;
         color: #f4630b;
     }
-    .info sign{
+    
+    .info sign {
         font-size: 14px;
         color: #848484;
     }
-    .manager{
+    
+    .manager {
         margin-top: 30px;
     }
-    .form{
+    
+    .form {
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
         flex-wrap: wrap;
         margin-top: 20px;
     }
-    .left,.right{
+    
+    .left,
+    .right {
         width: 50%;
     }
     /* avatar */
+    
     .avatar-uploader .el-upload {
         border: 1px dashed #d9d9d9;
         border-radius: 6px;
@@ -96,9 +114,11 @@
         position: relative;
         overflow: hidden;
     }
+    
     .avatar-uploader .el-upload:hover {
         border-color: #409EFF;
     }
+    
     .avatar-uploader-icon {
         font-size: 28px;
         color: #8c939d;
@@ -107,152 +127,191 @@
         line-height: 150px;
         text-align: center;
     }
+    
     .avatar {
         width: 150px;
         height: 150px;
         display: block;
     }
-    .birthday .el-input{
+    
+    .birthday .el-input {
         width: 100%;
     }
-    .manager .el-tabs__item.is-active{
+    
+    .manager .el-tabs__item.is-active {
         color: #f4630b;
     }
-    .manager .el-tabs__item:hover{
+    
+    .manager .el-tabs__item:hover {
         color: #f4630b;
     }
-    .manager .el-tabs__active-bar{
+    
+    .manager .el-tabs__active-bar {
         background: #f4630b;
     }
-    .city .el-cascader{
+    
+    .city .el-cascader {
         width: 100%;
     }
-    .btns{
+    
+    .btns {
         margin-left: 50px;
     }
-    .btns button:nth-child(1){
+    
+    .btns button:nth-child(1) {
         background-color: #f4630b;
         border-color: #f4630b;
     }
-    .btns button:nth-child(2){
+    
+    .btns button:nth-child(2) {
         background-color: #848484;
         border-color: #848484;
     }
-    .btns button{
+    
+    .btns button {
         margin: 10px 50px;
     }
-    .subjects{
+    
+    .subjects {
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
         flex-wrap: wrap;
     }
-    .subjects>div{
+    
+    .subjects>div {
         width: 31%;
         margin: 10px;
     }
-    .subject_content{
-        
+    
+    .subject_content {
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
         flex-wrap: nowrap;
     }
-    .subject_content .image{
+    
+    .subject_content .image {
         width: 30%;
     }
-    .subject_content img{
+    
+    .subject_content img {
         width: 100%;
     }
-    .subject .el-card__header,.subject .el-card__body{
+    
+    .subject .el-card__header,
+    .subject .el-card__body {
         padding: 10px;
     }
-    .subject_info{
+    
+    .subject_info {
         margin-left: 10px;
         font-size: 13px;
-        color:#848484;
+        color: #848484;
     }
-    .subject_info .title{
+    
+    .subject_info .title {
         color: #222;
     }
-    .subject .el-button--text{
+    
+    .subject .el-button--text {
         color: #f4630b;
     }
-    .post .sub_post{
+    
+    .post .sub_post {
         /* width: 100%; */
         text-align: left;
     }
-    .post_image{
+    
+    .post_image {
         clear: both;
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
         flex-wrap: wrap;
     }
-    .post_image img{
+    
+    .post_image img {
         width: 10%;
         margin: 5px;
     }
-    .post_content{
+    
+    .post_content {
         width: 80%;
-        word-wrap:break-word;
+        word-wrap: break-word;
         position: relative;
     }
-    .post_time{
+    
+    .post_time {
         position: absolute;
         right: -20%;
         top: 0;
         color: #dfdfdf;
     }
-    .post_info{
+    
+    .post_info {
         clear: both;
     }
-    .post_info>div{
+    
+    .post_info>div {
         display: inline-block;
     }
-    .post_info>div:nth-child(1){
+    
+    .post_info>div:nth-child(1) {
         float: left;
     }
-    .post_info>div:nth-child(2){
+    
+    .post_info>div:nth-child(2) {
         float: right;
     }
-    .post_info span{
+    
+    .post_info span {
         padding: 5px;
     }
-    .post .el-collapse-item__header{
+    
+    .post .el-collapse-item__header {
         font-size: 15px;
     }
-    .post .el-collapse-item__wrap{
+    
+    .post .el-collapse-item__wrap {
         margin-left: 20px;
     }
-    .item .el-badge__content.is-fixed{
+    
+    .item .el-badge__content.is-fixed {
         top: 12px;
         right: 0;
     }
-    .item2 .el-badge__content.is-fixed{
+    
+    .item2 .el-badge__content.is-fixed {
         top: 10px;
         right: 2px;
     }
+    
     .demo-table-expand {
         font-size: 0;
     }
+    
     .demo-table-expand label {
         width: 90px;
         color: #99a9bf;
     }
+    
     .demo-table-expand .el-form-item {
         margin-right: 0;
         margin-bottom: 0;
         width: 50%;
     }
-    .manager_subject img{
+    
+    .manager_subject img {
         width: 100px;
         height: 100px;
     }
-    .subejct_form input{
+    
+    .subejct_form input {
         height: 30px;
     }
-    .search-menu{
+    
+    .search-menu {
         margin-left: 50px;
         float: left;
         margin-top: 15px;
@@ -261,43 +320,48 @@
         align-items: center;
         flex-wrap: nowrap;
     }
-    .search input{
+    
+    .search input {
         float: right;
         width: 200px;
         height: 30px;
         border-radius: 15px;
     }
-    .search-icon{
+    
+    .search-icon {
         color: #f4630b;
         margin-left: -25px;
         z-index: 100;
-        font-size:18px;
+        font-size: 18px;
         font-weight: 900;
     }
-    .sub-menu{
+    
+    .sub-menu {
         color: #fff;
     }
-    .extenal{
+    
+    .extenal {
         line-height: 60px;
         color: #fff;
     }
-    .extenal a{
+    
+    .extenal a {
         color: #fff;
         text-decoration: none;
     }
-
+    
+    .g-ft {
+        padding-top: 30px;
+        padding-bottom: 30px;
+        text-align: center;
+        font-size: 11px;
+    }
 </style>
+
 <body>
     <div id="app">
         <!--菜单导航-->
-        <el-menu
-                :default-active="activeIndex"
-                class="el-menu-demo menu-padding"
-                mode="horizontal"
-                @select="handleSelect"
-                background-color="#f4630b"
-                text-color="#fff"
-                active-text-color="#ffd04b">
+        <el-menu :default-active="activeIndex" class="el-menu-demo menu-padding" mode="horizontal" @select="handleSelect" background-color="#f4630b" text-color="#fff" active-text-color="#ffd04b">
             <el-menu-item index="0"><a href="/">首页</a></el-menu-item>
             <el-menu-item index="1"><a href="/community">校论区</a></el-menu-item>
             <el-menu-item index="2"><a href="/life">生活休闲</a></el-menu-item>
@@ -313,10 +377,7 @@
                 <el-menu-item index="10" @click="exit">退出</el-menu-item>
             </el-submenu>
             <div class="search-menu">
-                <el-input class="search"
-                    placeholder="请输入内容"
-                    v-model="search"
-                    clearable>
+                <el-input class="search" placeholder="请输入内容" v-model="search" clearable>
                 </el-input>
                 <i class="el-icon-search search-icon"></i>
             </div>
@@ -345,7 +406,7 @@
                     <p>快去登陆，发现更多好玩的吧</p>
                 </div>
             </div>
-                
+
             <div class="manager" v-if="isUser">
                 <template>
                     <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -458,21 +519,21 @@
                                             </el-form-item>
                                         </el-form>
                                     </template>
-                                </el-table-column>
-                                <el-table-column label="吧名称" prop="subject_name">
-                                </el-table-column>
-                                <el-table-column label="吧主" prop="user_name">
-                                </el-table-column>
-                                <el-table-column label="创建时间" prop="time">
-                                </el-table-column>
-                                <el-table-column label="关注人数" prop="follows">
-                                </el-table-column>
-                                <el-table-column label="帖子数" prop="post_num">
-                                </el-table-column>
-                                <el-table-column label="吧等级" prop="subject_level">
-                                </el-table-column>
-                                <el-table-column label="操作" prop="subject_level" width="150">
-                                        <template slot-scope="scope">
+                </el-table-column>
+                <el-table-column label="吧名称" prop="subject_name">
+                </el-table-column>
+                <el-table-column label="吧主" prop="user_name">
+                </el-table-column>
+                <el-table-column label="创建时间" prop="time">
+                </el-table-column>
+                <el-table-column label="关注人数" prop="follows">
+                </el-table-column>
+                <el-table-column label="帖子数" prop="post_num">
+                </el-table-column>
+                <el-table-column label="吧等级" prop="subject_level">
+                </el-table-column>
+                <el-table-column label="操作" prop="subject_level" width="150">
+                    <template slot-scope="scope">
                                                 <el-button
                                                   size="mini"
                                                   @click="handleEdit(scope.$index, scope.row)">修改</el-button>
@@ -481,91 +542,104 @@
                                                   type="danger"
                                                   @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                                               </template>
-                                </el-table-column>
-                          </el-table>
-                        </el-tab-pane>
-                        <el-tab-pane label="我的关注" name="6">
-                            <!-- 我的关注 -->
-                            <div class="subjects">
-                                <div class="subject" v-for="subject in subjects">
-                                    <el-card class="box-card">
-                                        <div slot="header" class="clearfix">
-                                            <span>{{subject.subject_name}}</span>
-                                            <el-button style="float: right; padding: 3px 0" type="text">取消关注</el-button>
-                                        </div>
-                                        <div class="subject_content">
-                                            <div class="image">
-                                                <img :src="subject.subject_image" alt="">
-                                            </div>
-                                            <div class="subject_info">
-                                                <div><span class="title">创建时间：</span>{{subject.time}}</div>
-                                                <div><span class="title">关注人数：</span>{{subject.follows}}</div>
-                                                <div><span class="title">帖子数：</span>{{subject.posts}}</div>
-                                                <div><span class="title">等级：</span>{{subject.subject_level}}</div>
-                                            </div>
-                                        </div>
-                                    </el-card>
+                </el-table-column>
+                </el-table>
+                </el-tab-pane>
+                <el-tab-pane label="我的关注" name="6">
+                    <!-- 我的关注 -->
+                    <div class="subjects">
+                        <div class="subject" v-for="subject in subjects">
+                            <el-card class="box-card">
+                                <div slot="header" class="clearfix">
+                                    <span>{{subject.subject_name}}</span>
+                                    <el-button style="float: right; padding: 3px 0" type="text">取消关注</el-button>
+                                </div>
+                                <div class="subject_content">
+                                    <div class="image">
+                                        <img :src="subject.subject_image" alt="">
+                                    </div>
+                                    <div class="subject_info">
+                                        <div><span class="title">创建时间：</span>{{subject.time}}</div>
+                                        <div><span class="title">关注人数：</span>{{subject.follows}}</div>
+                                        <div><span class="title">帖子数：</span>{{subject.posts}}</div>
+                                        <div><span class="title">等级：</span>{{subject.subject_level}}</div>
+                                    </div>
+                                </div>
+                            </el-card>
+                        </div>
+                    </div>
+                </el-tab-pane>
+
+                <el-tab-pane label="我的帖子" name="7">
+                    <!-- 我的帖子 -->
+                    <el-collapse v-model="postActive" class="posts" accordion>
+                        <el-collapse-item :title="post.post_title" class="post" :name="index" v-for="(post,index) in posts">
+                            <div class="sub-post post_content">
+                                <span>
+                                                    {{post.post_content}}
+                                                </span>
+                                <span class="post_time">{{post.time}}</span>
+                            </div>
+                            <div class="post_image sub_post">
+                                <img :src="image" alt="" v-for="image in post.post_photos">
+                            </div>
+                            <div class="post_info sub-post">
+                                <div>
+                                    <span class="fa fa-tag"></span>
+                                    <span>{{post.subject_name}}</span>
+                                </div>
+                                <div>
+                                    <span v-if="post.look">浏览数{{post.look}}</span>
+                                    <span class="fa fa-heart heart"> {{post.hearts}}</span>
+                                    <span class="fa fa-commenting comment"> {{post.reply_num}}</span>
+                                    <span class="fa fa-share share"> {{post.share}}</span>
                                 </div>
                             </div>
-                        </el-tab-pane>
+                        </el-collapse-item>
+                    </el-collapse>
+                </el-tab-pane>
 
-                        <el-tab-pane label="我的帖子" name="7">
-                            <!-- 我的帖子 -->
-                            <el-collapse v-model="postActive" class="posts" accordion>
-                                <el-collapse-item :title="post.post_title" class="post" :name="index" v-for="(post,index) in posts">
-                                        <div class="sub-post post_content">
-                                                <span>
-                                                    {{post.post_content}}
-                                                </span>   
-                                                <span class="post_time">{{post.time}}</span>
-                                        </div>
-                                        <div class="post_image sub_post">
-                                            <img :src="image" alt=""  v-for="image in post.post_photos">
-                                        </div>
-                                        <div class="post_info sub-post">
-                                            <div>
-                                                <span class="fa fa-tag"></span>
-                                                <span>{{post.subject_name}}</span>
-                                            </div>
-                                            <div>
-                                                <span v-if="post.look">浏览数{{post.look}}</span>
-                                                <span class="fa fa-heart heart"> {{post.hearts}}</span>
-                                                <span class="fa fa-commenting comment"> {{post.reply_num}}</span> 
-                                                <span class="fa fa-share share"> {{post.share}}</span> 
-                                            </div>
-                                        </div>
-                                </el-collapse-item>
-                            </el-collapse>
-                        </el-tab-pane>
-
-                        <el-tab-pane name="8">
-                            <!-- 我的消息 -->
-                            <span slot="label">
+                <el-tab-pane name="8">
+                    <!-- 我的消息 -->
+                    <span slot="label">
                                     <el-badge :value="12" class="item">
                                         我的消息
                                     </el-badge>
                             </span>
-                            <el-tabs type="border-card">
-                                    <el-tab-pane>
-                                        <span slot="label">
+                    <el-tabs type="border-card">
+                        <el-tab-pane>
+                            <span slot="label">
                                                 <el-badge :value="6" class="item2">
                                                         私信
                                                 </el-badge>
-                                        </span>
-                                        私信
-                                    </el-tab-pane>
-                                    <el-tab-pane>
-                                            <span slot="label">
+                                        </span> 私信
+                        </el-tab-pane>
+                        <el-tab-pane>
+                            <span slot="label">
                                                     <el-badge :value="6" class="item2">
                                                             系统消息
                                                     </el-badge>
-                                            </span>
-                                            系统消息
-                                        </el-tab-pane>
-                                  </el-tabs>
+                                            </span> 系统消息
                         </el-tab-pane>
                     </el-tabs>
+                </el-tab-pane>
+                </el-tabs>
                 </template>
+            </div>
+        </div>
+
+        <div class="g-ft">
+            <div class="m-ft2">
+                <a target="_blank" rel="nofollow" href="/">首页</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">社区话题</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">休闲区</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">表白墙</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">个人主页</a></div>
+            <div style="margin-top:10px;">ztchun版权所有　&copy;2017 - 2018　校园社区
             </div>
         </div>
     </div>
@@ -580,13 +654,13 @@
     new Vue({
         el: '#app',
         data: function() {
-            var  checkEmail = (rule, value, callback) => {
+            var checkEmail = (rule, value, callback) => {
                 if (!value) {
                     return callback(new Error("请输入邮箱地址"))
-                }else {
+                } else {
                     var match = /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g
-                    if (!match.test(value)){
-                        
+                    if (!match.test(value)) {
+
                     }
                 }
             }
@@ -594,154 +668,147 @@
                 search: '',
                 activeIndex: '4',
                 activeName: '4',
-                user:{},
+                user: {},
                 options: [],
-                rules:{
-                    avator: [
-                        {
-                            required: true, message: '请上传图片', trigger: 'blur'
-                        }
-                    ],
-                    username: [
-                        {
-                            required: true, message: '请输入用户名称', trigger: 'blur'
-                        }
-                    ],
-                    password: [
-                        {
-                            required: true, message: '请输入用户名称',trigger: 'blur'
-                        }
-                    ],
-                    emaiol: [
-                        {
-                            required: true, message: '请输入邮箱地址', trigger: 'blur'
-                        }
-                    ]
+                rules: {
+                    avator: [{
+                        required: true,
+                        message: '请上传图片',
+                        trigger: 'blur'
+                    }],
+                    username: [{
+                        required: true,
+                        message: '请输入用户名称',
+                        trigger: 'blur'
+                    }],
+                    password: [{
+                        required: true,
+                        message: '请输入用户名称',
+                        trigger: 'blur'
+                    }],
+                    emaiol: [{
+                        required: true,
+                        message: '请输入邮箱地址',
+                        trigger: 'blur'
+                    }]
                 },
-                subjects: [
-                    {
-                        subject_name: 'subject_name',
-                        subject_desc: 'subejct_desc',
-                        subject_image: '/avatar.jpg',
-                        time: 'time',
-                        follows: '23',
-                        posts: '23',
-                        subject_level: '2'
-                    },
-                    {
-                        subject_name: 'subject_name',
-                        subject_desc: 'subejct_desc',
-                        subject_image: '/avatar.jpg',
-                        time: 'time',
-                        follows: '23',
-                        posts: '23',
-                        subject_level: '2'
-                    },{
-                        subject_name: 'subject_name',
-                        subject_desc: 'subejct_desc',
-                        subject_image: '/avatar.jpg',
-                        time: 'time',
-                        follows: '23',
-                        posts: '23',
-                        subject_level: '2'
-                    },{
-                        subject_name: 'subject_name',
-                        subject_desc: 'subejct_desc',
-                        subject_image: '/avatar.jpg',
-                        time: 'time',
-                        follows: '23',
-                        posts: '23',
-                        subject_level: '2'
-                    },{
-                        subject_name: 'subject_name',
-                        subject_desc: 'subejct_desc',
-                        subject_image: '/avatar.jpg',
-                        time: 'time',
-                        follows: '23',
-                        posts: '23',
-                        subject_level: '2'
-                    }
-                ],
+                subjects: [{
+                    subject_name: 'subject_name',
+                    subject_desc: 'subejct_desc',
+                    subject_image: '/avatar.jpg',
+                    time: 'time',
+                    follows: '23',
+                    posts: '23',
+                    subject_level: '2'
+                }, {
+                    subject_name: 'subject_name',
+                    subject_desc: 'subejct_desc',
+                    subject_image: '/avatar.jpg',
+                    time: 'time',
+                    follows: '23',
+                    posts: '23',
+                    subject_level: '2'
+                }, {
+                    subject_name: 'subject_name',
+                    subject_desc: 'subejct_desc',
+                    subject_image: '/avatar.jpg',
+                    time: 'time',
+                    follows: '23',
+                    posts: '23',
+                    subject_level: '2'
+                }, {
+                    subject_name: 'subject_name',
+                    subject_desc: 'subejct_desc',
+                    subject_image: '/avatar.jpg',
+                    time: 'time',
+                    follows: '23',
+                    posts: '23',
+                    subject_level: '2'
+                }, {
+                    subject_name: 'subject_name',
+                    subject_desc: 'subejct_desc',
+                    subject_image: '/avatar.jpg',
+                    time: 'time',
+                    follows: '23',
+                    posts: '23',
+                    subject_level: '2'
+                }],
                 postActive: '1',
-                posts:[
-                    {
-                        post_title: 'post_title',
-                        post_content: 'post_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_content',
-                        post_photos: [
-                            '/avatar.jpg',
-                            '/avatar.jpg',
-                            '/avatar.jpg',
-                            '/avatar.jpg',
-                        ],
-                        subject_name: 'subject_name',
-                        look: 23,
-                        hearts: 23,
-                        reply_num: 12,
-                        share: 23,
-                        time: 'time'
-                    },{
-                        post_title: 'post_title',
-                        post_content: 'post_content',
-                        post_photos: [
-                            '/avatar.jpg',
-                            '/avatar.jpg',
-                            '/avatar.jpg',
-                            '/avatar.jpg',
-                        ],
-                        subject_name: 'subject_name',
-                        look: 23,
-                        hearts: 23,
-                        reply_num: 12,
-                        share: 23,
-                        time: 'time'
-                    }
-                ],
-                manager_subjects: [
-                    {
-                        subject_name: 'subject_name',
-                        user_name: 'user_name',
-                        time: 'time',
-                        follows: 32,
-                        post_num: 32,
-                        subject_level: 1,
-                        desc: 'desc',
-                        image: '/avatar.jpg'
-                    }, {
-                        subject_name: 'subject_name',
-                        user_name: 'user_name',
-                        time: 'time',
-                        follows: 32,
-                        post_num: 32,
-                        subject_level: 1,
-                        desc: 'fesc',
-                        image: '/avatar.jpg'
-                    }, {
-                        subject_name: 'subject_name',
-                        user_name: 'user_name',
-                        time: 'time',
-                        follows: 32,
-                        post_num: 32,
-                        subject_level: 1,
-                        desc: 'desc',
-                        image: '/avatar.jpg'
-                    }, {
-                        subject_name: 'subject_name',
-                        user_name: 'user_name',
-                        time: 'time',
-                        follows: 32,
-                        post_num: 32,
-                        subject_level: 1,
-                        desc: 'desc',
-                        image: '/avatar.jpg'
-                    }
-                ],
+                posts: [{
+                    post_title: 'post_title',
+                    post_content: 'post_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_content',
+                    post_photos: [
+                        '/avatar.jpg',
+                        '/avatar.jpg',
+                        '/avatar.jpg',
+                        '/avatar.jpg',
+                    ],
+                    subject_name: 'subject_name',
+                    look: 23,
+                    hearts: 23,
+                    reply_num: 12,
+                    share: 23,
+                    time: 'time'
+                }, {
+                    post_title: 'post_title',
+                    post_content: 'post_content',
+                    post_photos: [
+                        '/avatar.jpg',
+                        '/avatar.jpg',
+                        '/avatar.jpg',
+                        '/avatar.jpg',
+                    ],
+                    subject_name: 'subject_name',
+                    look: 23,
+                    hearts: 23,
+                    reply_num: 12,
+                    share: 23,
+                    time: 'time'
+                }],
+                manager_subjects: [{
+                    subject_name: 'subject_name',
+                    user_name: 'user_name',
+                    time: 'time',
+                    follows: 32,
+                    post_num: 32,
+                    subject_level: 1,
+                    desc: 'desc',
+                    image: '/avatar.jpg'
+                }, {
+                    subject_name: 'subject_name',
+                    user_name: 'user_name',
+                    time: 'time',
+                    follows: 32,
+                    post_num: 32,
+                    subject_level: 1,
+                    desc: 'fesc',
+                    image: '/avatar.jpg'
+                }, {
+                    subject_name: 'subject_name',
+                    user_name: 'user_name',
+                    time: 'time',
+                    follows: 32,
+                    post_num: 32,
+                    subject_level: 1,
+                    desc: 'desc',
+                    image: '/avatar.jpg'
+                }, {
+                    subject_name: 'subject_name',
+                    user_name: 'user_name',
+                    time: 'time',
+                    follows: 32,
+                    post_num: 32,
+                    subject_level: 1,
+                    desc: 'desc',
+                    image: '/avatar.jpg'
+                }],
                 formdisabled: false,
                 isUser: false
             }
         },
-        created () {
+        created() {
             var index = "4"
-            if(window.location.href.indexOf("?") >= 0) {
+            if (window.location.href.indexOf("?") >= 0) {
                 let index = window.location.href.split("?")[1].slice(6) || '4'
             }
             this.activeIndex = index
@@ -750,27 +817,27 @@
             this.initUser()
         },
         watch: {
-            activeName (oldVal, newVal) {
+            activeName(oldVal, newVal) {
                 console.log(oldVal, newVal)
             }
         },
         methods: {
-            init(){
+            init() {
                 var _this = this
                 this.handleAjax("/getMineInfo", 'get', {
                     tag: _this.activeName
-                }, function(data){
+                }, function(data) {
                     // console.log(data)
                 })
             },
-            initUser () {
+            initUser() {
                 var _this = this
-                this.handleAjax("/userInfo", 'get', {}, function(data){
+                this.handleAjax("/userInfo", 'get', {}, function(data) {
                     if (data == '0') {
                         // 未注册
                         _this.isUser = false
                         _this.$message.error("sorry,您还未注册哦")
-                    }else if (data == '1'){
+                    } else if (data == '1') {
                         // 未登录
                         _this.isUser = false
                     } else {
@@ -778,41 +845,39 @@
                         _this.isUser = true
                         _this.user = JSON.parse(data)
                         _this.user.city = _this.user.city.split("-")
-                        _this.user.sex = _this.user.sex=="女"?"1":"2"
+                        _this.user.sex = _this.user.sex == "女" ? "1" : "2"
                         _this.init()
                     }
                 })
             },
             // 城市选择
-            initCity(){
-                this.$http.jsonp("http://api.jisuapi.com/area/province",{  
-                    params:{  
+            initCity() {
+                this.$http.jsonp("http://api.jisuapi.com/area/province", {
+                    params: {
                         appkey: 'a04a76c1b8eda3d0'
-                    }  
-                }).then(resp=>{
+                    }
+                }).then(resp => {
                     var first = []
-                    resp.body.result.forEach((value, index, aray)=>{
+                    resp.body.result.forEach((value, index, aray) => {
                         first.push(value.name)
                         value.label = value.name
                         value.value = value.id
-                        value.children = [
-                            {
-                                label: '请选择',
-                                value: '请选择'
-                            }
-                        ]
+                        value.children = [{
+                            label: '请选择',
+                            value: '请选择'
+                        }]
                     })
                     this.options = resp.body.result
                     var firstIndex = (first.indexOf(this.user.city[0]) + 1).toString()
                     this.user.city[0] = firstIndex
-                    this.$http.jsonp("http://api.jisuapi.com/area/city",{  
-                        params:{  
+                    this.$http.jsonp("http://api.jisuapi.com/area/city", {
+                        params: {
                             parentid: firstIndex,
                             appkey: 'a04a76c1b8eda3d0'
-                        }  
-                    }).then(resp=>{
+                        }
+                    }).then(resp => {
                         var second = []
-                        resp.body.result.forEach((value, index, aray)=>{
+                        resp.body.result.forEach((value, index, aray) => {
                             value.label = value.name
                             value.value = value.id
                             second.push(value.label)
@@ -820,27 +885,27 @@
                         this.options[Number(firstIndex) - 1].children = resp.body.result
                         var secondIndex = second.indexOf(this.user.city[1])
                         this.user.city[1] = this.options[Number(firstIndex) - 1].children[secondIndex].id
-                    },response => {  
-                        console.log("发送失败"+response.status+","+response.statusText);  
-                    });  
-                    
-                },response => {  
-                    console.log("发送失败"+response.status+","+response.statusText);  
-                });  
+                    }, response => {
+                        console.log("发送失败" + response.status + "," + response.statusText);
+                    });
+
+                }, response => {
+                    console.log("发送失败" + response.status + "," + response.statusText);
+                });
             },
-            handleAjax (url, method, data, handleSuccess) {
+            handleAjax(url, method, data, handleSuccess) {
                 $.ajax({
                     url: url,
                     type: method,
                     data: data,
-                    cache:false,
+                    cache: false,
                     success: handleSuccess,
-                    error: function(err){
+                    error: function(err) {
                         console.log(err)
                     }
                 })
             },
-            handleSelect: function(key, keyPath){
+            handleSelect: function(key, keyPath) {
                 console.log(key, keyPath)
             },
             // tab切换
@@ -851,27 +916,27 @@
                 }
             },
             // 全国省市查询
-            handleChange (value) {
+            handleChange(value) {
                 var _this = this
-                this.$http.jsonp("http://api.jisuapi.com/area/city",{  
-                    params:{  
+                this.$http.jsonp("http://api.jisuapi.com/area/city", {
+                    params: {
                         parentid: value[0],
                         appkey: 'a04a76c1b8eda3d0'
-                    }  
-                }).then(resp=>{
-                    resp.body.result.forEach((value, index, aray)=>{
+                    }
+                }).then(resp => {
+                    resp.body.result.forEach((value, index, aray) => {
                         value.label = value.name
                         value.value = value.id
                     })
                     _this.options[Number(value[0]) - 1].children = resp.body.result
-                    // console.log(this.user.city)
-                },response => {  
-                    console.log("发送失败"+response.status+","+response.statusText);  
-                });  
+                        // console.log(this.user.city)
+                }, response => {
+                    console.log("发送失败" + response.status + "," + response.statusText);
+                });
             },
             handleAvatarSuccess(res, file) {
                 console.log(res)
-                if(res != 0){
+                if (res != 0) {
                     var index = res.indexOf(this.user.username)
                     this.user.avator = '/' + res.slice(index)
                 }
@@ -879,33 +944,32 @@
             beforeAvatarUpload(file) {
                 const isLt2M = file.size / 1024 / 1024 < 2;
                 if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
                 }
                 return isLt2M;
             },
-            handleEdit(index, row) {
-            },
-            handleDelete(index, row) {
-            },
+            handleEdit(index, row) {},
+            handleDelete(index, row) {},
             // 点击登录
-            toLogin(){
+            toLogin() {
                 window.location.href = "/login"
             },
             // 完善信息
-            commitUser (){
-                var first = this.options[this.user.city[0] - 1], second = ""
+            commitUser() {
+                var first = this.options[this.user.city[0] - 1],
+                    second = ""
                 first.children.forEach((value, index) => {
-                    if (value.id == this.user.city[1]){
+                    if (value.id == this.user.city[1]) {
                         second = value.label
                     }
                 })
                 this.user.city = [first.label, second]
                 var _this = this
-                this.handleAjax("/commitUserInfo", "post", this.user, function(data){
-                    if (data == "1"){
+                this.handleAjax("/commitUserInfo", "post", this.user, function(data) {
+                    if (data == "1") {
                         _this.$message({
                             message: '更新成功',
-                            type:'success'
+                            type: 'success'
                         })
                     }
                     _this.initUser()
@@ -913,10 +977,10 @@
                 })
             },
             // exit
-            exit(){
+            exit() {
                 var _this = this
-                this.handleAjax("/exit", "get", {}, function(data){
-                    if (data == "1"){
+                this.handleAjax("/exit", "get", {}, function(data) {
+                    if (data == "1") {
                         _this.$message({
                             message: '退出成功',
                             type: 'warning'
@@ -928,4 +992,5 @@
         }
     })
 </script>
+
 </html>

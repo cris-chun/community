@@ -264,10 +264,10 @@
 }
 
 .row {
-    width: 70%;
+    width: 100%;
     margin: 0 auto;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
 }
@@ -283,10 +283,41 @@ h4.name {
 }
 
 .collection-description {
-    border-bottom: 1px solid #eaeaea;
-    padding-bottom: 10px;
+    /* border-bottom: 1px solid #eaeaea; */
+    padding-bottom: 5px;
 }
 
 .count a {
+    color: #f4630b;
+}
+
+.follow {
+    padding: 5px 10px;
+    color: #fff;
+    border-radius: 5px;
+    background: #f4630b;
+    width: 20%;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    margin-top: -5px;
+}
+
+.count {
+    border-top: 1px solid #eaeaea;
+    padding-top: 15px;
+}
+
+h4 {
+    margin: 8px auto;
+}
+
+.container {
+    margin-top: -40px;
+    margin-bottom: 10px;
+    padding-bottom: 0px;
+}
+
+.btn-load {
+    line-height: 100px;
     color: #f4630b;
 }

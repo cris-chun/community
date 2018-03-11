@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>社区话题</title>
@@ -7,53 +8,65 @@
     <link rel="stylesheet" href="/css/font-awesome.min.css">
 </head>
 <style type="text/css">
-    body{
+    body {
         margin: 0;
         padding: 0;
         background: #dceffe;
     }
-    a{
+    
+    a {
         text-decoration: none;
     }
-    .left,.right{
+    
+    .left,
+    .right {
         margin: 0 auto;
     }
-    #app{
+    
+    #app {
         text-align: center;
     }
-    .left{
+    
+    .left {
         /* padding-left:15%; */
         margin-left: -8px;
         width: 100%;
     }
-    .right{
+    
+    .right {
         margin-top: 10px;
         margin-left: 8px;
         width: 100%;
         background: #fff;
         border-radius: 10px;
     }
-    .right:nth-child(1){
+    
+    .right:nth-child(1) {
         margin-top: 205px;
         margin-left: 8px;
         width: 100%;
         background: #fff;
         border-radius: 10px;
     }
-    .menu-padding{
+    
+    .menu-padding {
         padding-left: 35%;
     }
-    .twitter{
+    
+    .twitter {
         width: 100%;
         /*margin: 15px auto;*/
     }
-    .avatar{
+    
+    .avatar {
         width: 100%;
     }
-    .avatar-left{
+    
+    .avatar-left {
         padding-right: 10px;
     }
-    .content-right{
+    
+    .content-right {
         text-align: left;
         margin-left: 20px;
         background: #fff;
@@ -62,67 +75,83 @@
         -moz-border-radius: 8px;
         border-radius: 8px;
     }
-    .content-right>div{
+    
+    .content-right>div {
         position: relative;
         background: #fff;
     }
-    .arrow{
+    
+    .arrow {
         position: absolute;
         top: 5px;
         left: -38px;
-        width:0;
-        height:0;
-        font-size:0;
-        border:solid 15px;
-        border-color:#dceffe #fff #dceffe #dceffe;
+        width: 0;
+        height: 0;
+        font-size: 0;
+        border: solid 15px;
+        border-color: #dceffe #fff #dceffe #dceffe;
     }
-    .content-row{
+    
+    .content-row {
         margin-top: 20px;
     }
-    .post{
+    
+    .post {
         margin-top: 10px;
         margin-bottom: 10px;
         clear: both;
     }
-    .top{
+    
+    .top {
         border-bottom: 1px solid #d8d8d8;
         padding: 7px;
     }
-    .bottom{
+    
+    .bottom {
         clear: both;
         border-top: 1px solid #d8d8d8;
         padding: 7px;
     }
-    .top span{
+    
+    .top span {
         color: #bdbdbd;
     }
-    .tags,.looks{
+    
+    .tags,
+    .looks {
         color: #bdbdbd;
     }
-    .time,.tags{
+    
+    .time,
+    .tags {
         float: right;
     }
-    .tags span{
+    
+    .tags span {
         margin-left: 5px;
         margin-right: 5px;
         font-size: 14px;
     }
-    .images{
+    
+    .images {
         display: flex;
         justify-content: flex-start;
         align-items: center;
         margin: 10px 30px;
         flex-wrap: wrap;
     }
-    .images img{
+    
+    .images img {
         width: 21%;
         padding: 10px;
     }
-    .info{
+    
+    .info {
         /* background: #f3f3f3; */
         /* border: 1px solid #dfdfdf; */
     }
-    .list{
+    
+    .list {
         padding-top: 8px;
         padding-bottom: 8px;
         padding-left: 15px;
@@ -133,30 +162,37 @@
         text-align: left;
         font-size: 14px;
     }
-    .list i{
-        color:#CFCFCF;
+    
+    .list i {
+        color: #CFCFCF;
     }
-    .list span{
+    
+    .list span {
         margin-left: 15px;
     }
-    .list:nth-child(1){
+    
+    .list:nth-child(1) {
         border-top: 2px solid #dfdfdf;
     }
-    .post-title{
+    
+    .post-title {
         margin-left: 15px;
         margin-right: 15px;
         font-size: 16px;
     }
-    .post-content{
+    
+    .post-content {
         margin-left: 35px;
         margin-right: 35px;
         color: #848484;
         font-size: 13px;
     }
-    .subject-image img{
+    
+    .subject-image img {
         width: 100px;
     }
-    .subject-info{
+    
+    .subject-info {
         padding: 10px;
         display: flex;
         justify-content: flex-start;
@@ -164,13 +200,15 @@
         flex-wrap: wrap;
         color: #222;
     }
-    .subject-image{
+    
+    .subject-image {
         display: flex;
         justify-content: center;
         align-items: flex-start;
         flex-wrap: nowrap;
     }
-    .btn{
+    
+    .btn {
         margin: 10px 15px;
         line-height: 15px;
         background: #f4630b;
@@ -178,62 +216,74 @@
         border-radius: 2px;
         padding: 5px 10px;
     }
-    .num{
+    
+    .num {
         margin-top: 10px;
         font-size: 13px;
         color: #848484;
     }
-    .subject-content{
+    
+    .subject-content {
         margin: 5px;
-        text-align:left;
-        font-size:14px;
+        text-align: left;
+        font-size: 14px;
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
         flex-wrap: wrap;
     }
-    .subject-content>span{
+    
+    .subject-content>span {
         width: 100%;
         line-height: 20px;
         padding: 5px 0;
     }
-    .icon-tag{
+    
+    .icon-tag {
         padding: 3px;
         color: #f4630b;
         font-size: 15px;
     }
-    .heart,.comment,.share{
+    
+    .heart,
+    .comment,
+    .share {
         color: #f4630b
     }
-    .huati{
+    
+    .huati {
         margin: 0 5px 10px 5px;
         font-size: 16px;
         font-weight: 700
     }
-    .collapse{
+    
+    .collapse {
         width: 100%;
         text-align: left;
     }
-    .extenal{
+    
+    .extenal {
         line-height: 60px;
         color: #fff;
     }
-    .extenal a{
+    
+    .extenal a {
         color: #fff;
         text-decoration: none;
     }
+    
+    .g-ft {
+        padding-top: 30px;
+        padding-bottom: 30px;
+        text-align: center;
+        font-size: 11px;
+    }
 </style>
+
 <body>
     <div id="app">
         <!--菜单导航-->
-        <el-menu
-                :default-active="activeIndex"
-                class="el-menu-demo menu-padding"
-                mode="horizontal"
-                @select="handleSelect"
-                background-color="#f4630b"
-                text-color="#fff"
-                active-text-color="#ffd04b">
+        <el-menu :default-active="activeIndex" class="el-menu-demo menu-padding" mode="horizontal" @select="handleSelect" background-color="#f4630b" text-color="#fff" active-text-color="#ffd04b">
             <el-menu-item index="0"><a href="/">首页</a></el-menu-item>
             <el-menu-item index="1"><a href="/community">校论区</a></el-menu-item>
             <el-menu-item index="2"><a href="/life">生活休闲</a></el-menu-item>
@@ -249,10 +299,7 @@
                 <el-menu-item index="10" @click="exit">退出</el-menu-item>
             </el-submenu>
             <div class="search-menu">
-                <el-input class="search"
-                    placeholder="请输入内容"
-                    v-model="search"
-                    clearable>
+                <el-input class="search" placeholder="请输入内容" v-model="search" clearable>
                 </el-input>
                 <i class="el-icon-search search-icon"></i>
             </div>
@@ -295,17 +342,17 @@
                                     <div class="bottom">
                                         <span class="looks">
                                             <span class="fa fa-tag"></span>
-                                            <span>{{item.subject_name}}</span>
+                                        <span>{{item.subject_name}}</span>
                                         </span>
                                         <span class="tags">
                                             <span v-if="item.look">浏览数{{item.look}}</span>
-                                            <span class="fa fa-heart heart"> {{item.hearts}}</span>
-                                            <span class="fa fa-commenting comment"> {{item.reply_num}}</span> 
-                                            <span class="fa fa-share share"> {{item.share}}</span>    
+                                        <span class="fa fa-heart heart"> {{item.hearts}}</span>
+                                        <span class="fa fa-commenting comment"> {{item.reply_num}}</span>
+                                        <span class="fa fa-share share"> {{item.share}}</span>
                                         </span>
                                     </div>
-                                    
-                                 </div>
+
+                                </div>
                             </el-col>
                         </el-row>
                     </div>
@@ -335,7 +382,7 @@
                     </el-row>
                     <el-row>
 
-                    </el-row>   
+                    </el-row>
                 </div>
                 <div class="right">
                     <el-row class="info">
@@ -364,31 +411,46 @@
                         <div class="subject-info">
                             <div class="huati">本吧热门话题</div>
                             <div class="collapse">
-                                    <el-collapse v-model="activeNames" @change="handleChange">
-                                            <el-collapse-item title="一致性 Consistency" name="1">
-                                              <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
-                                              <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
-                                            </el-collapse-item>
-                                            <el-collapse-item title="反馈 Feedback" name="2">
-                                              <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
-                                              <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
-                                            </el-collapse-item>
-                                            <el-collapse-item title="效率 Efficiency" name="3">
-                                              <div>简化流程：设计简洁直观的操作流程；</div>
-                                              <div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
-                                              <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
-                                            </el-collapse-item>
-                                            <el-collapse-item title="可控 Controllability" name="4">
-                                              <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
-                                              <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
-                                            </el-collapse-item>
-                                          </el-collapse>
+                                <el-collapse v-model="activeNames" @change="handleChange">
+                                    <el-collapse-item title="一致性 Consistency" name="1">
+                                        <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
+                                        <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
+                                    </el-collapse-item>
+                                    <el-collapse-item title="反馈 Feedback" name="2">
+                                        <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
+                                        <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
+                                    </el-collapse-item>
+                                    <el-collapse-item title="效率 Efficiency" name="3">
+                                        <div>简化流程：设计简洁直观的操作流程；</div>
+                                        <div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
+                                        <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
+                                    </el-collapse-item>
+                                    <el-collapse-item title="可控 Controllability" name="4">
+                                        <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
+                                        <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
+                                    </el-collapse-item>
+                                </el-collapse>
                             </div>
                         </div>
                     </el-row>
                 </div>
             </el-col>
         </el-row>
+
+        <div class="g-ft">
+            <div class="m-ft2">
+                <a target="_blank" rel="nofollow" href="/">首页</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">社区话题</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">休闲区</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">表白墙</a>
+                <span>|</span>
+                <a target="_blank" rel="nofollow" href="/">个人主页</a></div>
+            <div style="margin-top:10px;">ztchun版权所有　&copy;2017 - 2018　校园社区
+            </div>
+        </div>
     </div>
 </body>
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -402,84 +464,74 @@
         data: function() {
             return {
                 activeIndex: '1',
-                posts: [
-                    {
-                        post_title: 'title',
-                        subject_name: '摄影',
-                        user_name:"ztchun",
-                        time: '2018-01-03',
-                        look: 32,
-                        hearts: 20,
-                        reply_num:10,
-                        share: 10,
-                        avator: "/images/avatar.jpg",
-                        post_content: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容',
-                        post_photos: [
-                            '/images/avatar.jpg',
-                            '/images/avatar.jpg',
-                            '/images/avatar.jpg',
-                        ]
-                    },
-                    {
-                        post_title: 'title',
-                        subject_name: '摄影',
-                        user_name:"ztchun",
-                        time: '2018-01-03',
-                        look: 32,
-                        hearts: 20,
-                        reply_num:10,
-                        share: 10,
-                        avator: "/images/avatar.jpg",
-                        post_content: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容',
-                        post_photos: [
-                            '/images/avatar.jpg',
-                            '/images/avatar.jpg',
-                            '/images/avatar.jpg',
-                        ]
-                    }
-                ],
-                list: [
-                    {
-                        icon: 'fa fa-file-text',
-                        text: '我的内容'
-                    },
-                    {
-                        icon: 'fa fa-vcard',
-                        text: '我的关注'
-                    },
-                    {
-                        icon: 'fa fa-bullhorn',
-                        text: '通知'
-                    },
-                    {
-                        icon: 'fa fa-envelope',
-                        text: '私信'
-                    },{
-                        icon: 'fa fa-home',
-                        text: '我的主页'
-                    }
-                ],
+                posts: [{
+                    post_title: 'title',
+                    subject_name: '摄影',
+                    user_name: "ztchun",
+                    time: '2018-01-03',
+                    look: 32,
+                    hearts: 20,
+                    reply_num: 10,
+                    share: 10,
+                    avator: "/images/avatar.jpg",
+                    post_content: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容',
+                    post_photos: [
+                        '/images/avatar.jpg',
+                        '/images/avatar.jpg',
+                        '/images/avatar.jpg',
+                    ]
+                }, {
+                    post_title: 'title',
+                    subject_name: '摄影',
+                    user_name: "ztchun",
+                    time: '2018-01-03',
+                    look: 32,
+                    hearts: 20,
+                    reply_num: 10,
+                    share: 10,
+                    avator: "/images/avatar.jpg",
+                    post_content: '这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容这是一篇文章，包含了我的想法，这是community页面的说说这是一篇文章，包含了我的想法，这是community页面的说说展示，这里面都是一些说说的内容，看到一些有趣的内容',
+                    post_photos: [
+                        '/images/avatar.jpg',
+                        '/images/avatar.jpg',
+                        '/images/avatar.jpg',
+                    ]
+                }],
+                list: [{
+                    icon: 'fa fa-file-text',
+                    text: '我的内容'
+                }, {
+                    icon: 'fa fa-vcard',
+                    text: '我的关注'
+                }, {
+                    icon: 'fa fa-bullhorn',
+                    text: '通知'
+                }, {
+                    icon: 'fa fa-envelope',
+                    text: '私信'
+                }, {
+                    icon: 'fa fa-home',
+                    text: '我的主页'
+                }],
                 image: '/images/subjects/avatar.jpg',
                 user: {},
-                subejct:{},
+                subejct: {},
                 activeNames: ['1']
             }
         },
-        created () {
-        },
-        watch: {
-        },
+        created() {},
+        watch: {},
         methods: {
-            handleSelect: function(key, keyPath){
+            handleSelect: function(key, keyPath) {
                 console.log(key, keyPath)
             },
             handleChange(val) {
                 console.log(val);
             },
-            exit(){
+            exit() {
                 var _this = this
-                this.handleAjax("/exit", "get", {}, function(data){
-                    if (data == "1"){
+                this.handleAjax("/exit", "get", {}, function(data) {
+                    if (data == "1") {
                         _this.$message({
                             message: '退出成功',
                             type: 'warning'
@@ -491,4 +543,5 @@
         }
     })
 </script>
+
 </html>
