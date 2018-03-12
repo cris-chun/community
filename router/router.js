@@ -219,6 +219,33 @@ exports.showSubject = function(req, res) {
     res.render("subject")
 }
 
+// 关注
+exports.joinSubject = function(req, res){
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields){
+        if(err){
+            console.log('关注失败')
+            return
+        }
+        subjects.updateArray({
+            _id: ObjectID(fields._id)
+        },{
+            user_name: fields.user_name,
+            avator: fields.avator
+        },function(data){
+            if (data.result.ok){
+                user_actives_infos.updateData({
+                    user_name: fields.user_name
+                },{$push:{
+                    subjects: fields._id
+                }}, function(data){
+                    res.send("1")
+                })
+            }
+        })
+    })
+}
+
 // 个人信息请求 
 exports.userInfo = function(req, res) {
     if (req.session.username) {

@@ -88,6 +88,9 @@ app.get("/mine", router.showMine)
 // 全部subjects
 app.get("/subjectList", router.showSubjectList)
 
+// 关注
+app.post("/joinSubject", router.joinSubject)
+
 // 获取评论
 app.get("/getComments", router.getComments)
 

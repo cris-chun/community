@@ -82,6 +82,28 @@ exports.updateData = function(oldObj, newObj, callback) {
     })
 }
 
+// 更新数组
+exports.updateArray = function(oldObj, newObj, callback) {
+    if (!oldObj || !newObj) {
+        return;
+    }
+    newObj = {
+        $push: {
+            follow_user: newObj
+        }
+    }
+    db._connnection(function(db) {
+        db.collection("subjects").update(oldObj, newObj, function(err, result) {
+            if (err) {
+                console.log('subjects update error')
+                db.close()
+                return
+            }
+            callback(result)
+        })
+    })
+}
+
 // 根据数组中的数据查询数据
 exports.findDataByArr = function(obj, callback){
     var array = []

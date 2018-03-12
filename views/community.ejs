@@ -59,9 +59,6 @@
         display: inline-block;
         padding-top: 5px;
         padding-bottom: 5px;
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        border-radius: 5px;
     }
     
     .text {
@@ -460,15 +457,26 @@
         margin-top: 8px;
         padding-bottom: 5px;
     }
+    .ba-title{
+        border-bottom: 1px dotted #dcdcdc;
+    }
     
     .hotba img {
-        width: 50px;
+        width: 45px;
+        border-radius: 50%;
     }
     
     .hotba_info {
         text-align: left;
         margin-left: 3px;
         margin-right: 3px;
+    }
+    .hotba_info>div:nth-child(1){
+        width: 100px;
+        overflow: hidden;
+        word-wrap: none;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
     
     .subejct_desc {
@@ -477,6 +485,25 @@
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
+    }
+    .subejct_desc span{
+        color: #f4630b;
+        line-height: 15px;
+    }
+    .hot-follow{
+        /* background: #f4630b; */
+        color: #f4630b;
+        border-radius: 5px;
+        padding: 5px;
+        margin-left: 2px;
+        cursor: pointer;
+    }
+    .look_all{
+        width: 100%;
+        padding: 5px;
+        margin-top: -5px;
+        cursor: pointer;
+        margin-bottom: 5px;
     }
     
     .ba {
@@ -518,6 +545,7 @@
     .extenal a {
         color: #fff;
         text-decoration: none;
+        margin-right: 10px;
     }
     
     .noguan {
@@ -529,6 +557,12 @@
         padding-bottom: 30px;
         text-align: center;
         font-size: 11px;
+    }
+    .fa-refresh{
+        float: right;
+        margin-top: 2px;
+        margin-right: 2px;
+        cursor: pointer;
     }
 </style>
 
@@ -729,6 +763,27 @@
                         </el-col>
                     </el-row>
                 </div>
+
+                <!-- 热门推荐 -->
+                <div class="right">
+                    <div class="my-ba">
+                        <div class="ba-title">热门吧推荐 <span @click="refresh" class="fa fa-refresh">换一批</span> </div>
+                        <div class="ba-content">
+                            <div class="hotba" v-for="(item, index) in hotbas">
+                                <img :src="item.subject_image">
+                                <div class="hotba_info">
+                                    <div>{{item.subject_name}}</div>
+                                    <div class="subejct_desc"><span> {{item.post_num}} </span>篇帖子  .  <span> {{item.follow_user.length}} </span>人关注</div>
+                                </div>
+                                <div class="hot-follow" v-if="item.isAttention">已关注</div>
+                                <div class="hot-follow"  v-else @click="joinSubject(item, index)">+ 关注</div>
+                            </div>
+                        </div>
+                        <div class="look_all" @click="showSubjectList">查看全部</div>
+                    </div>
+                </div>
+
+                <!-- 我关注的 -->
                 <div class="right" v-if="isUser">
                     <div class="my-ba">
                         <div class="ba-title">我关注的</div>
@@ -741,20 +796,9 @@
                         <div class="ba-content noguan" v-else>您还没有任何关注，快去关注吧</div>
                     </div>
                 </div>
-                <div class="right" v-if="isUser">
-                    <div class="my-ba">
-                        <div class="ba-title">热门吧推荐</div>
-                        <div class="ba-content">
-                            <div class="hotba" v-for="item in hotbas">
-                                <img :src="item.subject_image">
-                                <div class="hotba_info">
-                                    <div>{{item.subject_name}}</div>
-                                    <div class="subejct_desc">{{item.subject_desc}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+                
+
                 <div class="right" v-if="isUser">
                     <div class="abs">
                         <div class="abs-title">广告</div>
@@ -954,7 +998,6 @@
                 // 个人信息
             this.initUser()
             this.initHeart()
-            this.initSubjects()
         },
         watch: {
             dialogFormVisible(value) {
@@ -1021,15 +1064,17 @@
                     } else if (data == '1') {
                         // 未登录
                         _this.isUser = false
-                        _this.$notify.info({
-                            title: '消息',
-                            message: '您还没有登录哦',
-                            duration: 0
-                        });
+                        // _this.$notify.info({
+                        //     title: '消息',
+                        //     message: '您还没有登录哦',
+                        //     duration: 0
+                        // });
+                        _this.initSubjects()
                     } else {
                         //  查询成功
                         _this.isUser = true
                         _this.user = JSON.parse(data)
+                        _this.initSubjects()
                     }
                 })
             },
@@ -1053,18 +1098,23 @@
                     var result = JSON.parse(data)
                     result.forEach((value, index) => {
                         value.follow_num = value.follow_user.length
-                        value.follow_user.forEach((value2, index2) => {
-                            if (value2.user_name == _this.user.username) {
-                                value.isAttention = true
-                                _this.bas.push(value)
-                            }
-                        })
+                        if (parseInt(value.follow_num) == 0) {
+                            value.isAttention = false
+                        }else{
+                            value.isAttention = false
+                            value.follow_user.forEach((value2, index2) => {
+                                if (value2.user_name == _this.user.username) {
+                                    value.isAttention = true
+                                    _this.bas.push(value)
+                                }
+                            })
+                        }
                     })
-                    result.sort(_this.compare('follow_num'))
-                    _this.hotbas = result.slice(0, 5)
-                    console.log(result)
-                        // _this.hotbas = result
-                        // _this.hotbas.slice(0, 5)
+                    var result2 = result.slice(0)
+                    result2.sort(_this.compare('follow_num'))
+                    _this.hotbas = result2.slice(0, 100)
+                    _this.hotbas = _this.getArrayItems(_this.hotbas, 5)
+                    console.log(_this.hotbas)
                 })
             },
             compare(prop) {
@@ -1374,6 +1424,54 @@
                             type: 'warning'
                         })
                         window.location.href = "/login"
+                    }
+                })
+            },
+            // 随机生成一个数组  五个
+            getArrayItems(arr, num) {
+                var temp_array = new Array();
+                for (var index in arr) {
+                    temp_array.push(arr[index]);
+                }
+                //取出的数值项,保存在此数组
+                var return_array = new Array();
+                for (var i = 0; i<num; i++) {
+                    if (temp_array.length > 0) {
+                        var arrIndex = Math.floor(Math.random()*temp_array.length);
+                        return_array[i] = temp_array[arrIndex];
+                        temp_array.splice(arrIndex, 1);
+                    } else {
+                        break;
+                    }
+                }
+                return return_array;
+            },
+            //换一批
+            refresh() {
+                this.hotbas = this.getArrayItems(this.hotbas, 5)
+            },
+            // 查看全部
+            showSubjectList () {
+                window.location.href = "/subjectList"
+            },
+            // 关注
+            joinSubject (item,index) {
+                if (!this.isUser){
+                    this.$message({
+                        message:'没有登录哇！',
+                        type: 'warning'
+                    })
+                    return
+                }
+                var _this = this
+                this.handleAjax("/joinSubject",'post',{
+                    _id: item._id,
+                    user_name: _this.user.username,
+                    avator: _this.user.avator
+                },function(data){
+                    if (data == "1"){
+                        _this.hotbas[index].isAttention = true
+                        _this.bas.push(_this.hotbas[index])
                     }
                 })
             }

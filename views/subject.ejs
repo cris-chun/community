@@ -278,6 +278,30 @@
         text-align: center;
         font-size: 11px;
     }
+    .search-menu {
+        margin-left: 50px;
+        float: left;
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+    
+    .search input {
+        float: right;
+        width: 200px;
+        height: 30px;
+        border-radius: 15px;
+    }
+    
+    .search-icon {
+        color: #f4630b;
+        margin-left: -25px;
+        z-index: 100;
+        font-size: 18px;
+        font-weight: 900;
+    }
 </style>
 
 <body>
@@ -464,6 +488,7 @@
         data: function() {
             return {
                 activeIndex: '1',
+                search: '',
                 posts: [{
                     post_title: 'title',
                     subject_name: '摄影',
