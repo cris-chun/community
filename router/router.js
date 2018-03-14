@@ -9,6 +9,7 @@ var posts = require("../db/posts")
 var user_actives_infos = require("../db/user_actives_infos")
 var replys = require("../db/replys")
 var white_wall = require("../db/white_wall")
+var infos = require("../db/infos")
 var findData = require("../db/findData")
 var fs = require("fs")
 var path = require("path")
@@ -579,7 +580,8 @@ exports.commitUserInfo = function(req, res) {
 
 //退出
 exports.exit = function(req, res) {
-    req.session.username = ""
+    req.session.username = null
+    req.session.login = false
     res.send("1")
 }
 
@@ -594,4 +596,20 @@ exports.initSubjects = function(req, res) {
 // 忘记密码页面
 exports.showForgetPassword = function(req, res) {
     res.render("/forgetPassword")
+}
+
+// 加载信息
+exports.getInfos = function(req, res){
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields){
+        if (err){
+            console.log("查找信息失败")
+            return
+        }
+        infos.findData({
+            user_name: fields.user_name
+        },function(data){
+            res.send(JSON.stringify(data))
+        })
+    })
 }

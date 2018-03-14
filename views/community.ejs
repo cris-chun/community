@@ -6,566 +6,8 @@
     <title>社区话题</title>
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/community.css">
 </head>
-<style type="text/css">
-    body {
-        margin: 0;
-        padding: 0;
-        background: #dceffe;
-    }
-    
-    a {
-        text-decoration: none;
-    }
-    
-    .left,
-    .right {
-        margin: 0 auto;
-    }
-    
-    #app {
-        text-align: center;
-    }
-    
-    .left {
-        /* padding-left:15%; */
-        margin-left: -8px;
-        width: 100%;
-    }
-    
-    .right {
-        margin-top: 15px;
-        margin-left: 8px;
-        width: 100%;
-    }
-    
-    .menu-padding {
-        padding-left: 35%;
-    }
-    
-    .content {
-        background: #fff;
-        width: 98%;
-        margin: 15px auto;
-        cursor: pointer;
-    }
-    
-    .sub-content {
-        width: 115px;
-        height: 100px;
-        border-right: 1px solid #ededef;
-        color: #f4630b;
-        font-size: 53px;
-        display: inline-block;
-        padding-top: 5px;
-        padding-bottom: 5px;
-    }
-    
-    .text {
-        font-size: 12px;
-    }
-    
-    .sub-content:last-child {
-        border: none;
-    }
-    
-    .twitter {
-        width: 100%;
-        /*margin: 15px auto;*/
-    }
-    
-    .avatar {
-        width: 100%;
-    }
-    
-    .avatar-left {
-        padding-right: 10px;
-    }
-    
-    .content-right {
-        text-align: left;
-        margin-left: 20px;
-        background: #fff;
-        padding: 10px 8px;
-        -webkit-border-radius: 8px;
-        -moz-border-radius: 8px;
-        border-radius: 8px;
-    }
-    
-    .content-right>div {
-        position: relative;
-        background: #fff;
-    }
-    
-    .arrow {
-        position: absolute;
-        top: 5px;
-        left: -38px;
-        width: 0;
-        height: 0;
-        font-size: 0;
-        border: solid 15px;
-        border-color: #fafafa #fff #fafafa #fafafa;
-    }
-    
-    .content-row {
-        margin-top: 20px;
-    }
-    
-    .post {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        clear: both;
-    }
-    
-    .top {
-        border-bottom: 1px solid #d8d8d8;
-        padding: 7px;
-    }
-    
-    .bottom {
-        cursor: pointer;
-        clear: both;
-        border-top: 1px solid #d8d8d8;
-        padding: 7px;
-    }
-    
-    .top span,
-    .bottom span {
-        color: #bdbdbd;
-    }
-    
-    .time,
-    .tags {
-        float: right;
-    }
-    
-    .tags span {
-        margin-left: 5px;
-        margin-right: 5px;
-        font-size: 14px;
-    }
-    /* .heart-number,.comment-number{
-        font-size:14px;
-    } */
-    
-    .images {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        margin: 10px 30px;
-        flex-wrap: wrap;
-    }
-    
-    .images img {
-        width: 21%;
-        padding: 10px;
-    }
-    
-    .info {
-        background: #f5f7fa;
-        border: 1px solid #dfdfdf;
-    }
-    
-    .name {
-        font-size: 15px;
-        font-weight: 700;
-        border-right: 2px solid #fff;
-    }
-    
-    .name>div {
-        margin-left: 20px;
-        margin-top: 10px;
-        height: 50px;
-        text-align: left;
-        line-height: 60px;
-    }
-    
-    .name>div>span,
-    .name>div>a {
-        display: block;
-        line-height: 20px;
-    }
-    
-    .name .ztc {
-        color: #f4630b
-    }
-    
-    .name>div>a {
-        font-weight: 400;
-    }
-    
-    .icon-dropdown>i {
-        font-weight: 600;
-        font-size: 25px;
-        line-height: 60px;
-    }
-    
-    .list {
-        padding-top: 8px;
-        padding-bottom: 8px;
-        padding-left: 15px;
-        border-bottom: 1px solid #dfdfdf;
-        border-left: 1px solid #dfdfdf;
-        border-right: 1px solid #dfdfdf;
-        background: #f5f7fa;
-        text-align: left;
-        font-size: 14px;
-        cursor: pointer;
-    }
-    
-    .list i {
-        color: #f4630b;
-    }
-    
-    .list span {
-        margin-left: 15px;
-    }
-    
-    .list:nth-child(1) {
-        /* margin-top: 5px; */
-        border-top: 2px solid #dfdfdf;
-    }
-    
-    .dialog-form {
-        margin: 25px;
-    }
-    
-    .dialog-select {
-        width: 100%;
-    }
-    
-    .dialog-upload {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-    }
-    
-    .avatar-uploader .el-upload {
-        border: 1px dashed #d9d9d9;
-        border-radius: 6px;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .avatar-uploader .el-upload:hover {
-        border-color: #409EFF;
-    }
-    
-    .avatar-uploader-icon {
-        font-size: 28px;
-        color: #8c939d;
-        width: 178px;
-        height: 178px;
-        line-height: 178px;
-        text-align: center;
-    }
-    
-    .avatar2 {
-        width: 178px;
-        height: 178px;
-        display: block;
-    }
-    
-    .uploadimgs {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    .uploadimgs img {
-        margin: 5px;
-    }
-    
-    .post-title {
-        margin-left: 15px;
-        margin-right: 15px;
-        font-size: 16px;
-    }
-    
-    .post-content {
-        margin-left: 35px;
-        margin-right: 35px;
-        color: #848484;
-        font-size: 13px;
-    }
-    
-    .search-menu {
-        margin-left: 50px;
-        float: left;
-        margin-top: 15px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: nowrap;
-    }
-    
-    .search input {
-        float: right;
-        width: 200px;
-        height: 30px;
-        border-radius: 15px;
-    }
-    
-    .search-icon {
-        color: #f4630b;
-        margin-left: -25px;
-        z-index: 100;
-        font-size: 18px;
-        font-weight: 900;
-    }
-    
-    .login {
-        font-size: 40px;
-        color: #bdbdbd;
-    }
-    
-    .name_login span {
-        margin-top: -10px;
-    }
-    
-    .name_login>a {
-        font-size: 14px;
-        margin-left: 20px;
-        margin-top: -10px;
-        background: #f4630b;
-        color: #fff;
-        padding: 5px 10px;
-        border-radius: 8px;
-    }
-    
-    .name_login {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-    }
-    
-    .el-notification.right {
-        width: 300px;
-    }
-    
-    .comments {
-        font-size: 12px;
-    }
-    
-    .comment {
-        cursor: pointer;
-        position: relative;
-    }
-    
-    .popover {
-        background: #222;
-        color: #fff;
-        position: absolute;
-        top: 20px;
-        padding: 5px;
-        left: 50px;
-        /* width: 60px; */
-        border-radius: 5px;
-        z-index: 1000;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    .poparrow {
-        position: absolute;
-        top: -8px;
-        /* left: -38px; */
-        width: 0;
-        height: 0;
-        font-size: 0;
-        border: solid 4px;
-        border-color: #fff #fff #222 #fff;
-    }
-    
-    .popover span {
-        margin: 0 10px;
-    }
-    
-    .comment span {
-        margin: 2px;
-    }
-    
-    .comment>span:nth-child(1),
-    .comment>span:nth-child(3) {
-        color: #bfbfbf;
-    }
-    
-    .comment_input {
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: center;
-        align-items: center;
-        margin-top: 10px;
-    }
-    
-    .comment_input .input,
-    .comment_input .send {
-        margin: 5px;
-    }
-    
-    .comment_input .el-input__inner {
-        height: 30px;
-    }
-    
-    .comment_input .el-button--primary.is-plain {
-        color: #f4630b;
-        border-color: #dcdfe6;
-        background: #fff;
-    }
-    
-    .comment_input .el-button {
-        font-size: 12px;
-        padding: 7.5px 10px;
-    }
-    
-    .my-ba {
-        background: #f5f7fa;
-        display: flex;
-        justify-content: start;
-        align-items: start;
-        flex-wrap: wrap;
-        border-radius: 4px;
-    }
-    
-    .my-ba .ba-title {
-        font-size: 14px;
-        padding: 5px 10px;
-        width: 100%;
-        text-align: left;
-    }
-    
-    .my-ba .ba-content {
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-bottom: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        font-size: 13px;
-    }
-    
-    .hotba {
-        /* margin: 5px; */
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        border-bottom: 1px dotted #dcdcdc;
-        margin-top: 8px;
-        padding-bottom: 5px;
-    }
-    .ba-title{
-        border-bottom: 1px dotted #dcdcdc;
-    }
-    
-    .hotba img {
-        width: 45px;
-        border-radius: 50%;
-    }
-    
-    .hotba_info {
-        text-align: left;
-        margin-left: 3px;
-        margin-right: 3px;
-    }
-    .hotba_info>div:nth-child(1){
-        width: 100px;
-        overflow: hidden;
-        word-wrap: none;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-    
-    .subejct_desc {
-        height: 39px;
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-    }
-    .subejct_desc span{
-        color: #f4630b;
-        line-height: 15px;
-    }
-    .hot-follow{
-        /* background: #f4630b; */
-        color: #f4630b;
-        border-radius: 5px;
-        padding: 5px;
-        margin-left: 2px;
-        cursor: pointer;
-    }
-    .look_all{
-        width: 100%;
-        padding: 5px;
-        margin-top: -5px;
-        cursor: pointer;
-        margin-bottom: 5px;
-    }
-    
-    .ba {
-        background: #fff;
-        padding: 8px;
-        width: 90%;
-        margin: 2px;
-        border: solid 1px #f3f3f3;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-    }
-    
-    .ba .star {
-        color: #f4630b;
-        text-align: left;
-        padding-right: 3px;
-        cursor: pointer;
-    }
-    
-    .el-tabs--border-card {
-        background: #fafafa;
-    }
-    
-    .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active {
-        background: #fafafa;
-        color: #f4630b
-    }
-    
-    .el-tabs--border-card>.el-tabs__header .el-tabs__item:hover {
-        color: #f4630b;
-    }
-    
-    .extenal {
-        line-height: 60px;
-        color: #fff;
-    }
-    
-    .extenal a {
-        color: #fff;
-        text-decoration: none;
-        margin-right: 10px;
-    }
-    
-    .noguan {
-        color: #bfbfbf;
-    }
-    
-    .g-ft {
-        padding-top: 30px;
-        padding-bottom: 30px;
-        text-align: center;
-        font-size: 11px;
-    }
-    .fa-refresh{
-        float: right;
-        margin-top: 2px;
-        margin-right: 2px;
-        cursor: pointer;
-    }
-</style>
-
 <body>
     <div id="app">
         <!--菜单导航-->
@@ -612,7 +54,7 @@
                             <div class="twitter">
                                 <el-row v-for="(item,index) in posts" class="content-row">
                                     <el-col :span="2" class="avatar-left">
-                                        <img :src="item.avator" alt="" class="avatar">
+                                        <img :src="item.avator" alt="" class="avatar" @click="showChat(item)">
                                     </el-col>
                                     <el-col :span="21" class="content-right">
                                         <div>
@@ -668,7 +110,7 @@
                             <div class="twitter">
                                 <el-row v-for="(item,index) in posts" class="content-row">
                                     <el-col :span="2" class="avatar-left">
-                                        <img :src="item.avator" alt="" class="avatar">
+                                        <img :src="item.avator" alt="" class="avatar" @click="showChat(item)">
                                     </el-col>
                                     <el-col :span="21" class="content-right">
                                         <div>
@@ -853,6 +295,42 @@
             </div>
         </el-dialog>
 
+
+        <div class="chat">
+            <div class="close">
+                <img src="/images/close.png" alt="">
+            </div>
+            <div class="chat-content">
+                <div class="chat-title">与 <span>ztchun</span> 对话</div>
+                <div class="chat-text">
+                    <ul class="chat-ul">
+                        <div v-for="item in infos" >
+                            <li class="from" v-if="item.right">
+                                <a href=""><img :src="user.avator" alt=""></a>
+                                <div class="text">
+                                    <div class="chat-right-arrow"></div>
+                                    <div class="world">{{item.content}}</div>
+                                    <div class="chat-time">{{item.time}}</div>
+                               </div>
+                            </li>
+                            <li class="to" v-else>
+                                <a href=""><img :src="item.from_user_avator" alt=""></a>
+                                <div class="text">  
+                                    <div class="chat-left-arrow"></div>
+                                    <div class="world2">{{item.content}}</div>
+                                    <div class="chat-time">{{item.time}}</div>
+                                 </div>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text">
+                <div class="chat-send">发送</div>
+            </div>
+        </div>
+
         <div class="g-ft">
             <div class="m-ft2">
                 <a target="_blank" rel="nofollow" href="/">首页</a>
@@ -886,35 +364,38 @@
                 // 导航条
                 activeIndex: '1',
                 // 二级菜单
-                menus: [{
-                    icon: 'fa-plus-square-o',
-                    text: '发布吧贴',
-                    subjectId: 'subjectId'
-                }, {
-                    icon: 'fa-object-group',
-                    text: '乡情校谊',
-                    subjectId: 'subjectId'
-                }, {
-                    icon: 'fa-shopping-basket',
-                    text: '二手集市',
-                    subjectId: 'subjectId'
-                }, {
-                    icon: 'fa-graduation-cap',
-                    text: '学霸论区',
-                    subjectId: 'subjectId'
-                }, {
-                    icon: 'fa-music',
-                    text: '知音',
-                    subjectId: 'subjectId'
-                }, {
-                    icon: 'fa-navicon',
-                    text: '更多',
-                    subjectId: 'subjectId'
-                }],
+                menus: [
+                    {
+                        icon: 'fa-plus-square-o',
+                        text: '发布吧贴',
+                        subjectId: 'subjectId'
+                    }, {
+                        icon: 'fa-object-group',
+                        text: '乡情校谊',
+                        subjectId: 'subjectId'
+                    }, {
+                        icon: 'fa-shopping-basket',
+                        text: '二手集市',
+                        subjectId: 'subjectId'
+                    }, {
+                        icon: 'fa-graduation-cap',
+                        text: '学霸论区',
+                        subjectId: 'subjectId'
+                    }, {
+                        icon: 'fa-music',
+                        text: '知音',
+                        subjectId: 'subjectId'
+                    }, {
+                        icon: 'fa-navicon',
+                        text: '更多',
+                        subjectId: 'subjectId'
+                    }
+                ],
                 // 帖子内容
                 posts: [],
                 // 右侧个人信息
-                list: [{
+                list: [
+                    {
                         icon: 'fa fa-pencil-square-o',
                         text: '账号设置',
                         link: '/mine?index=4'
@@ -987,7 +468,8 @@
                 reply: {},
                 tabName: 'all',
                 bas: [],
-                hotbas: []
+                hotbas: [],
+                infos:[]
             }
         },
         created() {
@@ -1474,7 +956,33 @@
                         _this.bas.push(_this.hotbas[index])
                     }
                 })
-            }
+            },
+            // 展示聊天对话框
+            showChat(item){
+                if (!this.user.username){
+                    this.$message({
+                        message:'sorry, 您还没有登录哇，不能发动消息哇',
+                        type: 'warning'
+                    })
+                    return
+                }
+                $(".chat").toggle(500)
+                var _this = this
+                _this.handleAjax("/getInfos", 'post',{
+                    user_name: this.user.username
+                },function(data){
+                    var infos = JSON.parse(data)
+                    infos[0].infos.forEach((value, index) => {
+                        if (value.from_user_name == _this.user.username){
+                            value.right = true
+                        }else{
+                            value.right = false
+                        }
+                    })
+                    _this.infos = infos[0].infos
+                    console.log(_this.infos)
+                })
+            },
         }
     })
 </script>

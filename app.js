@@ -142,5 +142,8 @@ app.get("/initSubjects", router.initSubjects)
 // 展示忘记密码页面
 app.get("/showForgetPassword", router.showForgetPassword)
 
+// 消息列表
+app.post("/getInfos", router.getInfos)
+
 // 监听端口
 app.listen(3000)
