@@ -106,6 +106,8 @@
                                 </el-row>
                             </div>
                         </el-tab-pane>
+                        <input type="hidden" id="closeChat" value="" @click="closeChat">
+                        <input type="hidden" id="username_id" value="">
                         <el-tab-pane label="我关注的动态" name="mine">
                             <div class="twitter">
                                 <el-row v-for="(item,index) in posts" class="content-row">
@@ -295,7 +297,7 @@
             </div>
         </el-dialog>
 
-        <iframe width="370" height="600" name=aa frameborder=0 src="/chat" class="chat">
+        <iframe width="370" height="600" name=aa frameborder=0 src="" class="chat">
         </iframe>
 
         <div class="g-ft">
@@ -564,7 +566,7 @@
                     result2.sort(_this.compare('follow_num'))
                     _this.hotbas = result2.slice(0, 100)
                     _this.hotbas = _this.getArrayItems(_this.hotbas, 5)
-                    console.log(_this.hotbas)
+                    // console.log(_this.hotbas)
                 })
             },
             compare(prop) {
@@ -927,6 +929,13 @@
             },
             // 展示聊天对话框
             showChat(item){
+                if (this.user.username == item.user_name){
+                    this.$message({
+                        message:'不能向自己发送信息哦',
+                        type: 'warning'
+                    })
+                    return
+                }
                 if (!this.user.username){
                     this.$message({
                         message:'sorry, 您还没有登录哇，不能发动消息哇',
@@ -934,22 +943,13 @@
                     })
                     return
                 }
+                // 加载外部框架
+                $("#username_id").val(item.user_name)
+                $(".chat").attr("src", "/chat")
                 $(".chat").toggle(500)
-                var _this = this
-                _this.handleAjax("/getInfos", 'post',{
-                    user_name: this.user.username
-                },function(data){
-                    var infos = JSON.parse(data)
-                    infos[0].infos.forEach((value, index) => {
-                        if (value.from_user_name == _this.user.username){
-                            value.right = true
-                        }else{
-                            value.right = false
-                        }
-                    })
-                    _this.infos = infos[0].infos
-                    console.log(_this.infos)
-                })
+            },
+            closeChat(){
+                $(".chat").toggle(500)
             }
         }
     })

@@ -32,7 +32,7 @@
 .chat .chat-content{
     clear: both;
     position: relative;
-    top: -20px;
+    top: -10px;
 }
 .chat-title{
     padding-bottom: 5px;
@@ -147,59 +147,116 @@ input:focus{outline:none;}
     color: #fff;
     border-radius: 5px;
 }
+.chat-send{
+    cursor: pointer;
+}
 </style>
 
 <body>
     <div class="chat">
-        <div class="close">
-            <img src="/images/close.png" alt="">
+        <div class="close" >
+            <img class="closeImg" src="/images/close.png" alt="">
         </div>
         <div class="chat-content">
-            <div class="chat-title">与 <span>ztchun</span> 对话</div>
+            <div class="chat-title">与 <span class="username"></span> 对话</div>
             <div class="chat-text">
                 <ul class="chat-ul">
-                    <div>
-                        <li class="from">
+                    <div class="message">
+                        <!-- <li class="from">
                             <a href=""><img src="/avatar.jpg" alt=""></a>
                             <div class="text">
                                 <div class="chat-right-arrow"></div>
                                 <div class="world">{{item.content}}</div>
                                 <div class="chat-time">{{item.time}}</div>
                             </div>
-                        </li>
-                        <li class="to"e>
+                        </li> -->
+                        <!-- <li class="to">
                             <a href=""><img src="/avatar.jpg" alt=""><a>
                             <div class="text">  
                                 <div class="chat-left-arrow"></div>
                                 <div class="world2">{{item.content}}</div>
                                 <div class="chat-time">{{item.time}}</div>
                             </div>
-                        </li>
+                        </li> -->
                     </div>
                 </ul>
             </div>
         </div>
         <div class="chat-input">
-            <input type="text"  v-model="chatContent">
+            <input type="text" class="msg">
             <div class="chat-send" @click="chat">发送</div>
         </div>
     </div>
 
     <script>
         $(function(){
+            var user = {}
+            var to_user_name = window.parent.document.getElementById("username_id").value
+            // console.log(to_user_name)
+            function handleAjax (url, method, data, successFunc) {
+                $.ajax({
+                    url: url,
+                    type: method,
+                    data: data,
+                    cache: false,
+                    success: successFunc,
+                    error: function(err) {
+                        console.log(err)
+                    }
+                })
+            }
+            // 获取用户信息
+            handleAjax("/userInfo", 'get', {}, function(data){
+                user = JSON.parse(data)
+                $(".username").text(to_user_name)
+            })
+            // 时间
+            function getTime () {
+                var timestamp = new Date()
+                var y = timestamp.getFullYear()
+                var M = timestamp.getMonth() + 1
+                M = M > 10  ? M : ('0' + M)
+                var d = timestamp.getDate()
+                d = d > 10 ? d : ('0' + d)
+                var h = timestamp.getHours()
+                h = h > 10 ? h : ('0' + h)
+                var m = timestamp.getMinutes()
+                m = m > 10 ? m : ('0' + m)
+                var s = timestamp.getSeconds()
+                s = s > 10 ? s : ('0' + s)
+                return y + '-' + M + '-' + d + ' ' + h + ':' + m + ':' + s
+            }
+            //send
             var socket = io();
             $(".chat-send").click(function(){
                 var message = {
-                    username: 'ztchun',
-                    contentText: 'ztchun发送的信息'
+                    from_user_name: user.username,
+                    to_user_name: to_user_name,
+                    avator: user.avator,
+                    time: getTime(),
+                    contentText: $(".msg").val()
                 }
                 socket.emit("chat",message);
+                $(".msg").val('')
+            })
+            
+            socket.on("answer",function(msg){
+                console.log(msg)
+                if (msg.from_user_name == user.username){
+                    var $chat = $('<li class="from"><a href=""><img src="' +  msg.avator+ '" alt=""></a><div class="text"><div class="chat-right-arrow"></div><div class="world">' +  msg.contentText + '</div><div class="chat-time">' +  msg.time +  '</div></div></li>')
+                    $(".message").append($chat)
+                } else {
+                    if (msg.to_user_name == user.username){
+                        var $chat = $('<li class="to"><a href=""><img src="' +  msg.avator+ '" alt=""></a><div class="text"><div class="chat-left-arrow"></div><div class="world2">' +  msg.contentText + '</div><div class="chat-time">' +  msg.time +  '</div></div></li>')
+                        $(".message").append($chat)
+                    }else{
+                        return
+                    }
+                }
             })
 
-            socket.on("answer",function(msg){
-                var li = $("<li>"+msg.username+":"+msg.contentText+"</li>");
-                $(".list").append(li);
-                $("#content").val("")
+            $(".closeImg").click(function(){
+                window.parent.document.getElementById("closeChat").click()
             })
         })
     </script>
