@@ -295,41 +295,8 @@
             </div>
         </el-dialog>
 
-
-        <div class="chat">
-            <div class="close">
-                <img src="/images/close.png" alt="">
-            </div>
-            <div class="chat-content">
-                <div class="chat-title">与 <span>ztchun</span> 对话</div>
-                <div class="chat-text">
-                    <ul class="chat-ul">
-                        <div v-for="item in infos" >
-                            <li class="from" v-if="item.right">
-                                <a href=""><img :src="user.avator" alt=""></a>
-                                <div class="text">
-                                    <div class="chat-right-arrow"></div>
-                                    <div class="world">{{item.content}}</div>
-                                    <div class="chat-time">{{item.time}}</div>
-                               </div>
-                            </li>
-                            <li class="to" v-else>
-                                <a href=""><img :src="item.from_user_avator" alt=""></a>
-                                <div class="text">  
-                                    <div class="chat-left-arrow"></div>
-                                    <div class="world2">{{item.content}}</div>
-                                    <div class="chat-time">{{item.time}}</div>
-                                 </div>
-                            </li>
-                        </div>
-                    </ul>
-                </div>
-            </div>
-            <div class="chat-input">
-                <input type="text">
-                <div class="chat-send">发送</div>
-            </div>
-        </div>
+        <iframe width="370" height="600" name=aa frameborder=0 src="/chat" class="chat">
+        </iframe>
 
         <div class="g-ft">
             <div class="m-ft2">
@@ -469,7 +436,8 @@
                 tabName: 'all',
                 bas: [],
                 hotbas: [],
-                infos:[]
+                infos:[],
+                chatContent: ''
             }
         },
         created() {
@@ -982,7 +950,7 @@
                     _this.infos = infos[0].infos
                     console.log(_this.infos)
                 })
-            },
+            }
         }
     })
 </script>

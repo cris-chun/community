@@ -6,6 +6,10 @@ var app = express();
 var router = require("./router/router.js");
 var session = require("express-session");
 
+// 聊天室
+var http = require("http").Server(app);
+var io = require("socket.io")(http);
+
 //session配置
 app.use(session({
     secret: 'keyboard cat',
@@ -145,5 +149,19 @@ app.get("/showForgetPassword", router.showForgetPassword)
 // 消息列表
 app.post("/getInfos", router.getInfos)
 
+// 实时聊天
+app.get("/chat", function(req, res){
+    res.render("chat")
+})
+io.on("connection",function(socket){
+    socket.on("chat",function(msg){
+        //console.log(msg);
+        console.log(msg)
+        io.emit("answer",msg);
+    })
+})
+
+
+
 // 监听端口
-app.listen(3000)
+http.listen(3000)
