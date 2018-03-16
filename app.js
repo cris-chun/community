@@ -4,7 +4,10 @@
 var express = require("express");
 var app = express();
 var router = require("./router/router.js");
+var fd = require("formidable");
 var session = require("express-session");
+var infos = require("./db/infos")
+var users = require("./db/users")
 
 // 聊天室
 var http = require("http").Server(app);
@@ -153,10 +156,88 @@ app.post("/getInfos", router.getInfos)
 app.get("/chat", function(req, res){
     res.render("chat")
 })
+
+// 获取用户的未读消息
+app.post("/getUnreadedMsg",function(req, res){
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields){
+        if (err){
+            console.log("获取未读消息失败")
+            return
+        }
+        infos.findData({
+            user_name: fields.username
+        },function(data){
+            res.send(JSON.stringify(data[0].receiveMsg))
+        })
+    })
+})
+
+// 修改用户的消息状态
+app.post("/changeMsgStatus",function(req, res){
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields){
+        if (err){
+            console.log("获取未读消息失败")
+            return
+        }
+        infos.findData({
+            user_name: fields.username
+        },function(data){
+            data[0].receiveMsg.forEach((value, index) => {
+                value.readed = true
+            })
+            infos.updateDataBy({
+                user_name: fields.username
+            },{
+                $set: {
+                    receiveMsg:data[0].receiveMsg
+                }
+            },function(data){
+                res.send("1")
+            })
+        })
+    })
+})
+
 io.on("connection",function(socket){
     socket.on("chat",function(msg){
-        console.log(msg)
-        io.emit("answer",msg);
+        // 将消息存到数据库中 存到发件人的消息库中  存到收件人的消息库中
+        users.findData({
+            username: msg.to_user_name
+        },function(data){
+            var message = {
+                from_user_name: msg.from_user_name,
+                from_user_avator: msg.from_user_avator,
+                to_user_name: msg.to_user_name,
+                to_user_avator: data[0].avator,
+                time: msg.time,
+                contentText: msg.contentText
+            }
+            var message1 = Object.assign({readed: true}, message)
+            infos.updateDataBy({
+                user_name:msg.from_user_name,
+            },{
+                $push: {
+                    sendMsg: message1
+                }
+            },function(data){
+                if (data.result.ok){
+                    var message2 = Object.assign({readed: false}, message)
+                    infos.updateDataBy({
+                        user_name: msg.to_user_name
+                    },{
+                        $push: {
+                            receiveMsg: message2
+                        }
+                    },function(data){
+                        if (data.result.ok){
+                            io.emit("answer", message);
+                        }
+                    })
+                }
+            })
+        })
     })
 })
 

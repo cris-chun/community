@@ -950,6 +950,13 @@
             },
             closeChat(){
                 $(".chat").toggle(500)
+                // 讲消息都设置为已读
+                var _this = this
+                _this.handleAjax("/changeMsgStatus", "post", {
+                    username: this.user.username
+                },function(data){
+                    console.log(data)
+                })
             }
         }
     })

@@ -79,3 +79,19 @@ exports.updateData = function(oldObj, newObj, callback) {
         })
     })
 }
+
+exports.updateDataBy = function(oldObj, newObj, callback) {
+    if (!oldObj || !newObj) {
+        return;
+    }
+    db._connnection(function(db) {
+        db.collection("infos").update(oldObj, newObj, function(err, result) {
+            if (err) {
+                console.log('infos update error')
+                db.close()
+                return
+            }
+            callback(result)
+        })
+    })
+}

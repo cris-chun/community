@@ -2,6 +2,6 @@
 
 # 毕设文章
 
-# node 项目
-# node app.js
+# node + vue + socket
+# node app.js 、  nodemon app.js
 # 访问 http://localhost:3000

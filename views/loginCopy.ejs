@@ -143,10 +143,12 @@
     <script>
         $(function () {
             //页面初始化时，如果帐号密码cookie存在则填充
-            console.log(getCookie('username'), getCookie('password'))
             if (getCookie('username') && getCookie('password')) {
                 $(".username").val(getCookie('username'))
                 $(".password").val(getCookie("password"))
+                if (getCookie('username') && getCookie('password')){
+                    $(".check")[0].checked = true
+                }
             }
 
             //复选框勾选状态发生改变时，如果未勾选则清除cookie
