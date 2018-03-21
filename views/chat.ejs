@@ -258,7 +258,7 @@ input:focus{outline:none;}
                 return y + '-' + M + '-' + d + ' ' + h + ':' + m + ':' + s
             }
             //send
-            var socket = io();
+            var socket = io();  
             $(".chat-send").click(function(){
                 var message = {
                     from_user_name: user.username,
