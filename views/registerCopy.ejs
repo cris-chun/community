@@ -9,9 +9,10 @@
 </head>
 
 <style>
-    .sign .logo{
-        top:20px;
+    .sign .logo {
+        top: 20px;
     }
+    
     .sign .main {
         width: 300px;
     }
@@ -74,7 +75,8 @@
         font-size: 12px;
         color: #bfbfbf;
     }
-    .errorMsg{
+    
+    .errorMsg {
         display: none;
         color: red;
         margin-top: 20px;
@@ -98,7 +100,7 @@
             <div class="js-sign-in-container">
                 <form id="new_session" accept-charset="UTF-8">
                     <div class="input-prepend restyle js-normal">
-                        <input placeholder="你的昵称" type="text" class="username"/>
+                        <input placeholder="你的昵称" type="text" class="username" />
                         <i class="fa fa-user-circle-o"></i>
                     </div>
 
@@ -148,56 +150,56 @@
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>
         $(function() {
-            var username =  false
-            $(".username").blur(function(){
+            var username = false
+            $(".username").blur(function() {
                 $.ajax({
                     url: "/checkUsername",
                     type: "post",
                     data: {
                         username: $(".username").val()
                     },
-                    success:function(data){
+                    success: function(data) {
                         console.log(data)
                         if (data == '0') {
                             username = false
                             $(".errorMsg").show().text("sorry,此用户名已经被占用，请重新输入一个哦")
                             $(".username").val("")
-                        }else{
+                        } else {
                             username = true
                         }
                     },
-                    error:function(err){
-                        console.log("请求错误",err)
+                    error: function(err) {
+                        console.log("请求错误", err)
                     }
                 })
             })
 
             var email = false
-            $(".email").blur(function(){
-                if(/^(.+)@(.+)$/.test($(this).val())){
+            $(".email").blur(function() {
+                if (/^(.+)@(.+)$/.test($(this).val())) {
                     email = true
                 } else {
-                    if ($(".email").val() != ""){
+                    if ($(".email").val() != "") {
                         $(".errorMsg").show().text("邮箱地址错误")
                     }
                     email = false
                 }
             })
 
-            $("input").focus(function(){
+            $("input").focus(function() {
                 $(".errorMsg").hide()
             })
 
-            $("#register").click(function(){
-                if (!email){
+            $("#register").click(function() {
+                if (!email) {
                     $(".errorMsg").show().text("请输入正确的邮箱地址")
                     return
                 }
-                if(!username){
+                if (!username) {
                     $(".errorMsg").show().text("请重新选择一个用户名称")
                     return
                 }
-                if ( $(".username").val() == '' || $(".password").val() == '' ||$(".email").val() == ''){
+                if ($(".username").val() == '' || $(".password").val() == '' || $(".email").val() == '') {
                     $(".errorMsg").show().text("用户名、密码、邮箱不能为空")
                     return
                 }
@@ -209,19 +211,19 @@
                         email: $(".email").val(),
                         password: $(".password").val(),
                     },
-                    beforeSend: function(){
+                    beforeSend: function() {
                         console.log("正在发送ajax请求")
                     },
-                    success:function(data){
+                    success: function(data) {
                         console.log(data)
                         if (data == '1') {
                             window.location.href = "/login"
-                        } else if (data == '2'){
+                        } else if (data == '2') {
                             $(".errorMsg").show().text("sorry,注册失败")
                         }
                     },
-                    error:function(err){
-                        console.log("请求错误",err)
+                    error: function(err) {
+                        console.log("请求错误", err)
                     }
                 })
             })

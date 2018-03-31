@@ -15,18 +15,18 @@ var user_actives_infos = require("../db/user_actives_infos")
 var ObjectID = require("mongodb").ObjectID
 
 // 登陆业务
-exports.loginCheck = function(req,res,callback){
+exports.loginCheck = function(req, res, callback) {
     var form = fd.IncomingForm()
-    form.parse(req,function(err,fields){
-        if(err){
+    form.parse(req, function(err, fields) {
+        if (err) {
             throw err
             return
         }
         var password = fields.password
         var username = fields.username
         var param = {}
-        // 手机号的登陆
-        if(username.length == 11 && (/^1[3|4|5|8|7][0-9]\d{4,8}$/.test(username))){
+            // 手机号的登陆
+        if (username.length == 11 && (/^1[3|4|5|8|7][0-9]\d{4,8}$/.test(username))) {
             param = {
                 phone_number: username
             }
@@ -39,24 +39,24 @@ exports.loginCheck = function(req,res,callback){
                 username: username
             }
         }
-        users.findData(param,function(data){
-            if(data.length == 0) {
+        users.findData(param, function(data) {
+            if (data.length == 0) {
                 // 数据库中没有此用户，需要注册
                 callback('0')
             } else {
-                if(data[0].check == true) {
-                    if(data[0].password === password) {
+                if (data[0].check == true) {
+                    if (data[0].password === password) {
                         // 登陆成功
                         console.log("login success")
                         req.session.login = true
                         req.session.username = data[0].username
                         callback('1')
-                    } else{
+                    } else {
                         // 密码错误 2
                         console.log("login error")
                         callback('2')
                     }
-                } else{
+                } else {
                     // 邮箱没有认证3
                     callback('3')
                 }
@@ -69,51 +69,51 @@ exports.loginCheck = function(req,res,callback){
 }
 
 // 登陆邮箱验证
-exports.loginCheckEmail = function(req,res,callback) {
+exports.loginCheckEmail = function(req, res, callback) {
     var username = req.query.username
     var password = req.query.password
     var tag = req.query.tag
-    var timestamp = Number(req.query.timestamp) + 24*60*60*1000  // 在时间戳的基础上加上24小时
+    var timestamp = Number(req.query.timestamp) + 24 * 60 * 60 * 1000 // 在时间戳的基础上加上24小时
     var now = Date.parse(new Date())
-    // console.log(username, password, timestamp, now)
+        // console.log(username, password, timestamp, now)
     if (timestamp > now) {
         users.findData({
             username: username
-        },function(result) {
+        }, function(result) {
             if (result.length == 0) {
                 // 没有此用户
                 users.deleteData({
                     username: username
-                },function(result){
+                }, function(result) {
                     callback("0")
                 })
             } else {
-                if (tag == "register"){
-                    if(result[0].password === password) {
+                if (tag == "register") {
+                    if (result[0].password === password) {
                         // 登陆成功
                         users.updateData({
                             username: username
-                        },{
+                        }, {
                             check: true
-                        },function(res){
+                        }, function(res) {
                             req.session.login = true
                             req.session.username = result[0].username
                             callback(tag)
                         })
-                    } else{
+                    } else {
                         // 密码错误 2
                         users.deleteData({
                             username: username
-                        },function(){
+                        }, function() {
                             callback('2')
                         })
                     }
-                }else {
+                } else {
                     users.updateData({
                         username: username
-                    },{
+                    }, {
                         password: password
-                    },function(res){
+                    }, function(res) {
                         req.session.login = true
                         req.session.username = result[0].username
                         callback(tag)
@@ -121,21 +121,21 @@ exports.loginCheckEmail = function(req,res,callback) {
                 }
             }
         })
-    }else{
+    } else {
         // 链接失效
         users.deleteData({
             username: username
-        },function(){
+        }, function() {
             callback('3')
         })
     }
 }
 
 // 注册业务
-exports.registerCheck = function(req,res,callback) {
+exports.registerCheck = function(req, res, callback) {
     var form = fd.IncomingForm()
-    form.parse(req,function(err,fields){
-        if(err){
+    form.parse(req, function(err, fields) {
+        if (err) {
             throw err
             return
         }
@@ -156,18 +156,18 @@ exports.registerCheck = function(req,res,callback) {
             sign: '',
             hobby: ''
         }
-        users.insertData(obj,function(data){
-            if(data.result.ok == 1){
+        users.insertData(obj, function(data) {
+            if (data.result.ok == 1) {
                 console.log("注册成功")
                 user_actives_infos.insertData({
                     user_name: fields.username,
-                    posts:[],
-                    subjects:[],
-                    manager_subjects:[],
-                    hearts:[],
-                    share:[],
-                    whiteWallHeart:[]
-                },function(data){
+                    posts: [],
+                    subjects: [],
+                    manager_subjects: [],
+                    hearts: [],
+                    share: [],
+                    whiteWallHeart: []
+                }, function(data) {
                     sendEmail(fields.email, fields.username, fields.password, 'register')
                     callback('1')
                 })
@@ -181,17 +181,17 @@ exports.registerCheck = function(req,res,callback) {
 }
 
 // 重置密码
-exports.resetPassword = function(req, res, callback){
+exports.resetPassword = function(req, res, callback) {
     var form = fd.IncomingForm()
-    form.parse(req, function(err, fields){
-        if (err){
+    form.parse(req, function(err, fields) {
+        if (err) {
             console.log("重置密码失败")
             return
         }
         var password = fields.password
         var username = fields.username
         var param = {}
-        // 手机号的登陆
+            // 手机号的登陆
         if (username.indexOf("@") >= 0) {
             param = {
                 email: username
@@ -201,7 +201,7 @@ exports.resetPassword = function(req, res, callback){
                 username: username
             }
         }
-        users.findData(param,function(result){
+        users.findData(param, function(result) {
             if (result.length == 0) {
                 // 没有此用户
                 callback("0")
@@ -216,32 +216,32 @@ exports.resetPassword = function(req, res, callback){
 }
 
 // 发送邮箱
-function sendEmail(email, username, password, tag){
+function sendEmail(email, username, password, tag) {
     // 发送email
     // 时间戳
     var now = Date.parse(new Date())
     var href = 'http://localhost:3000/loginCheckEmail?username=' + username + '&password=' + password + '&tag=' + tag + '&timestamp=' + now
-    // 发送方
+        // 发送方
     var transporter = nodemailer.createTransport({
-        service: 'qq',
-        auth: {
-            user: 'ztchun@qq.com',
-            pass: 'bsdhtkkqjkbyhaia'
-        }
-    })
-    // 接收方
+            service: 'qq',
+            auth: {
+                user: 'ztchun@qq.com',
+                pass: 'bsdhtkkqjkbyhaia'
+            }
+        })
+        // 接收方
     var mailOptions = {
         from: 'ztchun@qq.com',
         to: email,
         subject: '校园社区邮箱验证',
         text: '您好，此邮件为校园社区的邮箱认证，点击下方链接认证邮箱有效性',
         html: '<h2>您好，此邮件为校园社区的邮箱认证，请点击下方链接认证邮箱有效性</h2>' +
-        '<div><a href=\'' + href + '\'>链接</a></div>'
+            '<div><a href=\'' + href + '\'>链接</a></div>'
     }
-    transporter.sendMail(mailOptions, function(error, info){
-        if(error){
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
             console.log(error);
-        }else{
+        } else {
             console.log('Message sent: ' + info.response);
         }
     });
@@ -249,42 +249,42 @@ function sendEmail(email, username, password, tag){
 
 // 提交帖子
 exports.submitPost = function(req, res, callback) {
-    if (!(req.session.login && req.session.username)){
+    if (!(req.session.login && req.session.username)) {
         // 未登录
         callback("0")
         return false
     }
     var form = fd.IncomingForm()
-    form.parse(req,function(err,fields){
-        if(err){
+    form.parse(req, function(err, fields) {
+        if (err) {
             throw err
             return
         }
         if (fields.radio == '1') {
             subjects.findData({
                 "_id": ObjectID(fields.subject)
-            },function(subject) {
-                tools.showTime(function(time){
+            }, function(subject) {
+                tools.showTime(function(time) {
                     var obj = {
-                       subject_id: fields.subject,
-                       subject_name: subject[0].subject_name,
-                       post_title: fields.title,
-                       post_content: fields.content,
-                       post_photos: fields['images[]'],
-                       link: '',
-                       user_name: req.session.username,
-                       avator: '/avatar.jpg',
-                       time: time,
-                       reply_num: 0, 
-                       share: 0, 
-                       look : 0, 
-                       hearts : 0
+                        subject_id: fields.subject,
+                        subject_name: subject[0].subject_name,
+                        post_title: fields.title,
+                        post_content: fields.content,
+                        post_photos: fields['images[]'],
+                        link: '',
+                        user_name: req.session.username,
+                        avator: '/avatar.jpg',
+                        time: time,
+                        reply_num: 0,
+                        share: 0,
+                        look: 0,
+                        hearts: 0
                     }
-                    posts.insertData(obj,function(post){
+                    posts.insertData(obj, function(post) {
                         if (post.result.ok == 1) {
                             users.findData({
                                 username: req.session.username
-                            },function(user){
+                            }, function(user) {
                                 var obj = {
                                     avator: user[0].avator,
                                     username: user[0].username,
@@ -303,39 +303,39 @@ exports.submitPost = function(req, res, callback) {
             })
         } else {
             // 新增主题
-            tools.showTime(function(time){
+            tools.showTime(function(time) {
                 var obj = {
-                   subject_id: fields.subject,
-                   subject_name: fields.subject,
-                   post_title: fields.title,
-                   post_content: fields.content,
-                   post_photos: fields['images[]'],
-                   link: '',
-                   user_name: req.session.username,
-                   time: time
-                }
-                // 插入主题数据库
+                        subject_id: fields.subject,
+                        subject_name: fields.subject,
+                        post_title: fields.title,
+                        post_content: fields.content,
+                        post_photos: fields['images[]'],
+                        link: '',
+                        user_name: req.session.username,
+                        time: time
+                    }
+                    // 插入主题数据库
                 subjects.insertData({
                     subject_name: fields.subject,
                     subject_desc: fields.desc,
                     time: time
-                }, function(result){
+                }, function(result) {
                     // 插入帖子数据库
-                    posts.insertData(obj,function(post){
+                    posts.insertData(obj, function(post) {
                         if (post.result.ok == 1) {
                             // 查询头像
                             users.findData({
                                 username: req.session.username
-                            },function(user){
+                            }, function(user) {
                                 var obj = {
-                                    avator: user[0].avator,
-                                    username: user[0].username,
-                                    subject: fields.subject,
-                                    time: time,
-                                    text: fields.content,
-                                    images: fields['images[]']
-                                }
-                                // 将数据返回
+                                        avator: user[0].avator,
+                                        username: user[0].username,
+                                        subject: fields.subject,
+                                        time: time,
+                                        text: fields.content,
+                                        images: fields['images[]']
+                                    }
+                                    // 将数据返回
                                 callback(JSON.stringify(obj))
                             })
                         } else {
@@ -343,7 +343,7 @@ exports.submitPost = function(req, res, callback) {
                         }
                     })
                 })
-                
+
             })
         }
     })
@@ -351,11 +351,11 @@ exports.submitPost = function(req, res, callback) {
 
 // 评论
 exports.getComments = function(req, res, callback) {
-        //根据id查询评论
+    //根据id查询评论
     replys.findData({
         "post_id": req.query.post_id
-    }, function(data){
-        if (data.length == 0 ){
+    }, function(data) {
+        if (data.length == 0) {
             callback(0)
         } else {
             callback(data[0])
@@ -365,34 +365,34 @@ exports.getComments = function(req, res, callback) {
 
 // 提交评论
 exports.commitComment = function(req, res, callback) {
-    var form  = fd.IncomingForm()
-    form.parse(req, function(err, fields){
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields) {
         console.log(req.session.username, fields.post_user_name)
-        tools.showTime(function(time){
+        tools.showTime(function(time) {
             // 更新replys
             replys.updateReplys({
                 post_id: fields.post_id
-            },{
+            }, {
                 $push: {
                     replys: {
-                        from_user_name : req.session.username, 
-                        to_user_name : fields.post_user_name, 
-                        time : time, 
-                        content: fields.content 
+                        from_user_name: req.session.username,
+                        to_user_name: fields.post_user_name,
+                        time: time,
+                        content: fields.content
                     }
                 }
-            },function(data){
-                if(data.result.ok){
+            }, function(data) {
+                if (data.result.ok) {
                     // 更新posts
                     posts.addNumber({
-                       _id: ObjectID(fields.post_id) 
-                    },{
+                        _id: ObjectID(fields.post_id)
+                    }, {
                         reply_num: 1
-                    },function(num){
+                    }, function(num) {
                         console.log(num.result.ok)
                         callback("1")
                     })
-                }else {
+                } else {
                     callback("0")
                 }
             })
@@ -401,11 +401,12 @@ exports.commitComment = function(req, res, callback) {
 }
 
 // 表白墙点赞
-exports.heartToWhiteWall = function(req, res, callback){
+exports.heartToWhiteWall = function(req, res, callback) {
     var form = fd.IncomingForm()
-    form.parse(req, function(err, fields){
-        var newObj = {},isPush = {}
-        if (fields.tag == 1){
+    form.parse(req, function(err, fields) {
+        var newObj = {},
+            isPush = {}
+        if (fields.tag == 1) {
             newObj = {
                 $push: {
                     support: req.session.username
@@ -416,7 +417,7 @@ exports.heartToWhiteWall = function(req, res, callback){
                     whiteWallHeart: fields.id
                 }
             }
-        }else{
+        } else {
             newObj = {
                 $pull: {
                     support: req.session.username
@@ -430,19 +431,18 @@ exports.heartToWhiteWall = function(req, res, callback){
         }
         white_wall.updateBy({
             _id: ObjectID(fields.id)
-        },newObj,function(data){
-            if (data.result.ok){
+        }, newObj, function(data) {
+            if (data.result.ok) {
                 user_actives_infos.updateData({
                     user_name: req.session.username
-                },isPush, function(result){
-                    if (result.result.ok){
+                }, isPush, function(result) {
+                    if (result.result.ok) {
                         callback("1")
                     }
                 })
-            }else{
+            } else {
                 callback("0")
             }
         })
     })
 }
-    

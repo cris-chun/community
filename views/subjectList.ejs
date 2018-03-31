@@ -94,6 +94,10 @@
     .sub-menu {
         color: #fff;
     }
+    
+    .follow {
+        cursor: pointer;
+    }
 </style>
 
 <body class="reader-black-font">
@@ -129,14 +133,14 @@
                 <span slot="label"><i class="fa fa-star"></i>热门吧</span>
                 <div class="container recommend">
                     <div class="row" id="list-container">
-                        <div class="col-xs-8" v-for="subject in subjects">
+                        <div class="col-xs-8" v-for="(subject,index) in subjects" @click.prevent.stop="toSubject(subject)">
                             <div class="collection-wrap">
                                 <a target="_blank">
                                     <img class="avatar-collection" :src="subject.subject_image" alt="180" />
                                     <h4 class="name">{{subject.subject_name}}</h4>
                                     <p class="collection-description">{{subject.subject_desc}}</p>
-                                    <div class="follow" v-if="subject.isAttention">已关注</div>
-                                    <div class="follow" v-else @click="joinSubject(subject, index)">+ 关注</div>
+                                    <div class="follow" v-if="subject.isAttention" @click.prevent.stop="cancelJoinSubject(subject, index, 2)">- 取关</div>
+                                    <div class="follow" v-else @click.prevent.stop="joinSubject(subject, index, 2)">+ 关注</div>
                                 </a>
                                 <div class="count"><a target="_blank">{{subject.post_num}}篇帖子</a> · {{subject.follow_num}}人关注</div>
                             </div>
@@ -146,18 +150,40 @@
                     <a class="btnn btn-load" href="">加载更多</a>
                 </div>
             </el-tab-pane>
+
             <el-tab-pane name="second">
                 <span slot="label"><i class="fa fa-th-list"></i>全部吧</span>
                 <div class="container recommend">
                     <div class="row" id="list-container">
-                        <div class="col-xs-8" v-for="subject in allSubjects">
+                        <div class="col-xs-8" v-for="(subject, index) in allSubjects" @click.prevent.stop="toSubject(subject)">
                             <div class="collection-wrap">
                                 <a target="_blank">
                                     <img class="avatar-collection" :src="subject.subject_image" alt="180" />
                                     <h4 class="name">{{subject.subject_name}}</h4>
                                     <p class="collection-description">{{subject.subject_desc}}</p>
-                                    <div class="follow" v-if="subject.isAttention">已关注</div>
-                                    <div class="follow" v-else @click="joinSubject(subject, index)">+ 关注</div>
+                                    <div class="follow" v-if="subject.isAttention" @click.prevent.stop="cancelJoinSubject(subject, index, 1)">- 取关</div>
+                                    <div class="follow" v-else @click.prevent.stop="joinSubject(subject, index, 1)">+ 关注</div>
+                                </a>
+                                <div class="count"><a target="_blank">{{subject.post_num}}篇帖子</a> · {{subject.follow_num}}人关注</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a class="btnn btn-load" href="">加载更多</a>
+                </div>
+            </el-tab-pane>
+
+            <el-tab-pane name="third">
+                <span slot="label"><i class="fa fa-th-list"></i>我关注的</span>
+                <div class="container recommend">
+                    <div class="row" id="list-container">
+                        <div class="col-xs-8" v-for="(subject,index) in allSubjects" v-if="subject.isAttention" @click.prevent.stop="toSubject(subject)">
+                            <div class="collection-wrap">
+                                <a target="_blank">
+                                    <img class="avatar-collection" :src="subject.subject_image" alt="180" />
+                                    <h4 class="name">{{subject.subject_name}}</h4>
+                                    <p class="collection-description">{{subject.subject_desc}}</p>
+                                    <div class="follow" @click.prevent.stop="cancelJoinSubject(subject, index, 1)">- 取关</div>
                                 </a>
                                 <div class="count"><a target="_blank">{{subject.post_num}}篇帖子</a> · {{subject.follow_num}}人关注</div>
                             </div>
@@ -203,9 +229,17 @@
                 isUser: false
             }
         },
+        watch: {
+            subjects() {
+                console.log('////')
+            },
+            allSubjects() {
+                console.log('//')
+            }
+        },
         created() {
             this.initUser()
-            // this.getSubjects()
+                // this.getSubjects()
         },
         watch: {},
         methods: {
@@ -242,7 +276,7 @@
                         value.hot = parseInt(value.follow_num) * 0.5 + parseInt(value.post_num) * 0.5
                         if (parseInt(value.follow_num) == 0) {
                             value.isAttention = false
-                        }else{
+                        } else {
                             value.isAttention = false
                             value.follow_user.forEach((value2, index2) => {
                                 if (value2.user_name == _this.user.username) {
@@ -251,7 +285,6 @@
                             })
                         }
                     })
-                    console.log(_this.allSubjects)
                     var subjects = _this.allSubjects.slice(0)
                     subjects.sort(_this.compare('hot'))
                     _this.subjects = subjects
@@ -301,25 +334,62 @@
                     }
                 })
             },
-            joinSubject(subject, index){
-                if (!this.isUser){
+            joinSubject(subject, index, tag) {
+                if (!this.isUser) {
                     this.$message({
-                        message:'没有登录哇！',
+                        message: '没有登录哇！',
                         type: 'warning'
                     })
                     return
                 }
                 var _this = this
-                this.handleAjax("/joinSubject",'post',{
-                    _id: item._id,
+                this.handleAjax("/joinSubject", 'post', {
+                    _id: subject._id,
                     user_name: _this.user.username,
                     avator: _this.user.avator
-                },function(data){
-                    if (data == "1"){
-                        _this.hotbas[index].isAttention = true
-                        _this.bas.push(_this.hotbas[index])
+                }, function(data) {
+                    if (data == "1") {
+                        if (tag == "1") {
+                            subject.isAttention = true
+                            _this.allSubjects.splice(index, 1)
+                            _this.allSubjects.splice(index, 0, subject)
+                        } else {
+                            subject.isAttention = true
+                            _this.subjects.splice(index, 1)
+                            _this.subjects.splice(index, 0, subject)
+                        }
                     }
                 })
+            },
+            cancelJoinSubject(subject, index, tag) {
+                var _this = this
+                if (!this.isUser) {
+                    this.$message({
+                        message: '没有登录哇！',
+                        type: 'warning'
+                    })
+                    return
+                }
+                this.handleAjax("/cancelJoinSubject", "post", {
+                    _id: subject._id,
+                    user_name: _this.user.username,
+                    avator: _this.user.avator
+                }, function(data) {
+                    if (data == "1") {
+                        if (tag == "1") {
+                            subject.isAttention = false
+                            _this.allSubjects.splice(index, 1)
+                            _this.allSubjects.splice(index, 0, subject)
+                        } else {
+                            subject.isAttention = false
+                            _this.subjects.splice(index, 1)
+                            _this.subjects.splice(index, 0, subject)
+                        }
+                    }
+                })
+            },
+            toSubject(subject) {
+                window.location.href = "/subject?id=" + subject._id
             }
         }
     })

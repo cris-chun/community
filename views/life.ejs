@@ -120,23 +120,6 @@
         flex-wrap: wrap;
     }
     
-    .school_left,
-    .school_right {
-        padding: 10px 15px;
-        width: 45%;
-    }
-    
-    .school_left>div:nth-child(1),
-    .school_right>div:nth-child(1) {
-        font-size: 15px;
-        padding: 5px 0;
-        color: #f4630b
-    }
-    
-    .school_left {
-        border-right: 1px dotted #dfdfdf;
-    }
-    
     .title {
         width: 100%;
         font-size: 16px;
@@ -234,6 +217,44 @@
         text-align: center;
         font-size: 11px;
     }
+    
+    .news {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        width: 100%;
+        padding: 10px;
+        border-bottom: 1px solid #dfdfdf;
+    }
+    
+    .news .news-content {
+        width: 70%;
+        text-align: left;
+    }
+    
+    .news .news-image {
+        width: 25%;
+        text-align: center;
+    }
+    
+    .news-content .news-title {
+        font-size: 18px;
+        font-weight: 600;
+        padding: 5px;
+        padding-left: 0px;
+    }
+    
+    .news-content .news-desc p {
+        font-size: 14px;
+        margin-top: -2px;
+        margin-left: 5px;
+        /* padding: 5px; */
+        /* line-height: 15px; */
+    }
+    
+    .news .news-image img {
+        width: 80%;
+    }
 </style>
 
 <body>
@@ -273,23 +294,16 @@
                     <div class="content">
                         <div class="school_news">
                             <div class="title">校园新鲜事</div>
-                            <div class="school_left">
-                                <div>校园新闻</div>
-                                <el-collapse v-model="newLeftActive" @change="handleChange">
-                                    <el-collapse-item :title="item.title" :name="item.name" v-for="item in leftNews">
-                                        <div>{{item.subTitle}}</div>
-                                        <div>{{item.desc}}</div>
-                                    </el-collapse-item>
-                                </el-collapse>
-                            </div>
-                            <div class="school_right">
-                                <div>校园趣事</div>
-                                <el-collapse v-model="newRightActive">
-                                    <el-collapse-item :title="item.title" :name="item.name" v-for="item in rightNews">
-                                        <div>{{item.subTitle}}</div>
-                                        <div>{{item.desc}}</div>
-                                    </el-collapse-item>
-                                </el-collapse>
+                            <div class="news" v-for="item in news">
+                                <div class="news-content">
+                                    <div class="news-title">{{item.title}}</div>
+                                    <div class="news-desc">
+                                        <p>{{item.desc}}</p>
+                                    </div>
+                                </div>
+                                <div class="news-image">
+                                    <img :src="item.image" alt="">
+                                </div>
                             </div>
                         </div>
                         <div class="school_news music">
@@ -390,80 +404,23 @@
                 }],
                 newLeftActive: '1',
                 newRightActive: '2',
-                leftNews: [{
-                    name: 1,
-                    title: '标题',
-                    subTitle: '副标题',
-                    desc: '描述',
-                    text: '正文'
+                news: [{
+                    title: 'title',
+                    desc: '代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪',
+                    image: '/avatar.jpg'
                 }, {
-                    name: 2,
-                    title: '标题',
-                    subTitle: '副标题',
-                    desc: '描述',
-                    text: '正文'
+                    title: 'title',
+                    desc: '代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪',
+                    image: '/avatar.jpg'
                 }, {
-                    name: 3,
-                    title: '标题',
-                    subTitle: '副标题',
-                    desc: '描述',
-                    text: '正文'
+                    title: 'title',
+                    desc: '代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪',
+                    image: '/avatar.jpg'
                 }, {
-                    name: 4,
-                    title: '标题',
-                    subTitle: '副标题',
-                    desc: '描述',
-                    text: '正文'
-                }, {
-                    name: 5,
-                    title: '标题',
-                    subTitle: '副标题',
-                    desc: '描述',
-                    text: '正文'
-                }, {
-                    name: 6,
-                    title: '标题',
-                    subTitle: '副标题',
-                    desc: '描述',
-                    text: '正文'
+                    title: 'title',
+                    desc: '代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪',
+                    image: '/avatar.jpg'
                 }],
-                rightNews: [{
-                    name: 1,
-                    title: '标题',
-                    subTitle: '副标题',
-                    desc: '描述',
-                    text: '正文'
-                }, {
-                    name: 2,
-                    title: '标题',
-                    subTitle: '副标题',
-                    desc: '描述',
-                    text: '正文'
-                }, {
-                    name: 3,
-                    title: '标题',
-                    subTitle: '副标题',
-                    desc: '描述',
-                    text: '正文'
-                }, {
-                    name: 4,
-                    title: '标题',
-                    subTitle: '副标题',
-                    desc: '描述',
-                    text: '正文'
-                }, {
-                    name: 5,
-                    title: '标题',
-                    subTitle: '副标题',
-                    desc: '描述',
-                    text: '正文'
-                }, {
-                    name: 6,
-                    title: '标题',
-                    subTitle: '副标题',
-                    desc: '描述',
-                    text: '正文'
-                }, ],
                 xiaohua: [{
                     title: '你TM现在在我心里就是个菩萨',
                     text: '小侄子刚考试完，我不由得感慨：“以前我们小时候要过几天才能到学校拿成绩单，现在信息发达，直接微信就可以看到成绩了，多好啊！ ”小侄子：“有啥好？挨揍都会提前……”'

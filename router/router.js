@@ -34,22 +34,22 @@ exports.showIndex = function(req, res) {
 //登陆页面
 exports.showLogin = function(req, res) {
     // 查询是否是从邮箱过来的登陆
-    if(req.session.login){
+    if (req.session.login) {
         // 已经登录 就直接跳转到首页
         res.redirect("/")
-    }else{
+    } else {
         res.render("loginCopy")
     }
 }
 
 // 忘记密码页面
-exports.forgetPassword = function(req, res){
+exports.forgetPassword = function(req, res) {
     res.render("forgetPassword")
 }
 
 // 重置密码
-exports.resetPassword = function(req, res){
-    controller.resetPassword(req, res, function(data){
+exports.resetPassword = function(req, res) {
+    controller.resetPassword(req, res, function(data) {
         res.send(data)
     })
 }
@@ -110,23 +110,23 @@ exports.registerCheck = function(req, res) {
 }
 
 // 注册检查是否有重复付username
-exports.checkUsername = function(req, res){
+exports.checkUsername = function(req, res) {
     var form = fd.IncomingForm()
-    form.parse(req, function(err, fields){
-        if (err){
+    form.parse(req, function(err, fields) {
+        if (err) {
             console.log("username检查出错")
             return
         }
-        users.findData({}, function(data){
+        users.findData({}, function(data) {
             var check = true
             data.forEach((value, index) => {
-                if (value.username == fields.username){
+                if (value.username == fields.username) {
                     check = false
                 }
             })
-            if (check){
+            if (check) {
                 res.send("1")
-            }else{
+            } else {
                 res.send("0")
             }
         })
@@ -221,25 +221,56 @@ exports.showSubject = function(req, res) {
 }
 
 // 关注
-exports.joinSubject = function(req, res){
+exports.joinSubject = function(req, res) {
     var form = fd.IncomingForm()
-    form.parse(req, function(err, fields){
-        if(err){
+    form.parse(req, function(err, fields) {
+        if (err) {
             console.log('关注失败')
             return
         }
         subjects.updateArray({
             _id: ObjectID(fields._id)
-        },{
+        }, {
             user_name: fields.user_name,
             avator: fields.avator
-        },function(data){
-            if (data.result.ok){
+        }, function(data) {
+            if (data.result.ok) {
                 user_actives_infos.updateData({
                     user_name: fields.user_name
-                },{$push:{
-                    subjects: fields._id
-                }}, function(data){
+                }, {
+                    $push: {
+                        subjects: fields._id
+                    }
+                }, function(data) {
+                    res.send("1")
+                })
+            }
+        })
+    })
+}
+
+//  取消关注
+exports.cancelJoinSubject = function(req, res) {
+    var form = fd.IncomingForm()
+    form.parse(req, function(error, fields) {
+        if (error) {
+            console.log('取消关注失败')
+            return
+        }
+        subjects.updateDeleteArray({
+            _id: ObjectID(fields._id)
+        }, {
+            user_name: fields.user_name,
+            avator: fields.avator
+        }, function(data) {
+            if (data.result.ok) {
+                user_actives_infos.updateData({
+                    user_name: fields.user_name
+                }, {
+                    $pull: {
+                        subjects: fields._id
+                    }
+                }, function(data) {
                     res.send("1")
                 })
             }
@@ -599,16 +630,16 @@ exports.showForgetPassword = function(req, res) {
 }
 
 // 加载信息
-exports.getInfos = function(req, res){
+exports.getInfos = function(req, res) {
     var form = fd.IncomingForm()
-    form.parse(req, function(err, fields){
-        if (err){
+    form.parse(req, function(err, fields) {
+        if (err) {
             console.log("查找信息失败")
             return
         }
         infos.findData({
             user_name: fields.user_name
-        },function(data){
+        }, function(data) {
             res.send(JSON.stringify(data))
         })
     })

@@ -251,6 +251,11 @@
     .sub-menu {
         color: #fff;
     }
+    
+    .words p {
+        width: 100%;
+        word-wrap: break-word;
+    }
 </style>
 
 <body>
@@ -308,7 +313,9 @@
                         <span class="time">{{item.time}}</span>
                     </div>
                     <div class="content">
-                        <div class="words">{{item.content}}</div>
+                        <div class="words">
+                            <p>{{item.content}}</p>
+                        </div>
                     </div>
                     <div class="operate">
                         <span class="fa fa-heart" @click="heartToWhiteWall(index,item)" :style='item.color'> {{item.supportNum}}</span>

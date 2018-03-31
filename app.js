@@ -21,7 +21,7 @@ app.use(session({
 }))
 
 //use ejs
-app.set("view engine","ejs");
+app.set("view engine", "ejs");
 
 //static resource
 app.use(express.static("./public"));
@@ -30,21 +30,21 @@ app.use(express.static("./avator"));
 
 //router
 //收藏夹不请求 否则控制台会出现404错误
-app.get("/favicon.ico",function(){
+app.get("/favicon.ico", function() {
     return;
 });
 
 // 首页
-app.get("/",router.showIndex);
+app.get("/", router.showIndex);
 
 // 登陆页面展示
-app.get("/login",router.showLogin);
+app.get("/login", router.showLogin);
 
 // 忘记密码页面
 app.get("/forgetPassword", router.forgetPassword)
 
 // 重置密码成功
-app.get("/resetPwdSuccess", function(req, res){
+app.get("/resetPwdSuccess", function(req, res) {
     res.render("resetPwdSuccess")
 })
 
@@ -52,13 +52,13 @@ app.get("/resetPwdSuccess", function(req, res){
 app.post("/resetPassword", router.resetPassword)
 
 // 登陆检查
-app.post("/loginCheck",router.loginCheck)
+app.post("/loginCheck", router.loginCheck)
 
 // 登陆邮箱检测
 app.get("/loginCheckEmail", router.loginCheckEmail)
 
 // 注册页面
-app.get("/register",router.showRegister);
+app.get("/register", router.showRegister);
 
 // 注册检查
 app.post("/registerCheck", router.registerCheck)
@@ -67,23 +67,23 @@ app.post("/registerCheck", router.registerCheck)
 app.post("/checkUsername", router.checkUsername)
 
 // 主页面
-app.get("/community",router.showCommunity);
+app.get("/community", router.showCommunity);
 
 // 表白墙页面
-app.get("/whiteWall",router.showWhiteWall);
+app.get("/whiteWall", router.showWhiteWall);
 
 // 生活休闲
 app.get("/life", router.showLife)
 
 // 请求subjects下拉框
 app.get("/selectOptions", router.selectOptions)
-// 发布帖子
+    // 发布帖子
 app.post("/submitPost", router.submitPost)
-// 上传图片
+    // 上传图片
 app.post("/imageUpload", router.imageUpload)
-// 获取post帖子 community展示post内容
+    // 获取post帖子 community展示post内容
 app.get("/getPosts", router.getPosts)
-// 个人信息请求
+    // 个人信息请求
 app.get("/userInfo", router.userInfo)
 
 // 吧
@@ -97,6 +97,9 @@ app.get("/subjectList", router.showSubjectList)
 
 // 关注
 app.post("/joinSubject", router.joinSubject)
+
+// 取消关注
+app.post("/cancelJoinSubject", router.cancelJoinSubject)
 
 // 获取评论
 app.get("/getComments", router.getComments)
@@ -153,59 +156,59 @@ app.get("/showForgetPassword", router.showForgetPassword)
 app.post("/getInfos", router.getInfos)
 
 // 实时聊天
-app.get("/chat", function(req, res){
+app.get("/chat", function(req, res) {
     res.render("chat")
 })
 
 // 获取用户的未读消息
-app.post("/getUnreadedMsg",function(req, res){
+app.post("/getUnreadedMsg", function(req, res) {
     var form = fd.IncomingForm()
-    form.parse(req, function(err, fields){
-        if (err){
+    form.parse(req, function(err, fields) {
+        if (err) {
             console.log("获取未读消息失败")
             return
         }
         infos.findData({
             user_name: fields.username
-        },function(data){
+        }, function(data) {
             res.send(JSON.stringify(data[0].receiveMsg))
         })
     })
 })
 
 // 修改用户的消息状态
-app.post("/changeMsgStatus",function(req, res){
+app.post("/changeMsgStatus", function(req, res) {
     var form = fd.IncomingForm()
-    form.parse(req, function(err, fields){
-        if (err){
+    form.parse(req, function(err, fields) {
+        if (err) {
             console.log("获取未读消息失败")
             return
         }
         infos.findData({
             user_name: fields.username
-        },function(data){
+        }, function(data) {
             data[0].receiveMsg.forEach((value, index) => {
                 value.readed = true
             })
             infos.updateDataBy({
                 user_name: fields.username
-            },{
+            }, {
                 $set: {
-                    receiveMsg:data[0].receiveMsg
+                    receiveMsg: data[0].receiveMsg
                 }
-            },function(data){
+            }, function(data) {
                 res.send("1")
             })
         })
     })
 })
 
-io.on("connection",function(socket){
-    socket.on("chat",function(msg){
+io.on("connection", function(socket) {
+    socket.on("chat", function(msg) {
         // 将消息存到数据库中 存到发件人的消息库中  存到收件人的消息库中
         users.findData({
             username: msg.to_user_name
-        },function(data){
+        }, function(data) {
             var message = {
                 from_user_name: msg.from_user_name,
                 from_user_avator: msg.from_user_avator,
@@ -214,24 +217,24 @@ io.on("connection",function(socket){
                 time: msg.time,
                 contentText: msg.contentText
             }
-            var message1 = Object.assign({readed: true}, message)
+            var message1 = Object.assign({ readed: true }, message)
             infos.updateDataBy({
-                user_name:msg.from_user_name,
-            },{
+                user_name: msg.from_user_name,
+            }, {
                 $push: {
                     sendMsg: message1
                 }
-            },function(data){
-                if (data.result.ok){
-                    var message2 = Object.assign({readed: false}, message)
+            }, function(data) {
+                if (data.result.ok) {
+                    var message2 = Object.assign({ readed: false }, message)
                     infos.updateDataBy({
                         user_name: msg.to_user_name
-                    },{
+                    }, {
                         $push: {
                             receiveMsg: message2
                         }
-                    },function(data){
-                        if (data.result.ok){
+                    }, function(data) {
+                        if (data.result.ok) {
                             io.emit("answer", message);
                         }
                     })

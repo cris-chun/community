@@ -36,9 +36,9 @@ var postsData = require("./posts.json")
 // })
 
 // users更新
-users.updateData({username: 'ztchun'}, {check: true}, function(result){
-    console.log(result)
-})
+// users.updateData({username: 'ztchun'}, {check: true}, function(result){
+//     console.log(result)
+// })
 
 // posts insert
 // posts.insertData(postsData[0],function(result){
@@ -121,3 +121,13 @@ users.updateData({username: 'ztchun'}, {check: true}, function(result){
 // },function(data){
 //     console.log(data.result.ok)
 // })
+
+// 删除数字
+subjects.updateDeleteArray({
+    _id: ObjectID('5a9f5c2461ff7b34226dde97')
+}, {
+    user_name: "ztc",
+    avator: "/avator.jpg"
+}, function(result) {
+    console.log(result.result.ok)
+})
