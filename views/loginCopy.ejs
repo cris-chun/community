@@ -12,38 +12,38 @@
     .sign .logo {
         top: 20px;
     }
-
+    
     .sign .main {
         width: 300px;
     }
-
+    
     body {
         margin: 0
     }
-
+    
     .sign form .input-prepend input {
         margin-left: -15px;
         width: 95%;
         font-size: 15px;
     }
-
+    
     .sign {
         min-height: 800px;
     }
-
+    
     .sign form .input-prepend {
         margin-bottom: 0px;
     }
-
+    
     .sign .main {
         margin-top: 100px;
     }
-
+    
     .login input {
         border-radius: 0 !important;
         border-bottom: none !important;
     }
-
+    
     .sign form .input-prepend i {
         position: absolute;
         top: 21px;
@@ -51,30 +51,31 @@
         font-size: 20px;
         color: #969696;
     }
-
+    
     input:focus {
         outline: 0 !important;
     }
-
+    
     .sign .sign-in-button {
         background: #f4630b;
     }
-
+    
     .sign .sign-in-button:hover {
         background: #f4630b;
     }
-
+    
     .sign .reset-title .active,
     .sign .title .active {
         color: #f4630b;
         border-bottom: 2px solid #f4630b;
     }
-
+    
     .sing-up-msg {
         font-size: 12px;
         color: #bfbfbf;
     }
-    .errorMsg{
+    
+    .errorMsg {
         display: none;
         color: red !important;
         margin-left: 20px !important;
@@ -141,30 +142,30 @@
     </div>
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>
-        $(function () {
+        $(function() {
             //页面初始化时，如果帐号密码cookie存在则填充
             if (getCookie('username') && getCookie('password')) {
                 $(".username").val(getCookie('username'))
                 $(".password").val(getCookie("password"))
-                if (getCookie('username') && getCookie('password')){
+                if (getCookie('username') && getCookie('password')) {
                     $(".check")[0].checked = true
                 }
             }
 
             //复选框勾选状态发生改变时，如果未勾选则清除cookie
-            $(".check").change(function(){
-                if(!$(this)[0].checked){
+            $(".check").change(function() {
+                if (!$(this)[0].checked) {
                     delCookie("username")
                     delCookie("password")
                 }
             })
 
-            $("input").focus(function(){
+            $("input").focus(function() {
                 $(".errorMsg").hide()
             })
 
-            $("#login").click(function () {
-                if ($(".username").val() == '' || $('.password').val() == ''){
+            $("#login").click(function() {
+                if ($(".username").val() == '' || $('.password').val() == '') {
                     $(".errorMsg").show().text("请输入用户名和密码")
                     return
                 }
@@ -178,12 +179,12 @@
                     // beforeSend: function(){
                     //     console.log("正在发送ajax请求")
                     // },
-                    success: function (data) {
+                    success: function(data) {
                         if (data == '1') {
-                            if ($('.check')[0].checked){
+                            if ($('.check')[0].checked) {
                                 setCookie("username", $(".username").val(), 7)
                                 setCookie("password", $(".password").val(), 7)
-                            }else{
+                            } else {
                                 delCookie("username")
                                 delCookie("password")
                             }
@@ -196,7 +197,7 @@
                             $(".errorMsg").show().text("您还没有注册哦")
                         }
                     },
-                    error: function (err) {
+                    error: function(err) {
                         console.log("请求错误", err)
                     }
                 })

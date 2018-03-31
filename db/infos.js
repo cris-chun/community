@@ -1,24 +1,24 @@
 var db = require("./db.js");
 
 // infos查找
-exports.findData = function(data, callback){
+exports.findData = function(data, callback) {
     var infos = []
-    db._connnection(function(db){
-        db.collection("infos").find(data, function(err, cursor){
+    db._connnection(function(db) {
+        db.collection("infos").find(data, function(err, cursor) {
             if (err) {
                 console.log('infos查找失败')
                 db.close()
                 return
             }
-            cursor.each(function(error,doc){
-                if(error){
+            cursor.each(function(error, doc) {
+                if (error) {
                     console.log("infos数据遍历失败");
                     db.close();
                     return;
                 }
-                if(doc){
+                if (doc) {
                     infos.push(doc)
-                }else{
+                } else {
                     callback(infos)
                 }
             })
@@ -31,7 +31,7 @@ exports.insertData = function(obj, callback) {
     if (!obj) {
         return
     }
-    db._connnection(function(db){
+    db._connnection(function(db) {
         db.collection("infos").insert(obj, function(err, result) {
             if (err) {
                 console.log("infos insert error")
@@ -48,7 +48,7 @@ exports.deleteData = function(obj, callback) {
     if (!obj) {
         return;
     }
-    db._connnection(function(db){
+    db._connnection(function(db) {
         db.collection("infos").remove(obj, function(err, result) {
             if (err) {
                 console.log('infos remove error')
