@@ -547,30 +547,33 @@ exports.getMineInfo = function(req, res) {
                 username: req.session.username
             }
             break
-        case "8":
+        case "6":
             collection = "infos"
             obj = {
-                to_user_name: req.session.name
+                to_user_name: req.session.username
             }
             break
-        case "5":
-            collection = "user_actives_infos"
-            tag = "manager_subjects"
-            break
-        case "6":
-            collection = "user_actives_infos"
-            tag = "subjects"
-            break
         case "7":
-            collection = "user_actives_infos"
-            tag = "posts"
+            collection = "subjects"
+            obj = {}
+            break
+        case "8":
+            collection = "subjects"
+            obj = {}
+            break
+        case "5":
+            collection = "posts"
+            obj = {
+                user_name: req.session.username
+            }
             break
         default:
             collection = "user"
     }
+    console.log(collection, obj)
     findData.findData(collection, obj, function(result) {
         if (tag) {
-            res.send(JSON.stringify(result[tag]))
+            res.send(JSON.stringify(result[0][tag]))
         } else {
             res.send(JSON.stringify(result))
         }
@@ -644,3 +647,58 @@ exports.getInfos = function(req, res) {
         })
     })
 }
+
+// 保存subject
+exports.saveSubject = function(req, res) {
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields) {
+        if (err) {
+            console.log('保存subjects失败')
+            return
+        }
+        console.log(fields)
+        subjects.updateData({
+            _id: ObjectID(fields._id)
+        }, {
+            subject_name: fields.subejct_name,
+            subject_desc: fields.subject_desc
+        }, function(data) {
+            if (data.result.ok) {
+                res.send("1")
+            }
+        })
+    })
+}
+
+// 删除subjects
+// exports.deleteSubject = function(req, res) {
+//     var form = fd.IncomingForm()
+//     form.parse(req, function(err, fields){
+//         if (err){
+//             console.log('删除subjects失败')
+//             return
+//         }
+//         subjects.findData({
+//             _id: ObjectID(fields._id)
+//         },function(data) {
+//             var follow_users = data[0].follow_users
+//             for (let i = 0;i<follow_users.length; i++) {
+//                 user_actives_infos.updateData({
+//                     user_name: follow_users[i].user_name
+//                 },{
+//                     $pull: {
+                        
+//                     }
+//                 })
+//             }
+//         })
+//         subjects.deleteData({
+//             _id: ObjectID(fields._id)
+//         },function(data){
+//             if (data.result.ok) {
+//                 // 关注的人删除
+                
+//             }
+//         })
+//     })
+// }

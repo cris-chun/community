@@ -52,7 +52,8 @@
     
     .avator img {
         cursor: pointer;
-        width: 150px;
+        width: 100px;
+        height: 100px;
         border-radius: 50%;
     }
     
@@ -356,6 +357,93 @@
         text-align: center;
         font-size: 11px;
     }
+    
+    .postss {
+        width: 100%;
+        padding-left: 20px;
+        border-bottom: 1px solid #dfdfdf;
+    }
+    
+    .posts {
+        width: 60%;
+        padding-left: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        word-wrap: break-word;
+    }
+    
+    .post_info {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        color: #222;
+        /* padding: 10px 0 10px -10px; */
+    }
+
+    .post_info div{
+        margin-right: 20px;
+    }
+    
+    .post_info>div:nth-child(1) img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    
+    .post_info>div:nth-child(3) {
+        color: #dfdfdf;
+    }
+    
+    .post-images {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-left: -10px;
+    }
+    
+    .post-images img {
+        width: 15%;
+        margin: 10px;
+    }
+    
+    .post-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #222;
+    }
+    
+    .post-content {
+        font-size: 14px;
+        color: #222;
+    }
+    .tubiao span{
+        font-size: 14px;
+        padding-right: 10px;
+        color: #bdbdbd;
+    }
+    .si_infos {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding-bottom: 10px;
+        border-bottom: 1px dotted #bfbfbf;
+    }
+    .si_avator{
+        margin-right: 20px;
+    }
+    .si_avator img{
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    .si_username{
+        color: #bdbdbd;
+        font-size: 14px;
+    }
+    .sign2 {
+        color: #bdbdbd;
+    }
 </style>
 
 <body>
@@ -369,10 +457,10 @@
             <el-submenu index="4">
                 <template slot="title">我的</template>
                 <el-menu-item index="4"><a href="/mine?index=4" class="sub-menu">账号设置</a></el-menu-item>
-                <el-menu-item index="5"><a href="/mine?index=5" class="sub-menu">我的吧</a></el-menu-item>
-                <el-menu-item index="6"><a href="/mine?index=6" class="sub-menu">我的关注</a></el-menu-item>
-                <el-menu-item index="7"><a href="/mine?index=7" class="sub-menu">我的帖子</a></el-menu-item>
-                <el-menu-item index="8"><a href="/mine?index=8" class="sub-menu">我的消息</a></el-menu-item>
+                <el-menu-item index="5"><a href="/mine?index=5" class="sub-menu">动态</a></el-menu-item>
+                <el-menu-item index="6"><a href="/mine?index=6" class="sub-menu">我的消息</a></el-menu-item>
+                <el-menu-item index="7"><a href="/mine?index=7" class="sub-menu">我的关注</a></el-menu-item>
+                <el-menu-item index="8"><a href="/mine?index=8" class="sub-menu">我的吧</a></el-menu-item>
                 <el-menu-item index="9"><a href="/mine?index=9" class="sub-menu">帮助和反馈</a></el-menu-item>
                 <el-menu-item index="10" @click="exit">退出</el-menu-item>
             </el-submenu>
@@ -381,7 +469,7 @@
                 </el-input>
                 <i class="el-icon-search search-icon"></i>
             </div>
-            <div class="extenal">
+            <div class="extenal" v-if="!isUser">
                 <a href="/login">登录</a>
                 <a href="/register">注册</a>
             </div>
@@ -390,11 +478,12 @@
         <div class="content">
             <div class="user" v-if="isUser">
                 <div class="avator">
-                    <img src="/avatar.jpg" alt="">
+                    <img :src="user.avator" alt="">
                 </div>
                 <div class="info">
                     <div class="username">ztchun</div>
-                    <div class="sign">一句话展示自己的个人魅力</div>
+                    <div class="sign" v-if="user.sign">{{user.sign}}</div>
+                    <div class="sign sign2" v-else>一句话展示个人魅力</div>
                 </div>
             </div>
             <div class="user" v-else>
@@ -410,8 +499,8 @@
             <div class="manager" v-if="isUser">
                 <template>
                     <el-tabs v-model="activeName" @tab-click="handleClick">
+                        <!-- 账号管理 -->
                         <el-tab-pane label="用户管理" name="4">
-                            <!-- 账号管理 -->
                             <el-form :model="user" :rules="rules" ref="user" label-width="100px" class="demo-ruleForm">
                                 <div class="form">
                                     <div class="left">
@@ -479,151 +568,215 @@
                                 </div>
                             </el-form>
                         </el-tab-pane>
-                        <el-tab-pane label="我的吧" name="5">
-                            <!-- 我的话题 -->
+
+                        <!-- 动态 -->
+                        <el-tab-pane label="动态" name="5" class="dongtai">
+                            <div class="postss" v-for="item in posts">
+                                <div class="posts">
+                                    <div class="post_info">
+                                        <div>
+                                            <img :src="user.avator" alt="">
+                                        </div>
+                                        <div>
+                                            <span>{{user.username}}</span>
+                                        </div>
+                                        <div>
+                                            <span>{{item.time}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="post-title">
+                                        {{item.post_title}}
+                                    </div>
+                                    <div class="post-content">
+                                        {{item.post_content}}
+                                    </div>
+                                    <div class="post-images">
+                                        <img :src="image" v-for="image in item.post_photos" alt="">
+                                    </div>
+                                    <div class="tubiao">
+                                        <span class="fa fa-heart heart" > {{item.hearts}}</span>
+                                        <span class="fa fa-commenting comment"> {{item.reply_num}}</span>
+                                        <span class="fa fa-share share"> {{item.share}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <el-collapse v-model="postActive" class="posts" accordion>
+                                        <el-collapse-item :title="post.post_title" class="post" :name="index" v-for="(post,index) in posts">
+                                            <div class="sub-post post_content">
+                                                <span>
+                                                                    {{post.post_content}}
+                                                                </span>
+                                                <span class="post_time">{{post.time}}</span>
+                                            </div>
+                                            <div class="post_image sub_post">
+                                                <img :src="image" alt="" v-for="image in post.post_photos">
+                                            </div>
+                                            <div class="post_info sub-post">
+                                                <div>
+                                                    <span class="fa fa-tag"></span>
+                                                    <span>{{post.subject_name}}</span>
+                                                </div>
+                                                <div>
+                                                    <span v-if="post.look">浏览数{{post.look}}</span>
+                                                    <span class="fa fa-heart heart"> {{post.hearts}}</span>
+                                                    <span class="fa fa-commenting comment"> {{post.reply_num}}</span>
+                                                    <span class="fa fa-share share"> {{post.share}}</span>
+                                                </div>
+                                            </div>
+                                        </el-collapse-item>
+                                    </el-collapse> -->
+                        </el-tab-pane>
+
+                        <!-- 我的消息 -->
+                        <el-tab-pane name="6">
+                            <span slot="label">
+                                <el-badge :value="12" class="item">
+                                    我的消息
+                                </el-badge>
+                            </span>
+                            <el-tabs type="border-card">
+                                <el-tab-pane>
+                                    <span slot="label">
+                                        <el-badge :value="6" class="item2">
+                                                私信
+                                        </el-badge>
+                                    </span>
+                                    <div class="sixin">
+                                        <div class="si_infos" v-for="item in infos">
+                                            <div class="si_avator">
+                                                <img :src="item.from_user_avator" alt="">
+                                            </div>
+                                            <div>
+                                                <div class="si_username">{{item.from_user_name}}</div>
+                                                <div>
+                                                    {{item.contentText}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </el-tab-pane>
+                                <el-tab-pane>
+                                    <span slot="label">
+                                        <el-badge :value="7" class="item2">
+                                            动态消息
+                                        </el-badge>
+                                    </span> 
+                                    <div>
+                                        动态消息
+                                    </div>
+                                </el-tab-pane>
+                                <el-tab-pane>
+                                    <span slot="label">
+                                        <el-badge :value="6" class="item2">
+                                            系统消息
+                                        </el-badge>
+                                    </span>
+                                    <div>
+                                        
+                                    </div>
+                                </el-tab-pane>
+                            </el-tabs>
+                        </el-tab-pane>
+
+                        <!-- 我的关注 -->
+                        <el-tab-pane label="我的关注" name="7">
+                            <div class="subjects">
+                                <div class="subject" v-for="(subject, index) in subjects">
+                                    <el-card class="box-card">
+                                        <div slot="header" class="clearfix">
+                                            <span>{{subject.subject_name}}</span>
+                                            <el-button style="float: right; padding: 3px 0" type="text" @click="cancelJoinSubject(subject, index)">取消关注</el-button>
+                                        </div>
+                                        <div class="subject_content">
+                                            <div class="image">
+                                                <img :src="subject.subject_image" alt="">
+                                            </div>
+                                            <div class="subject_info">
+                                                <div><span class="title">时间：</span>{{subject.time}}</div>
+                                                <div><span class="title">关注人数：</span>{{subject.follows}}</div>
+                                                <div><span class="title">帖子数：</span>{{subject.post_num}}</div>
+                                                <div><span class="title">等级：</span>{{subject.level}}</div>
+                                            </div>
+                                        </div>
+                                    </el-card>
+                                </div>
+                            </div>
+                        </el-tab-pane>
+
+                        <!-- 我的话题 -->
+                        <el-tab-pane label="我的吧" name="8">
                             <el-table :data="manager_subjects" style="width: 100%">
                                 <el-table-column type="expand">
                                     <template slot-scope="props">
                                         <el-form label-position="left" inline class="demo-table-expand subejct_form">
                                             <el-form-item label="吧名称">
-                                                <el-input v-model="props.row.subject_name" :value="props.row.subject_name"></el-input>
+                                                <el-input v-model="props.row.subject_name" :value="props.row.subject_name" :disabled="!props.row.edit"></el-input>
                                             </el-form-item>
                                             <el-form-item label="吧主">
-                                                <el-input v-model="props.row.username" :value="props.row.user_name"></el-input>
+                                                <el-input v-model="props.row.owner" :value="props.row.owner" disabled></el-input>
                                             </el-form-item>
                                             <el-form-item label="创建时间">
-                                                <el-input v-model="props.row.time" :value="props.row.time"></el-input>
+                                                <el-input v-model="props.row.time" :value="props.row.time" disabled></el-input>
                                             </el-form-item>
                                             <el-form-item label="关注人数">
-                                                <el-input v-model="props.row.follows" :value="props.row.follows"></el-input>
+                                                <el-input v-model="props.row.follows" :value="props.row.follows" disabled></el-input>
                                             </el-form-item>
                                             <el-form-item label="帖子数">
-                                                <el-input v-model="props.row.post_num" :value="props.row.post_num"></el-input>
+                                                <el-input v-model="props.row.post_num" :value="props.row.post_num" disabled></el-input>
                                             </el-form-item>
                                             <el-form-item label="吧等级">
-                                                <el-input v-model="props.row.subject_level" :value="props.row.subject_level"></el-input>
+                                                <el-input v-model="props.row.level" :value="props.row.level" disabled></el-input>
                                             </el-form-item>
                                             <el-form-item label="吧描述">
-                                                <el-input type="textarea" :rows="3" v-model="props.row.desc" :value="props.row.desc"></el-input>
+                                                <el-input type="textarea" :rows="3" v-model="props.row.subject_desc" :value="props.row.subject_desc" :disabled="!props.row.edit"></el-input>
                                             </el-form-item>
                                             <el-form-item label="头像" class="manager_subject">
-                                                    <el-upload
-                                                    class="avatar-uploader"
-                                                    action=""
-                                                    :show-file-list="false"
-                                                    :on-success="handleAvatarSuccess"
-                                                    :before-upload="beforeAvatarUpload">
-                                                    <img v-if="props.row.image" :src="props.row.image" class="avatar">
-                                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                                    <el-upload :disabled="!props.row.edit"
+                                                        class="avatar-uploader"
+                                                        action=""
+                                                        :show-file-list="false"
+                                                        :on-success="handleAvatarSuccess"
+                                                        :before-upload="beforeAvatarUpload">
+                                                        <img v-if="props.row.subject_image" :src="props.row.subject_image" class="avatar">
                                                   </el-upload>
                                             </el-form-item>
+                                            <el-form-item label="操作" class="manager_subject">
+                                                <template>
+                                                    <el-button
+                                                    size="mini"
+                                                    type="danger"
+                                                    @click="handleEdit(props.row)">修改</el-button>
+                                                    <el-button
+                                                    size="mini"
+                                                    @click="handleSave(props.row)">保存</el-button>
+                                                </template>
+                                        </el-form-item>
                                         </el-form>
                                     </template>
-                </el-table-column>
-                <el-table-column label="吧名称" prop="subject_name">
-                </el-table-column>
-                <el-table-column label="吧主" prop="user_name">
-                </el-table-column>
-                <el-table-column label="创建时间" prop="time">
-                </el-table-column>
-                <el-table-column label="关注人数" prop="follows">
-                </el-table-column>
-                <el-table-column label="帖子数" prop="post_num">
-                </el-table-column>
-                <el-table-column label="吧等级" prop="subject_level">
-                </el-table-column>
-                <el-table-column label="操作" prop="subject_level" width="150">
-                    <template slot-scope="scope">
-                                                <el-button
-                                                  size="mini"
-                                                  @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-                                                <el-button
-                                                  size="mini"
-                                                  type="danger"
-                                                  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-                                              </template>
-                </el-table-column>
-                </el-table>
-                </el-tab-pane>
-                <el-tab-pane label="我的关注" name="6">
-                    <!-- 我的关注 -->
-                    <div class="subjects">
-                        <div class="subject" v-for="subject in subjects">
-                            <el-card class="box-card">
-                                <div slot="header" class="clearfix">
-                                    <span>{{subject.subject_name}}</span>
-                                    <el-button style="float: right; padding: 3px 0" type="text">取消关注</el-button>
-                                </div>
-                                <div class="subject_content">
-                                    <div class="image">
-                                        <img :src="subject.subject_image" alt="">
-                                    </div>
-                                    <div class="subject_info">
-                                        <div><span class="title">创建时间：</span>{{subject.time}}</div>
-                                        <div><span class="title">关注人数：</span>{{subject.follows}}</div>
-                                        <div><span class="title">帖子数：</span>{{subject.posts}}</div>
-                                        <div><span class="title">等级：</span>{{subject.subject_level}}</div>
-                                    </div>
-                                </div>
-                            </el-card>
-                        </div>
-                    </div>
-                </el-tab-pane>
-
-                <el-tab-pane label="我的帖子" name="7">
-                    <!-- 我的帖子 -->
-                    <el-collapse v-model="postActive" class="posts" accordion>
-                        <el-collapse-item :title="post.post_title" class="post" :name="index" v-for="(post,index) in posts">
-                            <div class="sub-post post_content">
-                                <span>
-                                                    {{post.post_content}}
-                                                </span>
-                                <span class="post_time">{{post.time}}</span>
-                            </div>
-                            <div class="post_image sub_post">
-                                <img :src="image" alt="" v-for="image in post.post_photos">
-                            </div>
-                            <div class="post_info sub-post">
-                                <div>
-                                    <span class="fa fa-tag"></span>
-                                    <span>{{post.subject_name}}</span>
-                                </div>
-                                <div>
-                                    <span v-if="post.look">浏览数{{post.look}}</span>
-                                    <span class="fa fa-heart heart"> {{post.hearts}}</span>
-                                    <span class="fa fa-commenting comment"> {{post.reply_num}}</span>
-                                    <span class="fa fa-share share"> {{post.share}}</span>
-                                </div>
-                            </div>
-                        </el-collapse-item>
-                    </el-collapse>
-                </el-tab-pane>
-
-                <el-tab-pane name="8">
-                    <!-- 我的消息 -->
-                    <span slot="label">
-                                    <el-badge :value="12" class="item">
-                                        我的消息
-                                    </el-badge>
-                            </span>
-                    <el-tabs type="border-card">
-                        <el-tab-pane>
-                            <span slot="label">
-                                                <el-badge :value="6" class="item2">
-                                                        私信
-                                                </el-badge>
-                                        </span> 私信
-                        </el-tab-pane>
-                        <el-tab-pane>
-                            <span slot="label">
-                                                    <el-badge :value="6" class="item2">
-                                                            系统消息
-                                                    </el-badge>
-                                            </span> 系统消息
+                                </el-table-column>
+                                <el-table-column label="吧名称" prop="subject_name">
+                                </el-table-column>
+                                <el-table-column label="吧主" prop="owner">
+                                </el-table-column>
+                                <el-table-column label="创建时间" prop="time">
+                                </el-table-column>
+                                <el-table-column label="关注人数" prop="follows">
+                                </el-table-column>
+                                <el-table-column label="帖子数" prop="post_num">
+                                </el-table-column>
+                                <el-table-column label="吧等级" prop="level">
+                                </el-table-column>
+                                <el-table-column label="操作" prop="subject_level" width="150">
+                                    <template slot-scope="scope">
+                                        <el-button
+                                        size="mini"
+                                        type="danger"
+                                        >修改</el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
                         </el-tab-pane>
                     </el-tabs>
-                </el-tab-pane>
-                </el-tabs>
                 </template>
             </div>
         </div>
@@ -692,6 +845,7 @@
                         trigger: 'blur'
                     }]
                 },
+                // 我的关注
                 subjects: [{
                     subject_name: 'subject_name',
                     subject_desc: 'subejct_desc',
@@ -734,102 +888,89 @@
                     subject_level: '2'
                 }],
                 postActive: '1',
-                posts: [{
-                    post_title: 'post_title',
-                    post_content: 'post_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_contentpost_content',
-                    post_photos: [
-                        '/avatar.jpg',
-                        '/avatar.jpg',
-                        '/avatar.jpg',
-                        '/avatar.jpg',
-                    ],
-                    subject_name: 'subject_name',
-                    look: 23,
-                    hearts: 23,
-                    reply_num: 12,
-                    share: 23,
-                    time: 'time'
-                }, {
-                    post_title: 'post_title',
-                    post_content: 'post_content',
-                    post_photos: [
-                        '/avatar.jpg',
-                        '/avatar.jpg',
-                        '/avatar.jpg',
-                        '/avatar.jpg',
-                    ],
-                    subject_name: 'subject_name',
-                    look: 23,
-                    hearts: 23,
-                    reply_num: 12,
-                    share: 23,
-                    time: 'time'
-                }],
-                manager_subjects: [{
-                    subject_name: 'subject_name',
-                    user_name: 'user_name',
-                    time: 'time',
-                    follows: 32,
-                    post_num: 32,
-                    subject_level: 1,
-                    desc: 'desc',
-                    image: '/avatar.jpg'
-                }, {
-                    subject_name: 'subject_name',
-                    user_name: 'user_name',
-                    time: 'time',
-                    follows: 32,
-                    post_num: 32,
-                    subject_level: 1,
-                    desc: 'fesc',
-                    image: '/avatar.jpg'
-                }, {
-                    subject_name: 'subject_name',
-                    user_name: 'user_name',
-                    time: 'time',
-                    follows: 32,
-                    post_num: 32,
-                    subject_level: 1,
-                    desc: 'desc',
-                    image: '/avatar.jpg'
-                }, {
-                    subject_name: 'subject_name',
-                    user_name: 'user_name',
-                    time: 'time',
-                    follows: 32,
-                    post_num: 32,
-                    subject_level: 1,
-                    desc: 'desc',
-                    image: '/avatar.jpg'
-                }],
+                // 动态
+                posts: [],
+                // 我的吧
+                manager_subjects: [],
                 formdisabled: false,
-                isUser: false
+                isUser: false,
+                infos: [],
+                sysInfos: []
             }
         },
         created() {
             var index = "4"
             if (window.location.href.indexOf("?") >= 0) {
-                let index = window.location.href.split("?")[1].slice(6) || '4'
+                index = window.location.href.split("?")[1].slice(6) || '4'
             }
+            console.log(index)
             this.activeIndex = index
             this.activeName = index
             this.initCity()
             this.initUser()
         },
         watch: {
+            // 监听
             activeName(oldVal, newVal) {
-                console.log(oldVal, newVal)
+                this.posts = []
+                this.subjects = []
+                this.manager_subjects = []
+                this.infos = [],
+                this.sysInfos = []
             }
         },
         methods: {
-            init() {
+            // 请求的是哪一个tag
+            init() { 
                 var _this = this
                 this.handleAjax("/getMineInfo", 'get', {
                     tag: _this.activeName
                 }, function(data) {
-                    // console.log(data)
+                    switch(_this.activeName) {
+                        case "4": 
+                            break
+                        case "5":
+                            let posts = JSON.parse(data)
+                            posts.forEach((value, index) => {
+                                if (value.user_name == _this.user.username) {
+                                    _this.posts.push(value)
+                                }
+                            })
+                            console.log(_this.posts)
+                            break
+                        case "6":
+                            _this.getUnreadedInfos()
+                            break
+                        case "7":
+                            let subjects = JSON.parse(data)
+                            subjects.forEach((value, index) => {
+                                value.follows = value.follow_user.length
+                                value.follow_user.forEach((value2, index2) => {
+                                    if (value2.user_name == _this.user.username) {
+                                        _this.subjects.push(value)
+                                    }
+                                })
+                            })
+                            break
+                        case "8":
+                            let manager_subjects = JSON.parse(data)
+                            manager_subjects.forEach((value, index) => {
+                                value.follows = value.follow_user.length
+                                value.edit = false
+                                value.editText = '修改'
+                                if (!value.subject_image) {
+                                    value.subject_image = '/images/subject_default.png'
+                                }
+                                if (value.owner == _this.user.username) {
+                                    _this.manager_subjects.push(value)
+                                }
+                            })
+                            console.log(_this.manager_subjects)
+                            break
+                    }
                 })
             },
+            // 请求用户信息
             initUser() {
                 var _this = this
                 this.handleAjax("/userInfo", 'get', {}, function(data) {
@@ -910,9 +1051,28 @@
             },
             // tab切换
             handleClick(tab, event) {
-                if (tab == "4") {
-                    this.initCity()
-                    this.initUser()
+                switch(tab.name) {
+                    // 用户管理
+                    case "4": 
+                        this.initCity()
+                        this.initUser()
+                        break
+                    // 动态
+                    case "5":
+                        this.init()
+                        break
+                    // 我的消息
+                    case "6":
+                        this.init()
+                        break
+                    // 关注的吧
+                    case "7":
+                        this.init()
+                        break
+                    // 创建的吧
+                    case "8":  
+                        this.init()
+                        break
                 }
             },
             // 全国省市查询
@@ -948,8 +1108,41 @@
                 }
                 return isLt2M;
             },
-            handleEdit(index, row) {},
-            handleDelete(index, row) {},
+            // 修改
+            handleEdit(subject) {
+                subject.edit = true
+                subject.editText = "完成"
+            },
+            // 保存
+            handleSave (subject) {
+                if (subject.edit) {
+                    this.handleAjax('/saveSubject', 'post', {
+                        _id: subject._id,
+                        subejct_name: subject.subject_name,
+                        subject_desc: subject.subject_desc
+                    }, function(data) {
+                        if (data == "1") {
+                            subject.edit = false
+                        }
+                    })
+                }
+                console.log()
+            },
+            // 删除
+            // handleDelete(index, row) {
+            //     var _this = this
+            //     this.handleAjax('deleteSubject', 'post', {
+            //         _id: row._id
+            //     },function(data){
+            //         if (data == "1") {
+            //             _this.manager_subjects.splice(index, 1)
+            //             _this.$message({
+            //                 message: '删除成功',
+            //                 type: 'success'
+            //             })
+            //         }
+            //     })
+            // },
             // 点击登录
             toLogin() {
                 window.location.href = "/login"
@@ -987,6 +1180,34 @@
                         })
                         window.location.href = "/login"
                     }
+                })
+            },
+            // 取消关注
+            cancelJoinSubject(subject, index) {
+                var _this = this
+                this.handleAjax("/cancelJoinSubject", "post", {
+                    _id: subject._id,
+                    user_name: _this.user.username,
+                    avator: _this.user.avator
+                }, function(data) {
+                    if (data == "1") {
+                        _this.subjects.splice(index, 1)
+                    }
+                })
+            },
+            // 获取未读消息
+            getUnreadedInfos() {
+                var _this = this
+                this.handleAjax("/getUnreadedMsg",'post', {
+                    username: _this.user.username
+                }, function(data){
+                    var receiveMsgs = JSON.parse(data)
+                    receiveMsgs.forEach((value, index) => {
+                        if (!value.readed) {
+                            _this.infos.push(value)
+                        }
+                    })
+                    console.log(_this.infos)
                 })
             }
         }

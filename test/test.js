@@ -7,6 +7,7 @@ var subjects = require("../db/subjects.js")
 var replys = require("../db/replys.js")
 var user_actives_infos = require("../db/user_actives_infos.js")
 var white_wall = require("../db/white_wall")
+var findData = require("../db/findData")
 var ObjectID = require('mongodb').ObjectID;
 var tools = require('../tool/tool')
 
@@ -123,11 +124,18 @@ var postsData = require("./posts.json")
 // })
 
 // 删除数字
-subjects.updateDeleteArray({
-    _id: ObjectID('5a9f5c2461ff7b34226dde97')
-}, {
-    user_name: "ztc",
-    avator: "/avator.jpg"
-}, function(result) {
-    console.log(result.result.ok)
+// subjects.updateDeleteArray({
+//     _id: ObjectID('5a9f5c2461ff7b34226dde97')
+// }, {
+//     user_name: "ztc",
+//     avator: "/avator.jpg"
+// }, function(result) {
+//     console.log(result.result.ok)
+// })
+
+
+findData.findData('user_actives_infos',{
+    user_name: 'ztchun'
+}, function(data){
+    console.log(data[0].posts)
 })

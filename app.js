@@ -244,6 +244,12 @@ io.on("connection", function(socket) {
     })
 })
 
+// 修改subject
+app.post('/saveSubject', router.saveSubject)
+
+// 删除subject
+// app.post('/deleteSubject', router.deleteSubject)
+
 
 
 // 监听端口
