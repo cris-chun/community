@@ -134,8 +134,13 @@ var postsData = require("./posts.json")
 // })
 
 
-findData.findData('user_actives_infos',{
-    user_name: 'ztchun'
-}, function(data){
-    console.log(data[0].posts)
-})
+// findData.findData('user_actives_infos',{
+//     user_name: 'ztchun'
+// }, function(data){
+//     console.log(data[0].posts)
+// })
+
+posts.findDataSort({}, { time: -1 }, 0, 10, function(data) {
+    // data.sort(compare('time'))
+    console.log(data)
+ })

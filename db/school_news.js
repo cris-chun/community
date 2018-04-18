@@ -1,24 +1,24 @@
 var db = require("./db.js");
 
 // school_news查找
-exports.findData = function(data, callback){
+exports.findData = function(data, callback) {
     var school_news = []
-    db._connnection(function(db){
-        db.collection("school_news").find(data, function(err, cursor){
+    db._connnection(function(db) {
+        db.collection("school_news").find(data, function(err, cursor) {
             if (err) {
                 console.log('school_news查找失败')
                 db.close()
                 return
             }
-            cursor.each(function(error,doc){
-                if(error){
+            cursor.each(function(error, doc) {
+                if (error) {
                     console.log("school_news数据遍历失败");
                     db.close();
                     return;
                 }
-                if(doc){
+                if (doc) {
                     school_news.push(doc)
-                }else{
+                } else {
                     callback(school_news)
                 }
             })
@@ -31,7 +31,7 @@ exports.insertData = function(obj, callback) {
     if (!obj) {
         return
     }
-    db._connnection(function(db){
+    db._connnection(function(db) {
         db.collection("school_news").insert(obj, function(err, result) {
             if (err) {
                 console.log("school_news insert error")
@@ -48,7 +48,7 @@ exports.deleteData = function(obj, callback) {
     if (!obj) {
         return;
     }
-    db._connnection(function(db){
+    db._connnection(function(db) {
         db.collection("school_news").remove(obj, function(err, result) {
             if (err) {
                 console.log('school_news remove error')
@@ -76,6 +76,27 @@ exports.updateData = function(oldObj, newObj, callback) {
                 return
             }
             callback(result)
+        })
+    })
+}
+
+// sort 
+exports.findDataBySort = function(data, sort, callback) {
+    var result = []
+    db._connnection(function(db) {
+        var cursor = db.collection("school_news").find(data).sort(sort)
+        cursor.each(function(err, doc) {
+            if (err) {
+                console.log("校园新鲜事查找失败")
+                db.close()
+                return
+            }
+            // 遍历有效
+            if (doc != null) {
+                result.push(doc)
+            } else {
+                callback(result)
+            }
         })
     })
 }

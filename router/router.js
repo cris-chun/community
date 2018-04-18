@@ -10,6 +10,7 @@ var user_actives_infos = require("../db/user_actives_infos")
 var replys = require("../db/replys")
 var white_wall = require("../db/white_wall")
 var infos = require("../db/infos")
+var school_news = require("../db/school_news")
 var findData = require("../db/findData")
 var fs = require("fs")
 var path = require("path")
@@ -200,19 +201,23 @@ function uploadImage(req, res, dir, filePath) {
 exports.getPosts = function(req, res) {
     var start = Number(req.query.start)
     var limit = Number(req.query.limit)
-    posts.findDataSort({}, { time: 1 }, start, limit, function(data) {
-            res.send(JSON.stringify(data))
-        })
-        // posts.findData({},function(data){
-        //     if (data.length <= start) {
-        //         console.log('return')
-        //         // return
-        //     }else {
-        //         posts.findDataSort({}, {time: 1}, start, limit,function(data){
-        //             res.send(JSON.stringify(data))
-        //         })
-        //     }
-        // })
+    posts.findDataSort({}, { time: -1 }, start, limit, function(data) {
+        res.send(JSON.stringify(data))
+    })
+}
+
+function compare(prop) {
+    return function(obj1, obj2) {
+        var value1 = obj1[prop]
+        var value2 = obj2[prop]
+        if (value1 > value2) {
+            return -1
+        } else if (value1 < value2) {
+            return 1
+        } else {
+            return 0
+        }
+    }
 }
 
 // 吧
@@ -239,7 +244,10 @@ exports.joinSubject = function(req, res) {
                     user_name: fields.user_name
                 }, {
                     $push: {
-                        subjects: fields._id
+                        subjects: {
+                            id: fields._id,
+                            sign: 0
+                        }
                     }
                 }, function(data) {
                     res.send("1")
@@ -268,7 +276,10 @@ exports.cancelJoinSubject = function(req, res) {
                     user_name: fields.user_name
                 }, {
                     $pull: {
-                        subjects: fields._id
+                        subjects: {
+                            id: fields._id,
+                            sign: 0
+                        }
                     }
                 }, function(data) {
                     res.send("1")
@@ -687,7 +698,7 @@ exports.saveSubject = function(req, res) {
 //                     user_name: follow_users[i].user_name
 //                 },{
 //                     $pull: {
-                        
+
 //                     }
 //                 })
 //             }
@@ -697,8 +708,135 @@ exports.saveSubject = function(req, res) {
 //         },function(data){
 //             if (data.result.ok) {
 //                 // 关注的人删除
-                
+
 //             }
 //         })
 //     })
 // }
+
+// init subject
+exports.initSubject = function(req, res) {
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields) {
+        if (err) {
+            console.log('init subject 失败')
+            return
+        }
+        subjects.findData({
+            _id: ObjectID(fields.id)
+        }, function(data) {
+            res.send(JSON.stringify(data))
+        })
+    })
+}
+
+// init post
+exports.initPost = function(req, res) {
+        var form = fd.IncomingForm()
+        form.parse(req, function(err, fields) {
+            if (err) {
+                console.log(err)
+                return
+            }
+            posts.findData({
+                subject_id: fields.id
+            }, function(data) {
+                console.log(data)
+                res.send(JSON.stringify(data))
+            })
+        })
+    }
+    // 签到
+exports.sign = function(req, res) {
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields) {
+        if (err) {
+            console.log("签到失败")
+            return
+        }
+        user_actives_infos.findData({
+            user_name: req.session.username
+        }, function(data) {
+            console.log(data)
+            var subjects = []
+            data[0].subjects.forEach((value, index) => {
+                if (value.id == fields.id) {
+                    var obj = {
+                        id: fields.id,
+                        sign: Number(value.sign) + 1
+                    }
+                    subjects.push(obj)
+                } else {
+                    subjects.push(value)
+                }
+            })
+            user_actives_infos.updateData({
+                user_name: req.session.username
+            }, {
+                $set: {
+                    subjects: subjects
+                }
+            }, function(data) {
+                if (data.result.ok) {
+                    res.send('1')
+                }
+            })
+        })
+    })
+}
+
+// 校园新鲜事
+exports.getNews = function(req, res) {
+        school_news.findDataBySort({}, { time: -1 }, function(data) {
+            console.log(data)
+            res.send(JSON.stringify(data))
+        })
+    }
+    // news desc
+exports.getNewsDesc = function(req, res) {
+        var form = fd.IncomingForm()
+        form.parse(req, function(err, fields) {
+            if (err) {
+                console.log('新闻详情获取失败')
+                return
+            }
+            school_news.findData({
+                _id: ObjectID(fields.id)
+            }, function(data) {
+                console.log(data)
+                res.send(JSON.stringify(data[0]))
+            })
+        })
+    }
+    //support
+exports.giveSupport = function(req, res) {
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields) {
+        if (err) {
+            console.log("错误")
+            return
+        }
+        school_news.findData({
+            _id: ObjectID(fields.id)
+        }, function(data) {
+            console.log(data)
+            var supports = data[0].support
+            tool.showTime(function(time) {
+                var support = {
+                    user: req.session.username,
+                    time: time
+                }
+                supports.push(support)
+                school_news.updateData({
+                    _id: ObjectID(fields.id)
+                }, {
+                    support: supports
+                }, function(data) {
+                    if (data.result.ok) {
+                        res.send("1")
+                    }
+                })
+            })
+        })
+    })
+}

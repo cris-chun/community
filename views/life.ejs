@@ -94,7 +94,7 @@
     }
     
     .list i {
-        color: #CFCFCF;
+        color: #f4630b;
     }
     
     .list span {
@@ -228,7 +228,7 @@
     }
     
     .news .news-content {
-        width: 70%;
+        flex: 1;
         text-align: left;
     }
     
@@ -244,10 +244,24 @@
         padding-left: 0px;
     }
     
-    .news-content .news-desc p {
+    .news-content .news-desc {
+        height: 100px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 5;
+    }
+    
+    .news-content .news-desc pre {
         font-size: 14px;
         margin-top: -2px;
+        color: #666;
         margin-left: 5px;
+        white-space: pre-wrap;
+        white-space: -moz-pre-wrap;
+        white-space: -pre-wrap;
+        white-space: -o-pre-wrap;
+        word-wrap: break-word;
         /* padding: 5px; */
         /* line-height: 15px; */
     }
@@ -280,7 +294,7 @@
                 </el-input>
                 <i class="el-icon-search search-icon"></i>
             </div>
-            <div class="extenal">
+            <div class="extenal" v-if="!isUser">
                 <a href="/login">登录</a>
                 <a href="/register">注册</a>
             </div>
@@ -294,14 +308,14 @@
                     <div class="content">
                         <div class="school_news">
                             <div class="title">校园新鲜事</div>
-                            <div class="news" v-for="item in news">
+                            <div class="news" v-for="item in news" @click="toNewsDesc(item)">
                                 <div class="news-content">
                                     <div class="news-title">{{item.title}}</div>
                                     <div class="news-desc">
-                                        <p>{{item.desc}}</p>
+                                        <pre>{{item.content}}</pre>
                                     </div>
                                 </div>
-                                <div class="news-image">
+                                <div class="news-image" v-if="item.image">
                                     <img :src="item.image" alt="">
                                 </div>
                             </div>
@@ -337,20 +351,13 @@
                             </div>
                         </el-col>
                         <el-col :span="6">
-                            <el-dropdown>
-                                <span class="el-dropdown-link icon-dropdown">
-                                    <i class="el-icon-arrow-down el-icon--right"></i>
-                                </span>
-                                <el-dropdown-menu slot="dropdown" class="dropdown-ul">
-                                    <el-dropdown-item>self</el-dropdown-item>
-                                    <el-dropdown-item>self</el-dropdown-item>
-                                    <el-dropdown-item>self</el-dropdown-item>
-                                </el-dropdown-menu>
-                            </el-dropdown>
+                            <span class="icon-dropdown" @click="showList">
+                                <i class="el-icon-arrow-down el-icon--right"></i>
+                            </span>
                         </el-col>
                     </el-row>
                     <el-row>
-                        <div class="list" v-for='item in list'>
+                        <div class="list" v-for='item in list' v-if="listIsShow">
                             <i :class="item.icon"></i>
                             <span>{{item.text}}</span>
                         </div>
@@ -376,6 +383,7 @@
 
     </div>
 </body>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <!-- 先引入 Vue -->
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <!-- 引入组件库 -->
@@ -387,40 +395,35 @@
             return {
                 activeIndex: '2',
                 list: [{
-                    icon: 'fa fa-file-text',
-                    text: '我的内容'
+                    icon: 'fa fa-pencil-square-o',
+                    text: '账号设置',
+                    link: '/mine?index=4'
                 }, {
-                    icon: 'fa fa-vcard',
-                    text: '我的关注'
+                    icon: 'fa fa-bookmark-o',
+                    text: '我的吧',
+                    link: '/mine?index=5'
+                }, {
+                    icon: 'fa fa-star-o',
+                    text: '我的关注',
+                    link: '/mine?index=6'
+                }, {
+                    icon: 'fa fa-sticky-note-o',
+                    text: '我的帖子',
+                    link: '/mine?index=7'
                 }, {
                     icon: 'fa fa-bullhorn',
-                    text: '通知'
+                    text: '我的消息',
+                    link: '/mine?index=8'
                 }, {
-                    icon: 'fa fa-envelope',
-                    text: '私信'
+                    icon: 'fa fa-lightbulb-o',
+                    text: '帮助和反馈'
                 }, {
-                    icon: 'fa fa-home',
-                    text: '我的主页'
-                }],
+                    icon: 'fa fa-power-off',
+                    text: '退出'
+                }, ],
                 newLeftActive: '1',
                 newRightActive: '2',
-                news: [{
-                    title: 'title',
-                    desc: '代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪',
-                    image: '/avatar.jpg'
-                }, {
-                    title: 'title',
-                    desc: '代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪',
-                    image: '/avatar.jpg'
-                }, {
-                    title: 'title',
-                    desc: '代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪',
-                    image: '/avatar.jpg'
-                }, {
-                    title: 'title',
-                    desc: '代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪代发基本的放开节哀顺变发卡机电饭煲发顺丰就哈萨克放哪',
-                    image: '/avatar.jpg'
-                }],
+                news: [],
                 xiaohua: [{
                     title: '你TM现在在我心里就是个菩萨',
                     text: '小侄子刚考试完，我不由得感慨：“以前我们小时候要过几天才能到学校拿成绩单，现在信息发达，直接微信就可以看到成绩了，多好啊！ ”小侄子：“有啥好？挨揍都会提前……”'
@@ -457,16 +460,16 @@
                     title: '海阔天空',
                     desc: '海阔天空专辑'
                 }],
-                search: ''
+                search: '',
+                user: {},
+                isUser: false,
+                listIsShow: true
             }
         },
+        mounted() {
+            this.initUser()
+        },
         methods: {
-            // 折叠板
-            handleChange(type) {
-                if (type == 1) {
-
-                }
-            },
             // 导航
             handleSelect: function(key, keyPath) {
                 console.log(key, keyPath)
@@ -483,6 +486,59 @@
                         window.location.href = "/login"
                     }
                 })
+            },
+            // 个人信息请求
+            initUser() {
+                var _this = this
+                this.handleAjax("/userInfo", 'get', {}, function(data) {
+                    if (data == '0') {
+                        // 未注册
+                        _this.isUser = false
+                        _this.$message.error("sorry,您还未注册哦")
+                    } else if (data == '1') {
+                        // 未登录
+                        _this.isUser = false
+                        _this.initNews()
+                    } else {
+                        //  查询成功
+                        _this.isUser = true
+                        _this.user = JSON.parse(data)
+                        _this.initNews()
+                    }
+                })
+            },
+            initNews() {
+                var _this = this
+                this.handleAjax('/getNews', 'get', {}, function(data) {
+                    console.log(data)
+                    _this.news = JSON.parse(data).slice(0, 3)
+                })
+            },
+            // ajax请求
+            handleAjax(url, method, data, handleSuccess) {
+                $.ajax({
+                    url: url,
+                    type: method,
+                    data: data,
+                    cache: false,
+                    success: handleSuccess,
+                    error: function(err) {
+                        console.log(err)
+                    }
+                })
+            },
+            // show list
+            showList() {
+                this.listIsShow = !this.listIsShow
+                if (this.listIsShow) {
+                    $(".el-icon--right").removeClass("el-icon-arrow-up").addClass("el-icon-arrow-down")
+                } else {
+                    $(".el-icon--right").removeClass("el-icon-arrow-down").addClass("el-icon-arrow-up")
+                }
+            },
+            // 跳转到新闻详情页
+            toNewsDesc(news) {
+                window.location.href = '/newDesc?id=' + news._id
             }
         }
     })

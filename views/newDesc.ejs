@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>新闻详情</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+</head>
+
+<style>
+    #app {
+        text-align: center;
+    }
+    
+    body {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        text-align: center;
+    }
+    
+    a {
+        text-decoration: none;
+    }
+    
+    .menu-padding {
+        padding-left: 35%;
+    }
+    
+    .search-menu {
+        margin-left: 50px;
+        float: left;
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+    
+    .search input {
+        float: right;
+        width: 200px;
+        height: 30px;
+        border-radius: 15px;
+    }
+    
+    .search-icon {
+        color: #f4630b;
+        margin-left: -25px;
+        z-index: 100;
+        font-size: 18px;
+        font-weight: 900;
+    }
+    
+    .extenal {
+        line-height: 60px;
+        color: #fff;
+    }
+    
+    .extenal a {
+        color: #fff;
+        text-decoration: none;
+    }
+    
+    .extenal a:nth-child(1) {
+        margin-left: 100px;
+    }
+    
+    .sub-menu {
+        color: #fff;
+    }
+    
+    .content {
+        width: 50%;
+        /* background: #fff; */
+        margin: 0 auto;
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .title {
+        text-align: left;
+        margin-left: 20px;
+        padding-top: 30px;
+        word-break: break-word!important;
+        word-break: break-all;
+        font-size: 34px;
+        font-weight: 700;
+    }
+    
+    .user {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 30px;
+        margin-left: 20px;
+    }
+    
+    .user img,
+    .item img {
+        width: 8%;
+        border-radius: 50%;
+    }
+    
+    .info {
+        text-align: left;
+        margin-left: 10px;
+    }
+    
+    .user-info span {
+        margin: 5px;
+        color: #333;
+        font-size: 16px;
+    }
+    
+    .page-info span,
+    .user-info span:nth-child(2) {
+        margin: 5px;
+        color: #666;
+        font-size: 12px;
+    }
+    
+    .desc {
+        text-align: left;
+        margin-left: 30px;
+        margin-right: 30px;
+        margin-top: 30px;
+    }
+    
+    .desc pre {
+        white-space: pre-wrap;
+        white-space: -moz-pre-wrap;
+        white-space: -pre-wrap;
+        white-space: -o-pre-wrap;
+        word-wrap: break-word;
+        line-height: 2;
+        font-size: 15px;
+    }
+    
+    .exteral {
+        margin: 0 auto;
+        text-align: center;
+        margin-top: 30px;
+    }
+    
+    .exteral>div:nth-child(1) {
+        min-height: 24px;
+        font-size: 17px;
+        font-weight: 700;
+        color: #969696;
+    }
+    
+    .like {
+        margin: 0 auto;
+        width: 90px;
+        padding: 8px 25px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #f4630b;
+        border-radius: 20px;
+        margin-top: 20px;
+        cursor: pointer;
+    }
+    
+    .comment {
+        font-size: 16px;
+        color: #666;
+        margin-left: 30px;
+        /* margin-right: 30px; */
+        text-align: left;
+        margin-top: 30px;
+    }
+    
+    .comment>div:nth-child(1) {
+        padding-bottom: 10px;
+        border-bottom: 1px solid #dfdfdf;
+    }
+    
+    .comments {
+        margin: 20px 10px;
+    }
+    
+    .item {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    
+    .contain {
+        margin-top: 10px;
+        margin-left: 20px;
+    }
+    
+    .news {
+        background: #f5f5f5;
+        margin-top: 50px;
+        width: 100%;
+        text-align: center;
+        margin: 0 auto;
+    }
+    
+    .news-content {
+        padding-top: 30px;
+        width: 50%;
+        text-align: center;
+        margin: 0 auto;
+        /* padding-left: 30px;
+        padding-right: 30px; */
+    }
+    
+    .read {
+        margin: 0 auto;
+        border-left: 5px solid #f4630b;
+        font-size: 16px;
+        text-align: left;
+        padding-left: 10px;
+        margin-left: 30px;
+    }
+    
+    .news-item {
+        text-align: left;
+        margin-left: 30px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #dfdfdf;
+    }
+    
+    .news-title {
+        font-size: 18px;
+        line-height: 27px;
+        font-weight: bold;
+        color: #333333;
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+    }
+    
+    .news-container {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    
+    .news-container>div:nth-child(1) {
+        flex: 1;
+        height: 70px;
+        font-size: 13px;
+        line-height: 23px;
+        color: #333333;
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        word-wrap: break-word;
+        word-break: break-all;
+        margin-bottom: 10px;
+    }
+    
+    .news-container img {
+        width: 10%;
+        margin-left: 10px;
+    }
+</style>
+
+<body>
+    <div id="app">
+        <!--菜单导航-->
+        <el-menu :default-active="activeIndex" class="el-menu-demo menu-padding" mode="horizontal" @select="handleSelect" background-color="#f4630b" text-color="#fff" active-text-color="#ffd04b">
+            <el-menu-item index="0"><a href="/">首页</a></el-menu-item>
+            <el-menu-item index="1"><a href="/community">校论区</a></el-menu-item>
+            <el-menu-item index="2"><a href="/life">生活休闲</a></el-menu-item>
+            <el-menu-item index="3"><a href="/whiteWall">表白墙</a></el-menu-item>
+            <el-submenu index="4">
+                <template slot="title">我的</template>
+                <el-menu-item index="4"><a href="/mine?index=4" class="sub-menu">账号设置</a></el-menu-item>
+                <el-menu-item index="5"><a href="/mine?index=5" class="sub-menu">我的吧</a></el-menu-item>
+                <el-menu-item index="6"><a href="/mine?index=6" class="sub-menu">我的关注</a></el-menu-item>
+                <el-menu-item index="7"><a href="/mine?index=7" class="sub-menu">我的帖子</a></el-menu-item>
+                <el-menu-item index="8"><a href="/mine?index=8" class="sub-menu">我的消息</a></el-menu-item>
+                <el-menu-item index="9"><a href="/mine?index=9" class="sub-menu">帮助和反馈</a></el-menu-item>
+                <el-menu-item index="10" @click="exit">退出</el-menu-item>
+            </el-submenu>
+            <div class="search-menu">
+                <el-input class="search" placeholder="请输入内容" v-model="search" clearable>
+                </el-input>
+                <i class="el-icon-search search-icon"></i>
+            </div>
+            <div class="extenal" v-if="!isUser">
+                <a href="/login">登录</a>
+                <a href="/register">注册</a>
+            </div>
+        </el-menu>
+
+        <!-- 文章内容 -->
+        <div class="content">
+            <div class="title">
+                {{news.title}}
+            </div>
+            <div class="user">
+                <img src="/avatar.jpg" alt="">
+                <div class="info">
+                    <div class="user-info">
+                        <span>{{news.owner}}</span>
+                        <span>{{news.time}}</span>
+                    </div>
+                    <div class="page-info">
+                        <span>阅读：{{news.look}}</span>
+                        <span>评论：{{news.replys_num}}</span>
+                        <span>喜欢：{{news.like}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="desc">
+                <pre>{{news.content}}</pre>
+            </div>
+            <div class="exteral">
+                <div>小礼物走一波，给个赞再走呗</div>
+                <div class="like" @click="giveSupport">赞赏支持 {{news.support_num}}</div>
+            </div>
+            <div class="comment" v-if="news.replys_num != 0">
+                <div>{{news.replys_num}}条评论</div>
+                <div class="replys">
+                    <div class="comments" v-for="item in news.replys">
+                        <div class="item">
+                            <img :src="item.avator" alt="">
+                            <div class="info">
+                                <div class="user-info">
+                                    <span>{{item.from_user_name}}</span>
+                                </div>
+                                <div class="page-info">
+                                    <span>{{item.time}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contain">
+                            {{item.content}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="news">
+            <div class="news-content">
+                <div class="read">
+                    推荐阅读
+                </div>
+                <div class="news">
+                    <div class="news-item" v-for="item in tuijian" @click="toNewsDesc(item)">
+                        <div class="news-title">{{item.title}}</div>
+                        <div class="news-container">
+                            <div>
+                                {{item.content}}
+                            </div>
+                            <img :src="item.image" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<!-- 先引入 Vue -->
+<script src="https://cdn.bootcss.com/vue/2.5.13/vue.js"></script>
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                // 搜索
+                search: '',
+                // 导航条
+                activeIndex: '2',
+                user: {},
+                isUser: false,
+                news: {},
+                id: '',
+                tuijian: []
+            }
+        },
+        watch: {},
+        mounted() {
+            this.initUser()
+        },
+        methods: {
+            // 下拉框请求数据
+            // 下拉
+            handleSelect: function(key, keyPath) {
+                console.log(key, keyPath)
+            },
+            // ajax请求
+            handleAjax(url, method, data, handleSuccess) {
+                $.ajax({
+                    url: url,
+                    type: method,
+                    data: data,
+                    cache: false,
+                    success: handleSuccess,
+                    error: function(err) {
+                        console.log(err)
+                    }
+                })
+            },
+            // 退出
+            exit() {
+                var _this = this
+                this.handleAjax("/exit", "get", {}, function(data) {
+                    if (data == "1") {
+                        _this.$message({
+                            message: '退出成功',
+                            type: 'warning'
+                        })
+                        window.location.href = "/login"
+                    }
+                })
+            },
+            // 个人信息请求
+            initUser() {
+                var _this = this
+                this.handleAjax("/userInfo", 'get', {}, function(data) {
+                    if (data == '0') {
+                        // 未注册
+                        _this.isUser = false
+                        _this.$message.error("sorry,您还未注册哦")
+                    } else if (data == '1') {
+                        // 未登录
+                        _this.isUser = false
+                        _this.initNews()
+                    } else {
+                        //  查询成功
+                        _this.isUser = true
+                        _this.user = JSON.parse(data)
+                        _this.initNews()
+                    }
+                })
+            },
+            initNews() {
+                var newsId = window.location.href.split('?')[1]
+                var id = newsId.split("=")[1]
+                this.id = id
+                var _this = this
+                this.handleAjax('/getNews', 'get', {}, function(data) {
+                    var data = JSON.parse(data)
+                    _this.tuijian = data.splice(0, 4)
+                    console.log(_this.tuijian)
+                    _this.tuijian.forEach((value, index) => {
+                        if (value._id == _this.id) {
+                            _this.news = value
+                            _this.news.replys_num = _this.news.replys.length
+                            _this.news.support_num = _this.news.support.length
+                        }
+                    });
+                })
+            },
+            // 跳转到新闻详情页
+            toNewsDesc(news) {
+                window.location.href = '/newDesc?id=' + news._id
+            },
+            // 支持
+            giveSupport() {
+                if (!this.isUser) {
+                    this.$message({
+                        message: 'oh my god，你还没登陆哇,那就不能点赞了',
+                        type: 'warning'
+                    });
+                    return
+                }
+                var _this = this
+                _this.handleAjax("/giveSupport", 'post', {
+                    id: _this.id,
+                }, function(data) {
+                    console.log(data)
+                })
+            }
+        }
+    })
+</script>
+
+</html>

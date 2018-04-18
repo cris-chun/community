@@ -250,7 +250,21 @@ app.post('/saveSubject', router.saveSubject)
 // 删除subject
 // app.post('/deleteSubject', router.deleteSubject)
 
+// init  subject
+app.post("/initSubject", router.initSubject)
+    // init POst
+app.post("/initPost", router.initPost)
+    // 签到
+app.post('/sign', router.sign)
 
+// 校园新鲜事
+app.get("/getNews", router.getNews)
+app.get("/newDesc", function(req, res) {
+    res.render('newDesc')
+})
+app.post("/getNewsDesc", router.getNewsDesc)
+    // support
+app.post("/giveSupport", router.giveSupport)
 
 // 监听端口
 http.listen(3000)

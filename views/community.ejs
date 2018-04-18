@@ -68,7 +68,7 @@
                                                 <div class="post-title" v-if="item.post_title">{{item.post_title}}</div>
                                                 <div class="post-content" v-if="item.post_content">{{item.post_content}}</div>
                                                 <div class="images" v-if="item.post_photos">
-                                                    <img v-for="image in item.post_photos" :src="image"></img>
+                                                    <img @click="showImage(image)" v-for="image in item.post_photos" :src="image"></img>
                                                 </div>
                                             </div>
                                             <div class="bottom">
@@ -181,13 +181,13 @@
                             </div>
                         </el-col>
                         <el-col :span="6">
-                            <span class="icon-dropdown">
-                                    <i class="el-icon-arrow-down el-icon--right"></i>
-                                </span>
+                            <span class="icon-dropdown" @click="showList">
+                                <i class="el-icon-arrow-down el-icon--right"></i>
+                            </span>
                         </el-col>
                     </el-row>
                     <el-row>
-                        <div class="list" v-for='(item,index) in list' @click="toMine(item, index)">
+                        <div class="list" v-if="listIsShow" v-for='(item,index) in list' @click="toMine(item, index)">
                             <i :class="item.icon"></i>
                             <span>{{item.text}}</span>
                         </div>
@@ -214,14 +214,14 @@
                     <div class="my-ba">
                         <div class="ba-title">热门吧推荐 <span @click="refresh" class="fa fa-refresh">换一批</span> </div>
                         <div class="ba-content">
-                            <div class="hotba" v-for="(item, index) in hotbas">
+                            <div class="hotba" v-for="(item, index) in hotbas" @click.stop="toSubject(item)">
                                 <img :src="item.subject_image">
                                 <div class="hotba_info">
                                     <div>{{item.subject_name}}</div>
                                     <div class="subejct_desc"><span> {{item.post_num}} </span>篇帖子 . <span> {{item.follow_user.length}} </span>人关注</div>
                                 </div>
                                 <div class="hot-follow" v-if="item.isAttention">已关注</div>
-                                <div class="hot-follow" v-else @click="joinSubject(item, index)">+ 关注</div>
+                                <div class="hot-follow" v-else @click.stop="joinSubject(item, index)">+ 关注</div>
                             </div>
                         </div>
                         <div class="look_all" @click="showSubjectList">查看全部</div>
@@ -244,11 +244,11 @@
 
 
 
-                <div class="right" v-if="isUser">
+                <!-- <div class="right" v-if="isUser">
                     <div class="abs">
                         <div class="abs-title">广告</div>
                     </div>
-                </div>
+                </div> -->
             </el-col>
         </el-row>
 
@@ -316,6 +316,10 @@
             </div>
         </div>
 
+        <div class="mask" v-show="mask">
+            <img @click="hideImage" :src="thisImage" alt="">
+        </div>
+
     </div>
 </body>
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -363,35 +367,32 @@
                 posts: [],
                 // 右侧个人信息
                 list: [{
-                        icon: 'fa fa-pencil-square-o',
-                        text: '账号设置',
-                        link: '/mine?index=4'
-                    }, {
-                        icon: 'fa fa-bookmark-o',
-                        text: '我的吧',
-                        link: '/mine?index=5'
-                    }, {
-                        icon: 'fa fa-star-o',
-                        text: '我的关注',
-                        link: '/mine?index=6'
-                    },
-
-                    {
-                        icon: 'fa fa-sticky-note-o',
-                        text: '我的帖子',
-                        link: '/mine?index=7'
-                    }, {
-                        icon: 'fa fa-bullhorn',
-                        text: '我的消息',
-                        link: '/mine?index=8'
-                    }, {
-                        icon: 'fa fa-lightbulb-o',
-                        text: '帮助和反馈'
-                    }, {
-                        icon: 'fa fa-power-off',
-                        text: '退出'
-                    },
-                ],
+                    icon: 'fa fa-pencil-square-o',
+                    text: '账号设置',
+                    link: '/mine?index=4'
+                }, {
+                    icon: 'fa fa-bookmark-o',
+                    text: '我的吧',
+                    link: '/mine?index=5'
+                }, {
+                    icon: 'fa fa-star-o',
+                    text: '我的关注',
+                    link: '/mine?index=6'
+                }, {
+                    icon: 'fa fa-sticky-note-o',
+                    text: '我的帖子',
+                    link: '/mine?index=7'
+                }, {
+                    icon: 'fa fa-bullhorn',
+                    text: '我的消息',
+                    link: '/mine?index=8'
+                }, {
+                    icon: 'fa fa-lightbulb-o',
+                    text: '帮助和反馈'
+                }, {
+                    icon: 'fa fa-power-off',
+                    text: '退出'
+                }, ],
                 form: {
                     title: '',
                     content: '',
@@ -437,7 +438,10 @@
                 bas: [],
                 hotbas: [],
                 infos: [],
-                chatContent: ''
+                chatContent: '',
+                listIsShow: true,
+                thisImage: '',
+                mask: false
             }
         },
         created() {
@@ -476,20 +480,21 @@
                         var posts = JSON.parse(data)
                             // 评论框隐藏
                         posts.forEach((value, index, array) => {
-                            value.comments = false
-                            value.replys = []
-                            value.style = {
-                                heart: {
-                                    color: '#bdbdbd'
-                                },
-                                share: {
-                                    color: '#bdbdbd'
+                                value.comments = false
+                                value.replys = []
+                                value.style = {
+                                    heart: {
+                                        color: '#bdbdbd'
+                                    },
+                                    share: {
+                                        color: '#bdbdbd'
+                                    }
                                 }
-                            }
-                            if (_this.heartsPosts.indexOf(value._id) >= 0) {
-                                value.style.heart.color = "#f4630b"
-                            }
-                        })
+                                if (_this.heartsPosts.indexOf(value._id) >= 0) {
+                                    value.style.heart.color = "#f4630b"
+                                }
+                            })
+                            // _this.posts.sort(_this.compare('time'))
                         _this.posts = _this.posts.concat(posts)
                     }
                 })
@@ -572,9 +577,9 @@
                     var value1 = obj1[prop]
                     var value2 = obj2[prop]
                     if (value1 > value2) {
-                        return 1
-                    } else if (value1 < value2) {
                         return -1
+                    } else if (value1 < value2) {
+                        return 1
                     } else {
                         return 0
                     }
@@ -593,7 +598,6 @@
                     window.location.href = "/subjectList"
                 } else {
                     window.location.href = "/subject?subjectId=" + item.subjectId
-
                 }
             },
             // 上传图片
@@ -865,6 +869,7 @@
                     _this.exit()
                 }
             },
+            // 退出
             exit() {
                 var _this = this
                 this.handleAjax("/exit", "get", {}, function(data) {
@@ -946,6 +951,7 @@
                 $(".chat").attr("src", "/chat")
                 $(".chat").toggle(500)
             },
+            // 关闭聊天窗口
             closeChat() {
                 $(".chat").toggle(500)
                     // 讲消息都设置为已读
@@ -955,6 +961,31 @@
                 }, function(data) {
                     console.log(data)
                 })
+            },
+            // show list
+            showList() {
+                this.listIsShow = !this.listIsShow
+
+                if (this.listIsShow) {
+                    $(".el-icon--right").removeClass("el-icon-arrow-up").addClass("el-icon-arrow-down")
+                } else {
+                    $(".el-icon--right").removeClass("el-icon-arrow-down").addClass("el-icon-arrow-up")
+                }
+            },
+            // show image
+            showImage(image) {
+                console.log(image)
+                this.mask = true
+                this.thisImage = image
+            },
+            // hide image
+            hideImage() {
+                this.mask = false
+                this.thisImage = ''
+            },
+            // 跳转到subject
+            toSubject(item) {
+                window.location.href = "/subject?subjectId=" + item._id
             }
         }
     })

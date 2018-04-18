@@ -328,7 +328,7 @@
         <div class="second">
             <h1>彰显个性的校园</h1>
             <p>让兴趣.更有趣，让个性.更有料</p>
-            <p>随时随地的记录与分享，让你的兴趣成为大家的兴趣，让你的个性成为别人认识你的理由</p>
+            <p>随时随地的记录与分享，让你的兴趣成为大家的兴趣，让你的个性成为别人记住你的理由</p>
             <div id="slide">
                 <img src="/images/blog-2.jpg" alt="" class="second-image" data-id="1">
                 <img src="/images/blog-1.jpg" alt="" class="second-image" data-id="2">
@@ -344,7 +344,7 @@
             <p>汇聚共同爱好者，并不断衍生出更多的兴趣圈子，</p>
             <p>读书、运动、交友、社团、电影评论等等都会有精彩的人与内容不断产出</p>
             <div>
-                <img src="/images/quanzi.jpg" alt="" class="first-image">
+                <img src="/images/quanzi.jpg"  class="community" alt="" class="first-image">
             </div>
         </div>
         <div class="second second-life">
@@ -358,7 +358,7 @@
                     </p>
                 </div>
                 <div class="right">
-                    <img src="/images/life.jpg" alt="">
+                    <img class="life" src="/images/life.jpg" alt="">
                 </div>
             </div>
         </div>
@@ -367,16 +367,16 @@
             <p>大声说出你的爱，告诉他（她），我们来帮你</p>
             <p>表白，是一件很严肃的事情，也是一件需要勇气的事情，让我们来帮助你找到心中的另一半吧</p>
             <div class="love">
-                <div class="love-first">
+                <div class="love-first whiteWall">
                     <h2>模板1</h2>
                     <p>求职！专业：爱情本科。特长：洗碗刷锅。能力：爱你没说。薪水要求：你的真心一颗。理想合同期：长年有效，永不跳槽！ 我不小心把“我爱你”误发给你了。如果你接受那就储存起来，如果你不接受，就把这三个字返发给我。
                     </p>
                 </div>
-                <div class="love-second">
+                <div class="love-second whiteWall">
                     <h2>模板2</h2>
                     <p>吼吼吼，越来越心有灵犀了，嗯，纪念一下，刚发完上条动态，陆某人就带着我的小情敌来喊我打游戏了</p>
                 </div>
-                <div class="love-third">
+                <div class="love-third whiteWall">
                     <h2>模板3</h2>
                     <p>cxw 虽然你是一个污力涛涛的大逗逼 有时候你特别的讨厌 让人想上去踹几脚 到不得不承认 我好像有点喜欢你 因为在和你说话的时候 我发现自己好像特别脸红</p>
                 </div>
@@ -423,7 +423,7 @@
             <h1>社区.让兴趣.更有趣</h1>
             <a href="/login"><button class="btn1"><i class="fa fa-user"></i> 登录</button></a>
             <a href="/register"><button class="btn2"><i class="fa fa-user-plus"></i>注册</button></a>
-            <a href="/"><button class="btn3"><i class="fa fa-navicon"></i>其他方式登录</button></a>
+            <a href="/login"><button class="btn3"><i class="fa fa-navicon"></i>其他方式登录</button></a>
         </div>
 
         <div class="g-ft">
@@ -445,6 +445,7 @@
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript">
     $(function() {
+        // 动画效果
         $(".second-image").click(function(e) {
             var id = $(this).attr("data-id");
             var x = e.clientX;
@@ -469,6 +470,19 @@
                     }, 500);
                 }
             }
+        })
+        // 去往校论去
+        $(".community").click(function(){
+            window.location.href = "/community"
+        })
+        // life
+        $(".life").click(function(){
+            window.location.href = "/life"
+        })
+        // white wall
+        $(".whiteWall").click(function(){
+            console.log('///')
+            window.location.href = "/whiteWall"
         })
     })
 </script>
