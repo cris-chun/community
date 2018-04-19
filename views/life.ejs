@@ -165,7 +165,8 @@
     
     .weather_item {
         text-align: center;
-        width: 33%;
+        width: 30%;
+        margin: 10px;
     }
     
     .xiaohua {
@@ -269,6 +270,167 @@
     .news .news-image img {
         width: 80%;
     }
+    
+    .right-wea {
+        padding: 5px;
+        margin-top: 10px;
+        border-radius: 5px;
+        background: #f3f3f3;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding-left: 10px;
+        color: #666;
+        border: 1px solid #dfdfdf;
+    }
+    
+    .right-wea>div {
+        margin: 10px;
+    }
+    
+    .right-wea img {
+        width: 60px;
+        border-radius: 50%;
+    }
+    
+    .tem {
+        font-size: 40px;
+        position: relative;
+    }
+    
+    .tem span {
+        position: absolute;
+        right: -5px;
+        top: -10px;
+        font-size: 22px;
+        width: 8px;
+    }
+    
+    .address {
+        text-align: left;
+        font-size: 16px;
+    }
+    
+    .address>div:nth-child(2) {
+        font-size: 14px;
+    }
+    
+    .star {
+        background: #f3f3f3;
+        border: 1px solid #dfdfdf;
+        text-align: left;
+        /* padding: 5px; */
+        margin-top: 10px;
+        font-size: 14px;
+        color: #666;
+        border-radius: 5px;
+    }
+    
+    .star-title {
+        border-bottom: 1px dotted #dfdfdf;
+        font-size: 14px;
+        /* padding: 5px 10px; */
+        width: 100%;
+        text-align: left;
+        padding-left: 10px;
+        padding-top: 10px;
+        padding-bottom: 5px;
+        color: #333;
+    }
+    
+    .star>div:nth-child(2) {
+        padding-left: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    
+    .image {
+        position: relative;
+    }
+    
+    .image img {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .music-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .songName {
+        color: #333;
+        margin-top: 5px;
+        width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    .artistName {
+        margin-top: 5px;
+        color: #666;
+        font-size: 14px;
+    }
+    
+    .movies {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 10px;
+    }
+    
+    .movie {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-right: 5px;
+        width: 50%;
+        text-align: left;
+    }
+    
+    .movie-info {
+        flex: 1;
+        /* overflow: hidden; */
+        word-wrap: wrap;
+        word-break: break-all;
+        margin-left: 10px;
+    }
+    
+    .movie img {
+        width: 150px;
+    }
+    
+    .movie-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #333;
+    }
+    
+    .movie-desc {
+        height: 200px;
+        font-size: 14px;
+        color: #666;
+        margin-top: 5px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 8;
+    }
+    
+    .star-text {
+        margin-right: 5px;
+    }
 </style>
 
 <body>
@@ -322,21 +484,30 @@
                         </div>
                         <div class="school_news music">
                             <div class="title">每日音乐</div>
-                            <div class="weather_item" v-for="item in music">
-                                <img :src="item.image" alt="">
-                                <div>{{item.title}}</div>
-                                <div>{{item.desc}}</div>
+                            <div class="weather_item" v-for="(item,index) in music">
+                                <div class="image">
+                                    <img :src="item.albumpic_big" alt="" @click="playMusic(item, index)">
+                                    <!-- <div class="music-image" v-show="item.play" @mouseout.stop="handleMouseout(item)">
+                                        <img src="/images/play.png" alt="">
+                                        <audio :src="item.url" :id="'paly' + index"></audio>
+                                    </div> -->
+                                </div>
+                                <div class="songName">{{item.songname}}</div>
+                                <div class="artistName">{{item.singername}}</div>
                             </div>
                         </div>
-                        <div class="school_news xiaohua">
-                            <div class="title">开心一刻</div>
-                            <div class="text" v-for="item in xiaohua">
-                                <div>{{item.title}}</div>
-                                <div>
-                                    {{item.text}}
+                        <!-- <div class="school_news music">
+                            <div class="title">电影榜单</div>
+                            <div class="movies">
+                                <div class="movie" v-for="(item, index) in movie" v-if="index < 2">
+                                    <img :src="item.movie_picture" alt="">
+                                    <div>
+                                        <div class="movie-title">{{item.movie_name}}</div>
+                                        <div class="movie-desc">{{item.movie_description}}</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </el-col>
@@ -346,8 +517,8 @@
                     <el-row class="info">
                         <el-col :span="18" class="name">
                             <div>
-                                <span>ztchun</span>
-                                <span>ztchun.com</span>
+                                <span>{{user.username}}</span>
+                                <span>{{user.sign}}</span>
                             </div>
                         </el-col>
                         <el-col :span="6">
@@ -360,6 +531,28 @@
                         <div class="list" v-for='item in list' v-if="listIsShow">
                             <i :class="item.icon"></i>
                             <span>{{item.text}}</span>
+                        </div>
+                    </el-row>
+                    <!-- 天气 -->
+                    <el-row>
+                        <div class="right-wea">
+                            <img src="/images/sunny.png" alt="">
+                            <div class="tem">{{weather.temple}} <span>。</span> </div>
+                            <div class="address">
+                                <div>南京</div>
+                                <div>{{weather.date}}</div>
+                            </div>
+                        </div>
+                    </el-row>
+                    <!-- 运势 -->
+                    <el-row>
+                        <div class="star">
+                            <div class="star-title">今日运势</div>
+                            <div>
+                                <div>星座：{{star.star}}</div>
+                                <div>日期：{{weather.date}}</div>
+                                <div class="star-text">{{star.text}}</div>
+                            </div>
                         </div>
                     </el-row>
                 </div>
@@ -385,7 +578,8 @@
 </body>
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <!-- 先引入 Vue -->
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/vue/2.5.13/vue.js"></script>
+<script src="https://cdn.bootcss.com/vue-resource/1.3.4/vue-resource.js"></script>
 <!-- 引入组件库 -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script>
@@ -434,40 +628,22 @@
                     title: '你TM现在在我心里就是个菩萨',
                     text: '小侄子刚考试完，我不由得感慨：“以前我们小时候要过几天才能到学校拿成绩单，现在信息发达，直接微信就可以看到成绩了，多好啊！ ”小侄子：“有啥好？挨揍都会提前……”'
                 }],
-                weather: [{
-                    image: 'http://app1.showapi.com/weather/icon/day/00.png',
-                    title: '晴天',
-                    desc: '9度-18度'
-                }, {
-                    image: 'http://app1.showapi.com/weather/icon/day/00.png',
-                    title: '晴天',
-                    desc: '9度-18度'
-                }, {
-                    image: 'http://app1.showapi.com/weather/icon/day/00.png',
-                    title: '晴天',
-                    desc: '9度-18度'
-                }],
-                music: [{
-                    image: 'http://pic.xiami.net/images/album/img29/2629/141351470297389.jpg@4e_1c_100Q_185w_185h',
-                    title: '海阔天空',
-                    desc: '海阔天空专辑'
-                }, {
-                    image: 'http://pic.xiami.net/images/album/img29/2629/141351470297389.jpg@4e_1c_100Q_185w_185h',
-                    title: '海阔天空',
-                    desc: '海阔天空专辑'
-                }, {
-                    image: 'http://pic.xiami.net/images/album/img29/2629/141351470297389.jpg@4e_1c_100Q_185w_185h',
-                    title: '海阔天空',
-                    desc: '海阔天空专辑'
-                }],
+                movie: [],
+                music: [],
+                weather: {},
+                star: {},
                 search: '',
                 user: {},
                 isUser: false,
-                listIsShow: true
+                listIsShow: true,
+                time: null
             }
         },
         mounted() {
             this.initUser()
+            this.initMusic()
+            this.initWeather()
+                // this.initMovie()
         },
         methods: {
             // 导航
@@ -503,6 +679,12 @@
                         //  查询成功
                         _this.isUser = true
                         _this.user = JSON.parse(data)
+                        var month = _this.user.birthday.split('-')[1]
+                        var day = _this.user.birthday.split('-')[2]
+                        _this.star = {
+                            star: _this.getStar(month, day) + '座'
+                        }
+                        _this.initStar(_this.star.star)
                         _this.initNews()
                     }
                 })
@@ -510,10 +692,60 @@
             initNews() {
                 var _this = this
                 this.handleAjax('/getNews', 'get', {}, function(data) {
-                    console.log(data)
                     _this.news = JSON.parse(data).slice(0, 3)
                 })
             },
+            initMusic() {
+                var _this = this
+                console.log({
+                    showapi_timestamp: this.getTime(),
+                    showapi_appid: '40085',
+                    showapi_sign: 'cee89261388a4cd5818f983bc675e500',
+                    typeId: "103",
+                    page: "1"
+                })
+                this.handleAjax2("http://route.showapi.com/213-4", "post", {
+                    showapi_timestamp: this.getTime(),
+                    showapi_appid: '40085',
+                    showapi_sign: 'cee89261388a4cd5818f983bc675e500',
+                    topid: "4"
+                }, function(data) {
+                    console.log(data)
+                    _this.music = data.showapi_res_body.pagebean.songlist.slice(0, 3)
+                })
+            },
+            initWeather() {
+                var _this = this
+                this.handleAjax2("http://www.tuling123.com/openapi/api", "post", {
+                    key: '462e9e8841e541e09d7df9e45c13552f',
+                    info: "南京天气",
+                    userid: "896543281"
+                }, function(data) {
+                    _this.weather.temple = data.text.slice(-2).slice(0, 1)
+                    _this.weather.date = _this.getDate()
+                    console.log(_this.weather)
+                })
+            },
+            initStar(info) {
+                var _this = this
+                this.handleAjax2("http://www.tuling123.com/openapi/api", "post", {
+                    key: '462e9e8841e541e09d7df9e45c13552f',
+                    info: info + '的运势'
+                }, function(data) {
+                    _this.star.text = data.text
+                })
+            },
+            // initMovie() {
+            //     var _this = this
+            //     this.$http.jsonp(" http://apis.haoservice.com/lifeservice/boxoffice/wp", {
+            //         key: '76964e9b9c544cdb9caba5e5a507921b',
+            //         area: 'CN'
+            //     }).then(resp => {
+            //         console.log(resp)
+            //     }, err => {
+            //         console.log(err)
+            //     })
+            // },
             // ajax请求
             handleAjax(url, method, data, handleSuccess) {
                 $.ajax({
@@ -522,6 +754,19 @@
                     data: data,
                     cache: false,
                     success: handleSuccess,
+                    error: function(err) {
+                        console.log(err)
+                    }
+                })
+            },
+            // ajax请求
+            handleAjax2(url, method, data, handleSuccess) {
+                $.ajax({
+                    url: url,
+                    type: method,
+                    data: data,
+                    success: handleSuccess,
+                    dataType: 'json',
                     error: function(err) {
                         console.log(err)
                     }
@@ -539,6 +784,47 @@
             // 跳转到新闻详情页
             toNewsDesc(news) {
                 window.location.href = '/newDesc?id=' + news._id
+            },
+            getTime() {
+                var date = new Date()
+                var month = date.getMonth() + 1
+                var datetime = date.getFullYear() +
+                    "" +
+                    (month >= 10 ? month : "0" + month) +
+                    "" +
+                    (date.getDate() < 10 ? "0" + date.getDate() : date
+                        .getDate()) +
+                    "" +
+                    (date.getHours() < 10 ? "0" + date.getHours() : date
+                        .getHours()) +
+                    "" +
+                    (date.getMinutes() < 10 ? "0" + date.getMinutes() : date
+                        .getMinutes()) +
+                    "" +
+                    (date.getSeconds() < 10 ? "0" + date.getSeconds() : date
+                        .getSeconds());
+                return datetime;
+            },
+            getDate() {
+                var date = new Date()
+                var month = date.getMonth() + 1
+                var datetime = month +
+                    "月" + date.getDate() + '日'
+                return datetime;
+            },
+            handleMouseenter(music) {
+                music.play = true
+            },
+            handleMouseout(item) {
+                item.play = false
+            },
+            playMusic(item, index) {
+                window.location.href = item.url
+            },
+            getStar(month, day) {
+                var s = "魔羯水瓶双鱼牡羊金牛双子巨蟹狮子处女天秤天蝎射手魔羯";
+                var arr = [20, 19, 21, 21, 21, 22, 23, 23, 23, 23, 22, 22];
+                return s.substr(month * 2 - (day < arr[month - 1] ? 2 : 0), 2);
             }
         }
     })

@@ -379,8 +379,8 @@
         color: #222;
         /* padding: 10px 0 10px -10px; */
     }
-
-    .post_info div{
+    
+    .post_info div {
         margin-right: 20px;
     }
     
@@ -417,11 +417,13 @@
         font-size: 14px;
         color: #222;
     }
-    .tubiao span{
+    
+    .tubiao span {
         font-size: 14px;
         padding-right: 10px;
         color: #bdbdbd;
     }
+    
     .si_infos {
         display: flex;
         justify-content: flex-start;
@@ -429,18 +431,22 @@
         padding-bottom: 10px;
         border-bottom: 1px dotted #bfbfbf;
     }
-    .si_avator{
+    
+    .si_avator {
         margin-right: 20px;
     }
-    .si_avator img{
+    
+    .si_avator img {
         width: 50px;
         height: 50px;
         border-radius: 50%;
     }
-    .si_username{
+    
+    .si_username {
         color: #bdbdbd;
         font-size: 14px;
     }
+    
     .sign2 {
         color: #bdbdbd;
     }
@@ -481,7 +487,7 @@
                     <img :src="user.avator" alt="">
                 </div>
                 <div class="info">
-                    <div class="username">ztchun</div>
+                    <div class="username">{{user.username}}</div>
                     <div class="sign" v-if="user.sign">{{user.sign}}</div>
                     <div class="sign sign2" v-else>一句话展示个人魅力</div>
                 </div>
@@ -750,33 +756,33 @@
                                                     size="mini"
                                                     @click="handleSave(props.row)">保存</el-button>
                                                 </template>
-                                        </el-form-item>
-                                        </el-form>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column label="吧名称" prop="subject_name">
-                                </el-table-column>
-                                <el-table-column label="吧主" prop="owner">
-                                </el-table-column>
-                                <el-table-column label="创建时间" prop="time">
-                                </el-table-column>
-                                <el-table-column label="关注人数" prop="follows">
-                                </el-table-column>
-                                <el-table-column label="帖子数" prop="post_num">
-                                </el-table-column>
-                                <el-table-column label="吧等级" prop="level">
-                                </el-table-column>
-                                <el-table-column label="操作" prop="subject_level" width="150">
-                                    <template slot-scope="scope">
+                </el-form-item>
+                </el-form>
+                </template>
+                </el-table-column>
+                <el-table-column label="吧名称" prop="subject_name">
+                </el-table-column>
+                <el-table-column label="吧主" prop="owner">
+                </el-table-column>
+                <el-table-column label="创建时间" prop="time">
+                </el-table-column>
+                <el-table-column label="关注人数" prop="follows">
+                </el-table-column>
+                <el-table-column label="帖子数" prop="post_num">
+                </el-table-column>
+                <el-table-column label="吧等级" prop="level">
+                </el-table-column>
+                <el-table-column label="操作" prop="subject_level" width="150">
+                    <template slot-scope="scope">
                                         <el-button
                                         size="mini"
                                         type="danger"
                                         >修改</el-button>
                                     </template>
-                                </el-table-column>
-                            </el-table>
-                        </el-tab-pane>
-                    </el-tabs>
+                </el-table-column>
+                </el-table>
+                </el-tab-pane>
+                </el-tabs>
                 </template>
             </div>
         </div>
@@ -916,18 +922,18 @@
                 this.subjects = []
                 this.manager_subjects = []
                 this.infos = [],
-                this.sysInfos = []
+                    this.sysInfos = []
             }
         },
         methods: {
             // 请求的是哪一个tag
-            init() { 
+            init() {
                 var _this = this
                 this.handleAjax("/getMineInfo", 'get', {
                     tag: _this.activeName
                 }, function(data) {
-                    switch(_this.activeName) {
-                        case "4": 
+                    switch (_this.activeName) {
+                        case "4":
                             break
                         case "5":
                             let posts = JSON.parse(data)
@@ -1051,26 +1057,26 @@
             },
             // tab切换
             handleClick(tab, event) {
-                switch(tab.name) {
+                switch (tab.name) {
                     // 用户管理
-                    case "4": 
+                    case "4":
                         this.initCity()
                         this.initUser()
                         break
-                    // 动态
+                        // 动态
                     case "5":
                         this.init()
                         break
-                    // 我的消息
+                        // 我的消息
                     case "6":
                         this.init()
                         break
-                    // 关注的吧
+                        // 关注的吧
                     case "7":
                         this.init()
                         break
-                    // 创建的吧
-                    case "8":  
+                        // 创建的吧
+                    case "8":
                         this.init()
                         break
                 }
@@ -1114,7 +1120,7 @@
                 subject.editText = "完成"
             },
             // 保存
-            handleSave (subject) {
+            handleSave(subject) {
                 if (subject.edit) {
                     this.handleAjax('/saveSubject', 'post', {
                         _id: subject._id,
@@ -1198,9 +1204,9 @@
             // 获取未读消息
             getUnreadedInfos() {
                 var _this = this
-                this.handleAjax("/getUnreadedMsg",'post', {
+                this.handleAjax("/getUnreadedMsg", 'post', {
                     username: _this.user.username
-                }, function(data){
+                }, function(data) {
                     var receiveMsgs = JSON.parse(data)
                     receiveMsgs.forEach((value, index) => {
                         if (!value.readed) {

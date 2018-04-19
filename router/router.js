@@ -810,33 +810,37 @@ exports.getNewsDesc = function(req, res) {
     }
     //support
 exports.giveSupport = function(req, res) {
-    var form = fd.IncomingForm()
-    form.parse(req, function(err, fields) {
-        if (err) {
-            console.log("错误")
-            return
-        }
-        school_news.findData({
-            _id: ObjectID(fields.id)
-        }, function(data) {
-            console.log(data)
-            var supports = data[0].support
-            tool.showTime(function(time) {
-                var support = {
-                    user: req.session.username,
-                    time: time
-                }
-                supports.push(support)
-                school_news.updateData({
-                    _id: ObjectID(fields.id)
-                }, {
-                    support: supports
-                }, function(data) {
-                    if (data.result.ok) {
-                        res.send("1")
+        var form = fd.IncomingForm()
+        form.parse(req, function(err, fields) {
+            if (err) {
+                console.log("错误")
+                return
+            }
+            school_news.findData({
+                _id: ObjectID(fields.id)
+            }, function(data) {
+                console.log(data)
+                var supports = data[0].support
+                tool.showTime(function(time) {
+                    var support = {
+                        user: req.session.username,
+                        time: time
                     }
+                    supports.push(support)
+                    school_news.updateData({
+                        _id: ObjectID(fields.id)
+                    }, {
+                        support: supports
+                    }, function(data) {
+                        if (data.result.ok) {
+                            res.send("1")
+                        }
+                    })
                 })
             })
         })
-    })
+    }
+    // news list
+exports.newsList = function(req, res) {
+    res.render("newsList")
 }
