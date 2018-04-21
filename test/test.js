@@ -7,6 +7,7 @@ var subjects = require("../db/subjects.js")
 var replys = require("../db/replys.js")
 var user_actives_infos = require("../db/user_actives_infos.js")
 var white_wall = require("../db/white_wall")
+var school_news = require("../db/school_news")
 var findData = require("../db/findData")
 var ObjectID = require('mongodb').ObjectID;
 var tools = require('../tool/tool')
@@ -140,7 +141,24 @@ var postsData = require("./posts.json")
 //     console.log(data[0].posts)
 // })
 
-posts.findDataSort({}, { time: -1 }, 0, 10, function(data) {
-    // data.sort(compare('time'))
+// posts.findDataSort({}, { time: -1 }, 0, 10, function(data) {
+//     // data.sort(compare('time'))
+//     console.log(data)
+//  })
+
+school_news.update({
+    _id: ObjectID("5ad6dee6fd22bc022bdb9dc2")
+}, {
+    // $set: {
+    $push: {
+        replys: {
+            from_user_name: 'ztchun',
+            time: '2018-03-02 13:00:00',
+            content: 'content',
+            avator: '/ztchun.jpg'
+        }
+    }
+    // }
+}, function(data) {
     console.log(data)
- })
+})

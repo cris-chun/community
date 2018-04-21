@@ -82,21 +82,37 @@ exports.updateData = function(oldObj, newObj, callback) {
 
 // sort 
 exports.findDataBySort = function(data, sort, callback) {
-    var result = []
+        var result = []
+        db._connnection(function(db) {
+            var cursor = db.collection("school_news").find(data).sort(sort)
+            cursor.each(function(err, doc) {
+                if (err) {
+                    console.log("校园新鲜事查找失败")
+                    db.close()
+                    return
+                }
+                // 遍历有效
+                if (doc != null) {
+                    result.push(doc)
+                } else {
+                    callback(result)
+                }
+            })
+        })
+    }
+    // 更新回复
+exports.update = function(old, newData, callback) {
+    if (!old || !newData) {
+        return;
+    }
     db._connnection(function(db) {
-        var cursor = db.collection("school_news").find(data).sort(sort)
-        cursor.each(function(err, doc) {
+        db.collection("school_news").update(old, newData, function(err, result) {
             if (err) {
-                console.log("校园新鲜事查找失败")
+                console.log('school_news update error')
                 db.close()
                 return
             }
-            // 遍历有效
-            if (doc != null) {
-                result.push(doc)
-            } else {
-                callback(result)
-            }
+            callback(result)
         })
     })
 }

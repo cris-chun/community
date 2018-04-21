@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/subject.css">
 </head>
+
 <body>
     <div id="app">
         <!--菜单导航-->
@@ -19,10 +20,10 @@
             <el-submenu index="4">
                 <template slot="title">我的</template>
                 <el-menu-item index="4"><a href="/mine?index=4" class="sub-menu">账号设置</a></el-menu-item>
-                <el-menu-item index="5"><a href="/mine?index=5" class="sub-menu">我的吧</a></el-menu-item>
-                <el-menu-item index="6"><a href="/mine?index=6" class="sub-menu">我的关注</a></el-menu-item>
-                <el-menu-item index="7"><a href="/mine?index=7" class="sub-menu">我的帖子</a></el-menu-item>
-                <el-menu-item index="8"><a href="/mine?index=8" class="sub-menu">我的消息</a></el-menu-item>
+                <el-menu-item index="5"><a href="/mine?index=5" class="sub-menu">动态</a></el-menu-item>
+                <el-menu-item index="6"><a href="/mine?index=6" class="sub-menu">我的消息</a></el-menu-item>
+                <el-menu-item index="7"><a href="/mine?index=7" class="sub-menu">我的关注</a></el-menu-item>
+                <el-menu-item index="8"><a href="/mine?index=8" class="sub-menu">我的吧</a></el-menu-item>
                 <el-menu-item index="9"><a href="/mine?index=9" class="sub-menu">帮助和反馈</a></el-menu-item>
                 <el-menu-item index="10" @click="exit">退出</el-menu-item>
             </el-submenu>
@@ -215,31 +216,42 @@
                 search: '',
                 posts: [],
                 list: [{
-                    icon: 'fa fa-file-text',
-                    text: '我的内容'
+                    icon: 'fa fa-pencil-square-o',
+                    text: '账号设置',
+                    link: '/mine?index=4'
                 }, {
-                    icon: 'fa fa-vcard',
-                    text: '我的关注'
+                    icon: 'fa fa-bookmark-o',
+                    text: '我的动态',
+                    link: '/mine?index=5'
+                }, {
+                    icon: 'fa fa-star-o',
+                    text: '我的消息',
+                    link: '/mine?index=6'
+                }, {
+                    icon: 'fa fa-sticky-note-o',
+                    text: '我的关注',
+                    link: '/mine?index=7'
                 }, {
                     icon: 'fa fa-bullhorn',
-                    text: '通知'
+                    text: '我的吧',
+                    link: '/mine?index=8'
                 }, {
-                    icon: 'fa fa-envelope',
-                    text: '私信'
+                    icon: 'fa fa-lightbulb-o',
+                    text: '帮助和反馈'
                 }, {
-                    icon: 'fa fa-home',
-                    text: '我的主页'
-                }],
+                    icon: 'fa fa-power-off',
+                    text: '退出'
+                }, ],
                 image: '/images/subjects/avatar.jpg',
                 user: {},
-                isUser:false,
+                isUser: false,
                 subject: {},
                 activeNames: ['1'],
-                input:'',
-                placeholder:'请输入内容',
-                reply:{},
+                input: '',
+                placeholder: '请输入内容',
+                reply: {},
                 id: '',
-                sign:'+ 签到',
+                sign: '+ 签到',
                 mask: false,
                 thisImage: ''
             }
@@ -247,41 +259,40 @@
         created() {
             this.initUser()
         },
-        mounted () {
+        mounted() {
             // 是否已经签到
             var subjectId = window.location.href.split('?')[1]
             var id = subjectId.split("=")[1]
             console.log(this.getCookie(id))
-            if(this.getCookie(id)){
+            if (this.getCookie(id)) {
                 this.sign = '已签到'
             } else {
                 this.sign = '+ 签到'
             }
         },
-        watch: {
-        },
+        watch: {},
         methods: {
             // 初始化
-            init () {
+            init() {
                 // 获取id
                 var _this = this
                 var subjectId = window.location.href.split('?')[1]
                 var id = subjectId.split("=")[1]
                 this.id = id
-                this.handleAjax('/initSubject','post', {
+                this.handleAjax('/initSubject', 'post', {
                     id: id
-                },function(data){
+                }, function(data) {
                     console.log(data)
                     _this.subject = JSON.parse(data)[0]
                     _this.subject.follow_num = _this.subject.follow_user.length
                     _this.initPost(id)
                 })
             },
-            initPost(id){
-                var  _this = this
-                this.handleAjax("/initPost",'post',{
+            initPost(id) {
+                var _this = this
+                this.handleAjax("/initPost", 'post', {
                     id: id
-                },function(data){
+                }, function(data) {
                     console.log(data)
                     _this.posts = JSON.parse(data)
                     _this.posts.forEach((value, index) => {
@@ -357,18 +368,22 @@
                                 value.show = false
                             })
                         }
-                        var obj = Object.assign(_this.posts[index], {comments: true})
+                        var obj = Object.assign(_this.posts[index], {
+                            comments: true
+                        })
                         _this.posts.splice(index, 1)
                         _this.posts.splice(index, 0, obj)
                     })
                 } else {
-                    var obj = Object.assign(this.posts[index], {comments: false})
+                    var obj = Object.assign(this.posts[index], {
+                        comments: false
+                    })
                     this.posts.splice(index, 1)
                     this.posts.splice(index, 0, obj)
                 }
             },
             // mouse in
-            handleHover(reply, index, dex){
+            handleHover(reply, index, dex) {
                 this.handleMouse(reply, index, dex, true)
             },
             // 鼠标mouseover
@@ -378,12 +393,14 @@
             handleMouse(reply, index, dex, flag) {
                 var obj = this.posts[index]
                 var reply = obj.replys[dex]
-                var newReply = Object.assign(reply,{show: flag})
+                var newReply = Object.assign(reply, {
+                    show: flag
+                })
                 obj.replys.splice(dex, 1)
                 obj.replys.splice(dex, 0, newReply)
                 this.posts.splice(index, 1)
                 this.posts.splice(index, 0, obj)
-                // console.log(obj.replys[dex].show, this.user)
+                    // console.log(obj.replys[dex].show, this.user)
             },
             // 回复
             handleReply(reply) {
@@ -450,42 +467,42 @@
                 })
             },
             // 签到
-            handleSign(){
+            handleSign() {
                 var check = false
-                for(var i = 0;i<this.subject.follow_user.length;i++ ) {
+                for (var i = 0; i < this.subject.follow_user.length; i++) {
                     if (this.subject.follow_user[i].user_name == this.user.username) {
                         check = true
                         break
                     }
                 }
-                if (!check){
+                if (!check) {
                     this.$message({
-                        message:'还没有关注呢，先去关注吧',
-                        type:'warning'
+                        message: '还没有关注呢，先去关注吧',
+                        type: 'warning'
                     })
                     return
                 }
                 if (this.sign == '已签到') {
                     this.$message({
-                        message:'已经签到过啦，明天再来吧',
-                        type:'warning'
+                        message: '已经签到过啦，明天再来吧',
+                        type: 'warning'
                     })
                     return
                 }
-                if (!this.isUser){
+                if (!this.isUser) {
                     this.$message({
-                        message:'还没有登录哇',
-                        type:'warning'
+                        message: '还没有登录哇',
+                        type: 'warning'
                     })
                     return
                 }
                 var _this = this
                 this.handleAjax("/sign", 'post', {
                     id: this.id
-                },function(data){
-                    if (data == '1'){
+                }, function(data) {
+                    if (data == '1') {
                         _this.$message({
-                            message:'签到成功',
+                            message: '签到成功',
                             type: 'success'
                         })
                         _this.sign = '已签到'
@@ -493,7 +510,7 @@
                     }
                 })
             },
-            getCookie (name) {
+            getCookie(name) {
                 var reg = RegExp(name + '=([^;]+)');
                 var arr = document.cookie.match(reg);
                 if (arr) {
@@ -502,21 +519,21 @@
                     return '';
                 }
             },
-            setCookie (name, value, day) {
+            setCookie(name, value, day) {
                 var date = new Date();
                 date.setDate(date.getDate() + day);
                 document.cookie = name + '=' + value + ';expires=' + date;
             },
-            delCookie(name){
+            delCookie(name) {
                 setCookie(name, null, -1);
             },
             // show image
-            showImage (image) {
+            showImage(image) {
                 this.mask = true
                 this.thisImage = image
             },
             // hide image
-            hideImage (){
+            hideImage() {
                 this.mask = false
                 this.thisImage = ''
             }

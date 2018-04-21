@@ -71,6 +71,37 @@
         font-weight: 400;
     }
     
+    .login {
+        font-size: 40px;
+        color: #bdbdbd;
+    }
+    
+    .name_login span {
+        margin-top: -10px;
+    }
+    
+    .name_login>a {
+        font-size: 14px;
+        margin-left: 20px;
+        margin-top: -10px;
+        background: #f4630b;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 8px;
+        height: 20px;
+        line-height: 20px;
+    }
+    
+    .name_login {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    
+    .el-notification.right {
+        width: 300px;
+    }
+    
     .icon-dropdown>i {
         font-weight: 600;
         font-size: 25px;
@@ -343,8 +374,7 @@
         padding-top: 10px;
         padding-bottom: 10px;
     }
-    
-    .image {
+    /* .image {
         position: relative;
     }
     
@@ -365,7 +395,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-    }
+    } */
     
     .songName {
         color: #333;
@@ -381,8 +411,7 @@
         color: #666;
         font-size: 14px;
     }
-    
-    .movies {
+    /* .movies {
         width: 100%;
         display: flex;
         justify-content: flex-start;
@@ -398,10 +427,9 @@
         width: 50%;
         text-align: left;
     }
-    
-    .movie-info {
+     */
+    /* .movie-info {
         flex: 1;
-        /* overflow: hidden; */
         word-wrap: wrap;
         word-break: break-all;
         margin-left: 10px;
@@ -426,10 +454,56 @@
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 8;
-    }
+    } */
     
     .star-text {
         margin-right: 5px;
+    }
+    
+    .time {
+        font-size: 13px;
+        color: #999;
+    }
+    
+    .bottom {
+        margin-top: 13px;
+        line-height: 12px;
+    }
+    
+    .button {
+        padding: 0;
+        float: right;
+    }
+    
+    .card-image {
+        width: 100%;
+        overflow: hidden;
+        display: block;
+        height: 220px;
+    }
+    
+    .clearfix:before,
+    .clearfix:after {
+        display: table;
+        content: "";
+    }
+    
+    .clearfix:after {
+        clear: both
+    }
+    
+    .card-music {
+        width: 100%;
+        padding: 10px 20px;
+        /* margin-top: 20px; */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 20px;
+    }
+    
+    .card-music>div {
+        margin: 5px;
     }
 </style>
 
@@ -444,10 +518,10 @@
             <el-submenu index="4">
                 <template slot="title">我的</template>
                 <el-menu-item index="4"><a href="/mine?index=4" class="sub-menu">账号设置</a></el-menu-item>
-                <el-menu-item index="5"><a href="/mine?index=5" class="sub-menu">我的吧</a></el-menu-item>
-                <el-menu-item index="6"><a href="/mine?index=6" class="sub-menu">我的关注</a></el-menu-item>
-                <el-menu-item index="7"><a href="/mine?index=7" class="sub-menu">我的帖子</a></el-menu-item>
-                <el-menu-item index="8"><a href="/mine?index=8" class="sub-menu">我的消息</a></el-menu-item>
+                <el-menu-item index="5"><a href="/mine?index=5" class="sub-menu">动态</a></el-menu-item>
+                <el-menu-item index="6"><a href="/mine?index=6" class="sub-menu">我的消息</a></el-menu-item>
+                <el-menu-item index="7"><a href="/mine?index=7" class="sub-menu">我的关注</a></el-menu-item>
+                <el-menu-item index="8"><a href="/mine?index=8" class="sub-menu">我的吧</a></el-menu-item>
                 <el-menu-item index="9"><a href="/mine?index=9" class="sub-menu">帮助和反馈</a></el-menu-item>
                 <el-menu-item index="10" @click="exit">退出</el-menu-item>
             </el-submenu>
@@ -484,17 +558,29 @@
                         </div>
                         <div class="school_news music">
                             <div class="title">每日音乐</div>
-                            <div class="weather_item" v-for="(item,index) in music">
+                            <div class="card-music">
+                                <el-card class="card" :body-style="{ padding: '0px' }" v-for="(item, index) in music">
+                                    <img :src="item.albumpic_big" class="card-image">
+                                    <div style="padding: 14px;">
+                                        <div class="songName">{{item.songname}}</div>
+                                        <div class="bottom clearfix">
+                                            <time class="time" class="artistName">{{item.singername}}</time>
+                                            <el-button type="text" class="button">前往</el-button>
+                                        </div>
+                                    </div>
+                                </el-card>
+                            </div>
+                            <!-- <div class="weather_item" v-for="(item,index) in music">
                                 <div class="image">
-                                    <img :src="item.albumpic_big" alt="" @click="playMusic(item, index)">
-                                    <!-- <div class="music-image" v-show="item.play" @mouseout.stop="handleMouseout(item)">
+                                    <img :src="item.albumpic_big" alt="" @click="playMusic(item, index)"> -->
+                            <!-- <div class="music-image" v-show="item.play" @mouseout.stop="handleMouseout(item)">
                                         <img src="/images/play.png" alt="">
                                         <audio :src="item.url" :id="'paly' + index"></audio>
                                     </div> -->
-                                </div>
+                            <!-- </div>
                                 <div class="songName">{{item.songname}}</div>
                                 <div class="artistName">{{item.singername}}</div>
-                            </div>
+                            </div> -->
                         </div>
                         <!-- <div class="school_news music">
                             <div class="title">电影榜单</div>
@@ -514,25 +600,42 @@
             <!-- right -->
             <el-col :span='4'>
                 <div class="right">
-                    <el-row class="info">
-                        <el-col :span="18" class="name">
-                            <div>
-                                <span>{{user.username}}</span>
-                                <span>{{user.sign}}</span>
+                    <div class="right" v-if="isUser">
+                        <el-row class="info">
+                            <el-col :span="18" class="name">
+                                <div class="username">
+                                    <span class="ztc">{{user.username}}</span>
+                                    <span>{{user.sign}}</span>
+                                </div>
+                            </el-col>
+                            <el-col :span="6">
+                                <span class="icon-dropdown" @click="showList">
+                                        <i class="el-icon-arrow-down el-icon--right"></i>
+                                    </span>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <div class="list" v-if="listIsShow" v-for='(item,index) in list' @click="toMine(item, index)">
+                                <i :class="item.icon"></i>
+                                <span>{{item.text}}</span>
                             </div>
-                        </el-col>
-                        <el-col :span="6">
-                            <span class="icon-dropdown" @click="showList">
-                                <i class="el-icon-arrow-down el-icon--right"></i>
-                            </span>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <div class="list" v-for='item in list' v-if="listIsShow">
-                            <i :class="item.icon"></i>
-                            <span>{{item.text}}</span>
-                        </div>
-                    </el-row>
+                        </el-row>
+                    </div>
+                    <div v-else class="right">
+                        <el-row class="info">
+                            <el-col :span="18" class="name">
+                                <div class="name_login">
+                                    <span class="fa fa-user login"></span>
+                                    <a href="/login"><span>去登录</span></a>
+                                </div>
+                            </el-col>
+                            <el-col :span="6">
+                                <span class="icon-dropdown">
+                                            <i class="el-icon-arrow-up el-icon--right"></i>
+                                        </span>
+                            </el-col>
+                        </el-row>
+                    </div>
                     <!-- 天气 -->
                     <el-row>
                         <div class="right-wea">
@@ -594,19 +697,19 @@
                     link: '/mine?index=4'
                 }, {
                     icon: 'fa fa-bookmark-o',
-                    text: '我的吧',
+                    text: '我的动态',
                     link: '/mine?index=5'
                 }, {
                     icon: 'fa fa-star-o',
-                    text: '我的关注',
+                    text: '我的消息',
                     link: '/mine?index=6'
                 }, {
                     icon: 'fa fa-sticky-note-o',
-                    text: '我的帖子',
+                    text: '我的关注',
                     link: '/mine?index=7'
                 }, {
                     icon: 'fa fa-bullhorn',
-                    text: '我的消息',
+                    text: '我的吧',
                     link: '/mine?index=8'
                 }, {
                     icon: 'fa fa-lightbulb-o',

@@ -844,3 +844,34 @@ exports.giveSupport = function(req, res) {
 exports.newsList = function(req, res) {
     res.render("newsList")
 }
+
+//news replys
+exports.newsSendMsg = function(req, res) {
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields) {
+        if (err) {
+            console.log("更新新闻回复失败")
+            return
+        }
+        tool.showTime(function(time) {
+            var reply = {
+                from_user_name: req.session.username,
+                content: fields.content,
+                avator: fields.avator,
+                time: time
+            }
+            console.log(reply)
+            school_news.update({
+                _id: ObjectID(fields.id)
+            }, {
+                $push: {
+                    replys: reply
+                }
+            }, function(data) {
+                if (data.result.ok) {
+                    res.send(JSON.stringify(reply))
+                }
+            })
+        })
+    })
+}

@@ -71,6 +71,8 @@
     
     .sub-menu {
         color: #fff;
+        float: left;
+        text-align: left;
     }
     
     .content {
@@ -267,21 +269,61 @@
     }
     
     .buttons {
-        /* width: 100%; */
-        /* background: #fff; */
         padding-bottom: 50px;
     }
-    /* .buttons  {
-        margin: 0 auto;
-        width: 90px;
-        padding: 8px 25px;
-        font-size: 16px;
-        color: #fff;
-        background-color: #f4630b;
-        border-radius: 20px;
+    
+    .input {
         margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    
+    .input img {
+        width: 8%;
+        border-radius: 50%;
+        margin-right: 20px;
+    }
+    
+    .input textarea {
+        flex: 1;
+        border: 1px solid #dfdfdf;
+        width: 80%;
+        font-size: 16px;
+        padding: 10px;
+        color: #333333;
+    }
+    
+    textarea:focus {
+        outline: none;
+    }
+    
+    .input-btn {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+    
+    .input-cancel {
+        font-size: 16px;
+        color: #969696;
         cursor: pointer;
-    } */
+    }
+    
+    .input-send {
+        width: 78px;
+        margin: 10px 0;
+        margin-left: 20px;
+        padding: 8px 0;
+        font-size: 16px;
+        border: none;
+        border-radius: 20px;
+        color: #fff!important;
+        background-color: #f4630b;
+        cursor: pointer;
+        outline: none;
+        text-align: center;
+    }
 </style>
 
 <body>
@@ -295,12 +337,12 @@
             <el-submenu index="4">
                 <template slot="title">我的</template>
                 <el-menu-item index="4"><a href="/mine?index=4" class="sub-menu">账号设置</a></el-menu-item>
-                <el-menu-item index="5"><a href="/mine?index=5" class="sub-menu">我的吧</a></el-menu-item>
-                <el-menu-item index="6"><a href="/mine?index=6" class="sub-menu">我的关注</a></el-menu-item>
-                <el-menu-item index="7"><a href="/mine?index=7" class="sub-menu">我的帖子</a></el-menu-item>
-                <el-menu-item index="8"><a href="/mine?index=8" class="sub-menu">我的消息</a></el-menu-item>
+                <el-menu-item index="5"><a href="/mine?index=5" class="sub-menu">动态</a></el-menu-item>
+                <el-menu-item index="6"><a href="/mine?index=6" class="sub-menu">我的消息</a></el-menu-item>
+                <el-menu-item index="7"><a href="/mine?index=7" class="sub-menu">我的关注</a></el-menu-item>
+                <el-menu-item index="8"><a href="/mine?index=8" class="sub-menu">我的吧</a></el-menu-item>
                 <el-menu-item index="9"><a href="/mine?index=9" class="sub-menu">帮助和反馈</a></el-menu-item>
-                <el-menu-item index="10" @click="exit">退出</el-menu-item>
+                <el-menu-item index="10" @click="exit" class="sub-menu">退出</el-menu-item>
             </el-submenu>
             <div class="search-menu">
                 <el-input class="search" placeholder="请输入内容" v-model="search" clearable>
@@ -339,8 +381,9 @@
                 <div>小礼物走一波，给个赞再走呗</div>
                 <div class="like" @click="giveSupport">赞赏支持 {{news.support_num}}</div>
             </div>
-            <div class="comment" v-if="news.replys_num != 0">
-                <div>{{news.replys_num}}条评论</div>
+            <div class="comment">
+                <div v-if="news.replys_num != 0">{{news.replys_num}}条评论</div>
+                <div v-else>暂无评论</div>
                 <div class="replys">
                     <div class="comments" v-for="item in news.replys">
                         <div class="item">
@@ -359,7 +402,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="input">
+                    <img :src="user.avator" alt="">
+                    <textarea name="" id="input" cols="30" rows="5" placeholder="请写下你的评论" v-model="input">
+                        </textarea>
+                </div>
+                <div class="input-btn">
+                    <div class="input-cancel">取消</div>
+                    <div class="input-send" @click="send">发送</div>
+                </div>
             </div>
+            <!-- <div class="comment" v-else>
+                <div></div>
+
+            </div> -->
         </div>
 
         <div class="news">
@@ -408,7 +464,8 @@
                 isUser: false,
                 news: {},
                 id: '',
-                tuijian: []
+                tuijian: [],
+                input: ''
             }
         },
         watch: {},
@@ -507,6 +564,21 @@
             },
             toList() {
                 window.location.href = "/newsList"
+            },
+            // 发送消息
+            send() {
+                var _this = this
+                this.handleAjax("/newsSendMsg", 'post', {
+                    id: _this.id,
+                    content: _this.input,
+                    avator: _this.user.avator
+                }, function(data) {
+                    console.log(data)
+                    let reply = JSON.parse(data)
+                    _this.news.replys.splice(0, 0, reply)
+                    _this.news.replys_num = _this.news.replys.length
+                    _this.input = ""
+                })
             }
         }
     })

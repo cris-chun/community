@@ -20,10 +20,10 @@
             <el-submenu index="4">
                 <template slot="title">我的</template>
                 <el-menu-item index="4"><a href="/mine?index=4" class="sub-menu">账号设置</a></el-menu-item>
-                <el-menu-item index="5"><a href="/mine?index=5" class="sub-menu">我的吧</a></el-menu-item>
-                <el-menu-item index="6"><a href="/mine?index=6" class="sub-menu">我的关注</a></el-menu-item>
-                <el-menu-item index="7"><a href="/mine?index=7" class="sub-menu">我的帖子</a></el-menu-item>
-                <el-menu-item index="8"><a href="/mine?index=8" class="sub-menu">我的消息</a></el-menu-item>
+                <el-menu-item index="5"><a href="/mine?index=5" class="sub-menu">动态</a></el-menu-item>
+                <el-menu-item index="6"><a href="/mine?index=6" class="sub-menu">我的消息</a></el-menu-item>
+                <el-menu-item index="7"><a href="/mine?index=7" class="sub-menu">我的关注</a></el-menu-item>
+                <el-menu-item index="8"><a href="/mine?index=8" class="sub-menu">我的吧</a></el-menu-item>
                 <el-menu-item index="9"><a href="/mine?index=9" class="sub-menu">帮助和反馈</a></el-menu-item>
                 <el-menu-item index="10" @click="exit">退出</el-menu-item>
             </el-submenu>
@@ -45,8 +45,8 @@
                     <!-- menu -->
                     <div class="content">
                         <div class="sub-content" v-for="(item, index) in menus" @click="handleClick(item,index)">
-                            <i :class="'fa '+item.icon"></i>
-                            <div v-if="item.text" class="text">{{item.text}}</div>
+                            <i :class="'fa ' + item.class"></i>
+                            <div v-if="item.subject_name" class="text">{{item.subject_name}}</div>
                         </div>
                     </div>
                     <!-- 内容 -->
@@ -203,7 +203,7 @@
                         </el-col>
                         <el-col :span="6">
                             <span class="icon-dropdown">
-                                    <i class="el-icon-arrow-down el-icon--right"></i>
+                                    <i class="el-icon-arrow-up el-icon--right"></i>
                                 </span>
                         </el-col>
                     </el-row>
@@ -339,28 +339,12 @@
                 activeIndex: '1',
                 // 二级菜单
                 menus: [{
-                    icon: 'fa-plus-square-o',
-                    text: '发布吧贴',
+                    class: 'fa-plus-square-o',
+                    subject_name: '发布吧贴',
                     subjectId: 'subjectId'
                 }, {
-                    icon: 'fa-object-group',
-                    text: '乡情校谊',
-                    subjectId: 'subjectId'
-                }, {
-                    icon: 'fa-shopping-basket',
-                    text: '二手集市',
-                    subjectId: 'subjectId'
-                }, {
-                    icon: 'fa-graduation-cap',
-                    text: '学霸论区',
-                    subjectId: 'subjectId'
-                }, {
-                    icon: 'fa-music',
-                    text: '知音',
-                    subjectId: 'subjectId'
-                }, {
-                    icon: 'fa-navicon',
-                    text: '更多',
+                    class: 'fa-navicon',
+                    subject_name: '更多',
                     subjectId: 'subjectId'
                 }],
                 // 帖子内容
@@ -372,19 +356,19 @@
                     link: '/mine?index=4'
                 }, {
                     icon: 'fa fa-bookmark-o',
-                    text: '我的吧',
+                    text: '我的动态',
                     link: '/mine?index=5'
                 }, {
                     icon: 'fa fa-star-o',
-                    text: '我的关注',
+                    text: '我的消息',
                     link: '/mine?index=6'
                 }, {
                     icon: 'fa fa-sticky-note-o',
-                    text: '我的帖子',
+                    text: '我的关注',
                     link: '/mine?index=7'
                 }, {
                     icon: 'fa fa-bullhorn',
-                    text: '我的消息',
+                    text: '我的吧',
                     link: '/mine?index=8'
                 }, {
                     icon: 'fa fa-lightbulb-o',
@@ -552,24 +536,38 @@
                 this.handleAjax("/initSubjects", "get", {}, function(data) {
                     var result = JSON.parse(data)
                     result.forEach((value, index) => {
-                        value.follow_num = value.follow_user.length
-                        if (parseInt(value.follow_num) == 0) {
-                            value.isAttention = false
-                        } else {
-                            value.isAttention = false
-                            value.follow_user.forEach((value2, index2) => {
-                                if (value2.user_name == _this.user.username) {
-                                    value.isAttention = true
-                                    _this.bas.push(value)
-                                }
-                            })
-                        }
-                    })
+                            value.follow_num = value.follow_user.length
+                            if (parseInt(value.follow_num) == 0) {
+                                value.isAttention = false
+                            } else {
+                                value.isAttention = false
+                                value.follow_user.forEach((value2, index2) => {
+                                    if (value2.user_name == _this.user.username) {
+                                        value.isAttention = true
+                                            // 我关注的吧
+                                        _this.bas.push(value)
+                                    }
+                                })
+                            }
+                        })
+                        // 热门吧推荐
                     var result2 = result.slice(0)
-                    result2.sort(_this.compare('follow_num'))
+                    result2.forEach((value, index) => {
+                        let follow_num = value.follow_num
+                        let post_num = value.post_num
+                        value.num = follow_num * 0.5 + post_num * 0.5
+                    })
+                    result2.sort(_this.compare('num'))
                     _this.hotbas = result2.slice(0, 100)
                     _this.hotbas = _this.getArrayItems(_this.hotbas, 5)
-                        // console.log(_this.hotbas)
+                        // menu吧
+                    var result3 = result.slice(0)
+                    result3.forEach((value, index) => {
+                        if (value.tag == 1) {
+                            _this.menus.splice(1, 0, value)
+                        }
+                    })
+                    console.log(_this.menus)
                 })
             },
             compare(prop) {
@@ -597,7 +595,7 @@
                 } else if (index == 5) {
                     window.location.href = "/subjectList"
                 } else {
-                    window.location.href = "/subject?subjectId=" + item.subjectId
+                    window.location.href = "/subject?subjectId=" + item._id
                 }
             },
             // 上传图片

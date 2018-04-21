@@ -268,6 +268,8 @@ app.post("/giveSupport", router.giveSupport)
 
 // news list
 app.get("/newsList", router.newsList)
+    // news replys
+app.post("/newsSendMsg", router.newsSendMsg)
 
 // 监听端口
 http.listen(3000)
