@@ -271,5 +271,25 @@ app.get("/newsList", router.newsList)
     // news replys
 app.post("/newsSendMsg", router.newsSendMsg)
 
+// manager
+app.get("/manager", function(req, res) {
+    res.render("manager")
+})
+
+// 所有用户
+app.get("/getUsers", router.getUsers)
+    // 删除用户
+app.post("/deleteUser", router.deleteUser)
+    // 删除吧
+app.post("/deleteSubject", router.deleteSubject)
+    // 删除新闻
+app.post("/deleteNews", router.deleteNews)
+app.post("/changeNewsImage", router.changeNewsImage)
+app.post('/submitNews', router.submitNews)
+app.post("/addNews", router.addNews)
+app.post("/updateSubject", router.updateSubject)
+app.post("/changeSubjectImage", router.changeSubjectImage)
+
+
 // 监听端口
 http.listen(3000)

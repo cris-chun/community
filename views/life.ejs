@@ -795,8 +795,23 @@
             initNews() {
                 var _this = this
                 this.handleAjax('/getNews', 'get', {}, function(data) {
-                    _this.news = JSON.parse(data).slice(0, 3)
+                    var news = JSON.parse(data)
+                    news.sort(_this.compare("hot"))
+                    _this.news = news.slice(0, 3)
                 })
+            },
+            compare(prop) {
+                return function(obj1, obj2) {
+                    var value1 = obj1[prop]
+                    var value2 = obj2[prop]
+                    if (value1 > value2) {
+                        return -1
+                    } else if (value1 < value2) {
+                        return 1
+                    } else {
+                        return 0
+                    }
+                }
             },
             initMusic() {
                 var _this = this

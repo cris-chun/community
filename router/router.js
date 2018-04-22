@@ -291,8 +291,9 @@ exports.cancelJoinSubject = function(req, res) {
 
 // 个人信息请求 
 exports.userInfo = function(req, res) {
+    var username = req.query.username || req.session.username
     if (req.session.username) {
-        users.findData({ username: req.session.username }, function(data) {
+        users.findData({ username: username }, function(data) {
             if (data == 0) {
                 // 未注册
                 res.send("0")
@@ -594,7 +595,8 @@ exports.getMineInfo = function(req, res) {
 // 修改头像
 exports.changeAvator = function(req, res) {
     var dir = "/../avator/"
-    var filePath = req.session.username
+    var filePath = req.query.username
+    console.log(filePath)
     uploadImage(req, res, dir, filePath)
 }
 
@@ -616,7 +618,7 @@ exports.commitUserInfo = function(req, res) {
         obj.sex = obj.sex == '1' ? "女" : "男"
         obj.check = obj.check == 'true' ? true : false
         console.log(obj)
-        users.updateData({ username: req.session.username }, obj, function(data) {
+        users.updateData({ username: fields.username }, obj, function(data) {
             console.log(data.result.ok)
             res.send("1")
         })
@@ -788,7 +790,6 @@ exports.sign = function(req, res) {
 // 校园新鲜事
 exports.getNews = function(req, res) {
         school_news.findDataBySort({}, { time: -1 }, function(data) {
-            console.log(data)
             res.send(JSON.stringify(data))
         })
     }
@@ -803,7 +804,6 @@ exports.getNewsDesc = function(req, res) {
             school_news.findData({
                 _id: ObjectID(fields.id)
             }, function(data) {
-                console.log(data)
                 res.send(JSON.stringify(data[0]))
             })
         })
@@ -819,7 +819,6 @@ exports.giveSupport = function(req, res) {
             school_news.findData({
                 _id: ObjectID(fields.id)
             }, function(data) {
-                console.log(data)
                 var supports = data[0].support
                 tool.showTime(function(time) {
                     var support = {
@@ -860,7 +859,6 @@ exports.newsSendMsg = function(req, res) {
                 avator: fields.avator,
                 time: time
             }
-            console.log(reply)
             school_news.update({
                 _id: ObjectID(fields.id)
             }, {
@@ -874,4 +872,162 @@ exports.newsSendMsg = function(req, res) {
             })
         })
     })
+}
+
+// 所有用户
+exports.getUsers = function(req, res) {
+    users.findData({}, function(data) {
+        res.send(JSON.stringify(data))
+    })
+}
+
+// 删除用户
+exports.deleteUser = function(req, res) {
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields) {
+        if (err) {
+            console.log("删除用户失败")
+            res.send("0")
+            return
+        }
+        users.deleteData({
+            username: fields.username
+        }, function(data) {
+            if (data.result.ok) {
+                res.send("1")
+            }
+        })
+    })
+}
+
+// 删除吧
+exports.deleteSubject = function(req, res) {
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields) {
+        if (err) {
+            console.log("删除用户失败")
+            res.send("0")
+            return
+        }
+        subjects.deleteData({
+            _id: ObjectID(fields.id)
+        }, function(data) {
+            if (data.result.ok) {
+                res.send("1")
+            }
+        })
+    })
+}
+
+// delete news
+exports.deleteNews = function(req, res) {
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields) {
+        if (err) {
+            console.log("删除用户失败")
+            res.send("0")
+            return
+        }
+        school_news.deleteData({
+            _id: ObjectID(fields.id)
+        }, function(data) {
+            if (data.result.ok) {
+                res.send("1")
+            }
+        })
+    })
+}
+
+// upload news image
+exports.changeNewsImage = function(req, res) {
+    var dir = "/../public/newsImages/"
+    var filePath = req.query.id
+    uploadImage(req, res, dir, filePath)
+}
+
+// news ubmit
+exports.submitNews = function(req, res) {
+        var form = fd.IncomingForm()
+        form.parse(req, function(err, fields) {
+            if (err) {
+                console.log("news update error")
+                return
+            }
+            school_news.findData({
+                _id: ObjectID(fields.id)
+            }, function(data) {
+                console.log('------------------', data, fields)
+                var obj = Object.assign(data[0], {
+                    title: fields.title,
+                    time: fields.time,
+                    hot: fields.hot
+                })
+                school_news.updateData({
+                    _id: ObjectID(fields.id)
+                }, obj, function(data) {
+                    if (data.result.ok) {
+                        res.send("1")
+                    }
+                })
+            })
+        })
+    }
+    // add news 
+exports.addNews = function(req, res) {
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields) {
+        if (err) {
+            console.log("add news error")
+            return
+        }
+        tool.showTime(function(time) {
+            school_news.insertData({
+                time: time.split(" ")[1],
+                title: fields.title,
+                content: fields.content,
+                image: '',
+                look: 0,
+                like: 0,
+                replys: [],
+                owner: req.session.username,
+                support: [],
+                hot: fields.hot
+            }, function(data) {
+                if (data.result.ok) {
+                    res.send("1")
+                }
+            })
+        })
+    })
+}
+
+// update subject
+exports.updateSubject = function(req, res) {
+        var form = fd.IncomingForm()
+        form.parse(req, function(err, fields) {
+            if (err) {
+                console.log("更新subject err")
+                return
+            }
+            subjects.updateData({
+                _id: ObjectID(fields._id)
+            }, {
+                subject_name: fields.subject_name,
+                subject_desc: fields.subject_desc,
+                level: fields.level,
+                subject_image: fields.subject_image,
+                isShow: fields.isShow == 'true' ? true : false,
+                class: fields.class || ''
+            }, function(data) {
+                if (data.result.ok) {
+                    res.send("1")
+                }
+            })
+        })
+    }
+    // change subject image
+exports.changeSubjectImage = function(req, res) {
+    var dir = "/../public/subjectsImages/"
+    var filePath = req.query.id
+    uploadImage(req, res, dir, filePath)
 }

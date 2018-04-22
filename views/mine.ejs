@@ -482,23 +482,25 @@
         </el-menu>
 
         <div class="content">
-            <div class="user" v-if="isUser">
-                <div class="avator">
-                    <img :src="user.avator" alt="">
+            <div v-if="manager">
+                <div class="user" v-if="isUser">
+                    <div class="avator">
+                        <img :src="user.avator" alt="">
+                    </div>
+                    <div class="info">
+                        <div class="username">{{user.username}}</div>
+                        <div class="sign" v-if="user.sign">{{user.sign}}</div>
+                        <div class="sign sign2" v-else>一句话展示个人魅力</div>
+                    </div>
                 </div>
-                <div class="info">
-                    <div class="username">{{user.username}}</div>
-                    <div class="sign" v-if="user.sign">{{user.sign}}</div>
-                    <div class="sign sign2" v-else>一句话展示个人魅力</div>
-                </div>
-            </div>
-            <div class="user" v-else>
-                <div class="avator" @click="toLogin">
-                    <img src="/images/default_avator.jpeg" alt="">
-                </div>
-                <div class="info2">
-                    <p>sorry, 您还没有登录</p>
-                    <p>快去登陆，发现更多好玩的吧</p>
+                <div class="user" v-else>
+                    <div class="avator" @click="toLogin">
+                        <img src="/images/default_avator.jpeg" alt="">
+                    </div>
+                    <div class="info2">
+                        <p>sorry, 您还没有登录</p>
+                        <p>快去登陆，发现更多好玩的吧</p>
+                    </div>
                 </div>
             </div>
 
@@ -513,7 +515,7 @@
                                         <el-form-item label="用户头像" prop="avator">
                                                 <el-upload
                                                 class="avatar-uploader"
-                                                action="/changeAvator"
+                                                :action="'/changeAvator?username=' + user.username"
                                                 :show-file-list="false"
                                                 :on-success="handleAvatarSuccess"
                                                 :before-upload="beforeAvatarUpload">
@@ -576,7 +578,7 @@
                         </el-tab-pane>
 
                         <!-- 动态 -->
-                        <el-tab-pane label="动态" name="5" class="dongtai">
+                        <el-tab-pane label="动态" name="5" class="dongtai" v-if="manager">
                             <div class="postss" v-for="item in posts">
                                 <div class="posts">
                                     <div class="post_info">
@@ -606,35 +608,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <el-collapse v-model="postActive" class="posts" accordion>
-                                        <el-collapse-item :title="post.post_title" class="post" :name="index" v-for="(post,index) in posts">
-                                            <div class="sub-post post_content">
-                                                <span>
-                                                                    {{post.post_content}}
-                                                                </span>
-                                                <span class="post_time">{{post.time}}</span>
-                                            </div>
-                                            <div class="post_image sub_post">
-                                                <img :src="image" alt="" v-for="image in post.post_photos">
-                                            </div>
-                                            <div class="post_info sub-post">
-                                                <div>
-                                                    <span class="fa fa-tag"></span>
-                                                    <span>{{post.subject_name}}</span>
-                                                </div>
-                                                <div>
-                                                    <span v-if="post.look">浏览数{{post.look}}</span>
-                                                    <span class="fa fa-heart heart"> {{post.hearts}}</span>
-                                                    <span class="fa fa-commenting comment"> {{post.reply_num}}</span>
-                                                    <span class="fa fa-share share"> {{post.share}}</span>
-                                                </div>
-                                            </div>
-                                        </el-collapse-item>
-                                    </el-collapse> -->
                         </el-tab-pane>
 
                         <!-- 我的消息 -->
-                        <el-tab-pane name="6">
+                        <el-tab-pane name="6" v-if="manager">
                             <span slot="label">
                                 <el-badge :value="12" class="item">
                                     我的消息
@@ -685,7 +662,7 @@
                         </el-tab-pane>
 
                         <!-- 我的关注 -->
-                        <el-tab-pane label="我的关注" name="7">
+                        <el-tab-pane label="我的关注" name="7" v-if="manager">
                             <div class="subjects">
                                 <div class="subject" v-for="(subject, index) in subjects">
                                     <el-card class="box-card">
@@ -710,7 +687,7 @@
                         </el-tab-pane>
 
                         <!-- 我的话题 -->
-                        <el-tab-pane label="我的吧" name="8">
+                        <el-tab-pane label="我的吧" name="8" v-if="manager">
                             <el-table :data="manager_subjects" style="width: 100%">
                                 <el-table-column type="expand">
                                     <template slot-scope="props">
@@ -819,7 +796,7 @@
                 } else {
                     var match = /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g
                     if (!match.test(value)) {
-
+                        return callback(new Error("请输入正确的邮箱地址"))
                     }
                 }
             }
@@ -901,19 +878,23 @@
                 formdisabled: false,
                 isUser: false,
                 infos: [],
-                sysInfos: []
+                sysInfos: [],
+                manager: true,
             }
         },
-        created() {
-            var index = "4"
-            if (window.location.href.indexOf("?") >= 0) {
-                index = window.location.href.split("?")[1].slice(6) || '4'
+        mounted() {
+            var index = this.getQuery("index") || '4'
+            if (this.getQuery("username")) {
+                this.manager = false
+                this.user.username = this.getQuery("username")
+                this.initCity()
+                this.initUser()
+            } else {
+                this.initCity()
+                this.initUser()
             }
-            console.log(index)
             this.activeIndex = index
             this.activeName = index
-            this.initCity()
-            this.initUser()
         },
         watch: {
             // 监听
@@ -926,6 +907,17 @@
             }
         },
         methods: {
+            // 获取字符串
+            getQuery(name) {
+                var str = window.location.href.split("?")[1]
+                var querys = str.split("&")
+                for (let i = 0; i < querys.length; i++) {
+                    var query = querys[i].split("=")
+                    if (query[0] == name) {
+                        return query[1]
+                    }
+                }
+            },
             // 请求的是哪一个tag
             init() {
                 var _this = this
@@ -979,7 +971,11 @@
             // 请求用户信息
             initUser() {
                 var _this = this
-                this.handleAjax("/userInfo", 'get', {}, function(data) {
+                var obj = {}
+                if (!this.manager) {
+                    obj.username = this.user.username
+                }
+                this.handleAjax("/userInfo", 'get', obj, function(data) {
                     if (data == '0') {
                         // 未注册
                         _this.isUser = false
@@ -1171,8 +1167,12 @@
                             type: 'success'
                         })
                     }
-                    _this.initUser()
-                    _this.initCity()
+                    if (!_this.manager) {
+                        _this.initCity()
+                    } else {
+                        _this.initUser()
+                        _this.initCity()
+                    }
                 })
             },
             // exit

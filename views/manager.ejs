@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>管理员界面</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/manager.css">
+</head>
+
+<body>
+    <div id="app">
+        <el-menu :default-active="activeIndex" class="el-menu-demo menu-padding" mode="horizontal" background-color="#f4630b" text-color="#fff" active-text-color="#ffd04b">
+            <el-menu-item index="0"><a href="/">首页</a></el-menu-item>
+            <el-menu-item index="1"><a href="/community">校论区</a></el-menu-item>
+            <el-menu-item index="2"><a href="/life">生活休闲</a></el-menu-item>
+            <el-menu-item index="3"><a href="/whiteWall">表白墙</a></el-menu-item>
+            <el-submenu index="4">
+                <template slot="title">我的</template>
+                <el-menu-item index="4"><a href="/mine?index=4" class="sub-menu">账号设置</a></el-menu-item>
+                <el-menu-item index="5"><a href="/mine?index=5" class="sub-menu">动态</a></el-menu-item>
+                <el-menu-item index="6"><a href="/mine?index=6" class="sub-menu">我的消息</a></el-menu-item>
+                <el-menu-item index="7"><a href="/mine?index=7" class="sub-menu">我的关注</a></el-menu-item>
+                <el-menu-item index="8"><a href="/mine?index=8" class="sub-menu">我的吧</a></el-menu-item>
+                <el-menu-item index="9"><a href="/mine?index=9" class="sub-menu">帮助和反馈</a></el-menu-item>
+                <el-menu-item index="10" @click="exit">退出</el-menu-item>
+            </el-submenu>
+            <div class="search-menu">
+                <el-input class="search" placeholder="请输入内容" v-model="search" clearable>
+                </el-input>
+                <i class="el-icon-search search-icon"></i>
+            </div>
+            <div class="extenal" v-if="!isUser">
+                <a href="/login">登录</a>
+                <a href="/register">注册</a>
+            </div>
+        </el-menu>
+
+        <!-- 主题部分 -->
+        <div class="content">
+            <div class="menu">
+                <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;" size="small">
+                    <el-radio-button :label="false" class="open">展开</el-radio-button>
+                    <el-radio-button :label="true" class="close">收起</el-radio-button>
+                </el-radio-group> -->
+                <div>
+                    菜单
+                </div>
+                <el-menu :default-active="menuIndex" @select="select" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+                    <el-menu-item index="1">
+                        <i class="el-icon-menu"></i>
+                        <span slot="title">用户管理</span>
+                    </el-menu-item>
+                    <el-menu-item index="2">
+                        <i class="el-icon-share"></i>
+                        <span slot="title">吧、贴管理</span>
+                    </el-menu-item>
+                    <el-menu-item index="3">
+                        <i class="el-icon-document"></i>
+                        <span slot="title">消息管理</span>
+                    </el-menu-item>
+                    <el-menu-item index="4">
+                        <i class="el-icon-setting"></i>
+                        <span slot="title">新鲜事管理</span>
+                    </el-menu-item>
+                </el-menu>
+            </div>
+            <div class="container">
+                <div v-show="menuIndex == 1">
+                    <div class="title">用户管理</div>
+                    <div class="table">
+                        <el-table :data="users" stripe style="width: 100%">
+                            <el-table-column type="selection">
+                            </el-table-column>
+                            <el-table-column prop="username" label="用户名">
+                            </el-table-column>
+                            <el-table-column prop="sex" label="性别">
+                            </el-table-column>
+                            <el-table-column prop="birthday" label="生日" width="110">
+                            </el-table-column>
+                            <el-table-column prop="city" label="地址">
+                            </el-table-column>
+                            <el-table-column prop="tag" label="身份">
+                            </el-table-column>
+                            <el-table-column prop="sign" label="个性签名">
+                            </el-table-column>
+                            <el-table-column prop="hobby" label="爱好">
+                            </el-table-column>
+                            <el-table-column label="操作" width="150">
+                                <template slot-scope="scope">
+                                            <el-button
+                                              size="mini"
+                                              @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                                            <el-button
+                                              size="mini"
+                                              type="danger"
+                                              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                                          </template>
+                            </el-table-column>
+                        </el-table>
+                    </div>
+                </div>
+                <div v-show="menuIndex == 2">
+                    <div class="title">吧、贴管理</div>
+                    <div class="table">
+                        <el-table :data="subjects" stripe style="width: 100%">
+                            <el-table-column type="selection">
+                            </el-table-column>
+                            <el-table-column prop="subject_name" label="名称">
+                            </el-table-column>
+                            <!-- <el-table-column prop="subject_desc" label="描述">
+                                    </el-table-column> -->
+                            <el-table-column prop="time" label="创建时间" width="110">
+                            </el-table-column>
+                            <el-table-column prop="level" label="等级">
+                            </el-table-column>
+                            <el-table-column prop="follow_num" label="关注人数">
+                            </el-table-column>
+                            <el-table-column prop="post_num" label="帖子数">
+                            </el-table-column>
+                            <el-table-column prop="owner" label="主人">
+                            </el-table-column>
+                            <el-table-column prop="show" label="校论区展示">
+                            </el-table-column>
+                            <el-table-column label="操作" width="150">
+                                <template slot-scope="scope">
+                                                          <el-button
+                                                          size="mini"
+                                                          @click="editSubject(scope.$index, scope.row)">修改</el-button>
+                                                        <el-button
+                                                          size="mini"
+                                                          type="danger"
+                                                          @click="deleteSubject(scope.$index, scope.row)">删除</el-button>
+                                                      </template>
+                            </el-table-column>
+                        </el-table>
+                    </div>
+                </div>
+                <div v-show="menuIndex == 3">
+                    <div class="title">发送系统消息</div>
+                    <div class="info">
+                        <textarea name="" id="" cols="30" rows="5"></textarea>
+                        <div class="info-btn">
+                            <div class="send">发送消息</div>
+                        </div>
+                    </div>
+                </div>
+                <div v-show="menuIndex == 4">
+                    <div class="title">校园新鲜事管理</div>
+                    <div class="table">
+                        <el-table :data="school_news" stripe style="width: 100%">
+                            <el-table-column type="selection">
+                            </el-table-column>
+                            <el-table-column prop="title" label="标题">
+                            </el-table-column>
+                            <el-table-column prop="time" label="创建时间" width="110">
+                            </el-table-column>
+                            <el-table-column prop="replys_num" label="评论回复">
+                            </el-table-column>
+                            <el-table-column prop="owner" label="主人">
+                            </el-table-column>
+                            <el-table-column prop="support_num" label="支持数">
+                            </el-table-column>
+                            <el-table-column prop="hot" label="热度">
+                            </el-table-column>
+                            <el-table-column label="操作" width="150">
+                                <template slot-scope="scope">
+                                                      <el-button
+                                                      size="mini"
+                                                      @click="editNews(scope.$index, scope.row)">修改</el-button>
+                                                    <el-button
+                                                      size="mini"
+                                                      type="danger"
+                                                      @click="deleteNews(scope.$index, scope.row)">删除</el-button>
+                                                  </template>
+                            </el-table-column>
+                        </el-table>
+                    </div>
+                    <div class="news-btns" @click="clickAddBtn">
+                        新增
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dialog">
+            <el-dialog title="修改校园新闻" :visible.sync="dialogFormVisible">
+                <el-form :model="form">
+                    <el-form-item label="标题" :label-width="formLabelWidth">
+                        <el-input v-model="form.title" auto-complete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="时间" :label-width="formLabelWidth">
+                        <el-date-picker type="date" placeholder="选择日期" v-model="form.time" style="width: 100%;"></el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="图片" :label-width="formLabelWidth">
+                        <el-upload class="avatar-uploader" :action="'/changeNewsImage?id=' + form._id" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                            <img v-if="form.image" :src="form.image" class="avatar">
+                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        </el-upload>
+                    </el-form-item>
+                    <el-form-item label="热度" :label-width="formLabelWidth">
+                        <el-input v-model="form.hot"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="dialogFormVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="submitNews">确 定</el-button>
+                </div>
+            </el-dialog>
+        </div>
+
+        <div class="dialog">
+            <el-dialog title="新增校园新闻" :visible.sync="dialogFormVisible2">
+                <el-form :model="form2">
+                    <el-form-item label="标题" :label-width="formLabelWidth">
+                        <el-input v-model="form2.title" auto-complete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="新闻内容" :label-width="formLabelWidth">
+                        <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="form2.content">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="热度" :label-width="formLabelWidth">
+                        <el-input v-model="form2.hot"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="dialogFormVisible2 = false">取 消</el-button>
+                    <el-button type="primary" @click="addNews">确 定</el-button>
+                </div>
+            </el-dialog>
+        </div>
+
+        <div class="dialog">
+            <el-dialog title="修改吧基本信息" :visible.sync="dialogFormVisible3">
+                <el-form :model="form3">
+                    <el-form-item label="标题" label-width="200px">
+                        <el-input v-model="form3.subject_name" auto-complete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="帖子描述" label-width="200px">
+                        <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="form3.subject_desc">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="等级" label-width="200px">
+                        <el-input v-model="form3.level"></el-input>
+                    </el-form-item>
+                    <el-form-item label="图片" label-width="200px">
+                        <el-upload class="avatar-uploader" :action="'/changeSubjectImage?id=' + form3._id" :show-file-list="false" :on-success="handleAvatarSuccess2" :before-upload="beforeAvatarUpload">
+                            <img v-if="form3.subject_image" :src="form3.subject_image" class="avatar">
+                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        </el-upload>
+                    </el-form-item>
+                    <el-form-item label="是否在校论区菜单中展示" label-width="200px">
+                        <el-switch v-model="form3.isShow" active-color="#13ce66" inactive-color="#ff4949">
+                    </el-form-item>
+                    <el-form-item v-if="form3.isShow" label="给它一个小图标吧" label-width="200px">
+                        <el-input v-model="form3.class"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="dialogFormVisible3 = false">取 消</el-button>
+                    <el-button type="primary" @click="updateSubject">确 定</el-button>
+                </div>
+            </el-dialog>
+        </div>
+    </div>
+</body>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/vue/2.5.13/vue.js"></script>
+<!-- <script src="https://cdn.bootcss.com/vue-resource/1.3.4/vue-resource.js"></script> -->
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                activeIndex: "4",
+                search: '',
+                user: {},
+                isUser: false,
+                isCollapse: true,
+                menuIndex: "1",
+                users: [],
+                subjects: [],
+                school_news: [],
+                dialogFormVisible: false,
+                form: {},
+                form2: {},
+                form3: {},
+                formLabelWidth: '120px',
+                dialogFormVisible2: false,
+                dialogFormVisible3: false
+            }
+        },
+        created() {
+            this.initUser()
+        },
+        watch: {
+            menuIndex(newData, oldData) {
+                console.log(newData, oldData)
+            },
+            form3() {
+                console.log('///')
+            }
+        },
+        methods: {
+            // 个人信息请求
+            initUser() {
+                var _this = this
+                this.handleAjax("/userInfo", 'get', {}, function(data) {
+                    if (data == '0') {
+                        // 未注册
+                        _this.isUser = false
+                        _this.$message.error("sorry,您还未注册哦")
+                    } else if (data == '1') {
+                        // 未登录
+                        _this.isUser = false
+                    } else {
+                        //  查询成功
+                        _this.isUser = true
+                        _this.user = JSON.parse(data)
+                        if (_this.user.tag == 1) {
+                            _this.initUsers()
+                        }
+                    }
+                })
+            },
+            initUsers() {
+                var _this = this
+                this.handleAjax("/getUsers", 'get', {}, function(data) {
+                    _this.users = JSON.parse(data)
+                })
+            },
+            initSubjects() {
+                var _this = this
+                this.handleAjax("/initSubjects", "get", {}, function(data) {
+                    _this.subjects = JSON.parse(data)
+                    _this.subjects.forEach((value, index) => {
+                        value.follow_num = value.follow_user.length
+                        if (value.isShow) {
+                            value.show = '是'
+                        } else {
+                            value.show = '否'
+                        }
+                    })
+                })
+            },
+            initSchoolNews() {
+                var _this = this
+                this.handleAjax('/getNews', 'get', {}, function(data) {
+                    _this.school_news = JSON.parse(data)
+                    _this.school_news.forEach((value, index) => {
+                        value.replys_num = value.replys.length
+                        value.support_num = value.support.length
+                    })
+                })
+            },
+            // 退出
+            exit() {
+                var _this = this
+                this.handleAjax("/exit", "get", {}, function(data) {
+                    if (data == "1") {
+                        _this.$message({
+                            message: '退出成功',
+                            type: 'warning'
+                        })
+                        window.location.href = "/login"
+                    }
+                })
+            },
+            handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+
+            },
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            select(key, keyPath) {
+                // console.log(key, keyPath)
+                this.menuIndex = key
+                if (this.user.tag == 1) {
+                    if (key == 2) {
+                        this.initSubjects()
+                    } else if (key == 4) {
+                        this.initSchoolNews()
+                    }
+                }
+            },
+            // ajax请求
+            handleAjax(url, method, data, handleSuccess) {
+                $.ajax({
+                    url: url,
+                    type: method,
+                    data: data,
+                    cache: false,
+                    success: handleSuccess,
+                    error: function(err) {
+                        console.log(err)
+                    }
+                })
+            },
+            // 用户管理
+            handleEdit(index, row) {
+                var username = row.username
+                window.location.href = "/mine?index=4&username=" + username
+            },
+            // 删除用户
+            handleDelete(index, row) {
+                this.$confirm('确定删除此用户吗', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    var _this = this
+                    this.handleAjax("/deleteUser", 'post', {
+                        username: row.username
+                    }, function(data) {
+                        if (data == "1") {
+                            _this.users.splice(index, 1)
+                            _this.$message({
+                                type: 'success',
+                                message: '删除成功!'
+                            });
+                        } else {
+                            _this.$message({
+                                type: 'error',
+                                message: '删除失败!'
+                            });
+                        }
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            editSubject(index, row) {
+                this.form3 = row
+                this.dialogFormVisible3 = true
+                    // if (this.form3.isShow == 'true') {
+                    //     this.form3.isShow = true
+                    // } else {
+                    //     this.form3.isShow = false
+                    // }
+                    // console.log(this.form3.isShow == true)
+            },
+            deleteSubject(index, row) {
+                this.$confirm('确定删除此吧吗', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    var _this = this
+                    this.handleAjax("/deleteSubject", 'post', {
+                        id: row._id
+                    }, function(data) {
+                        if (data == "1") {
+                            _this.subjects.splice(index, 1)
+                            _this.$message({
+                                type: 'success',
+                                message: '删除成功!'
+                            });
+                        } else {
+                            _this.$message({
+                                type: 'error',
+                                message: '删除失败!'
+                            });
+                        }
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            deleteNews(index, row) {
+                this.$confirm('确定删除此事件吗', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    var _this = this
+                    this.handleAjax("/deleteNews", 'post', {
+                        id: row._id
+                    }, function(data) {
+                        if (data == "1") {
+                            _this.school_news.splice(index, 1)
+                            _this.$message({
+                                type: 'success',
+                                message: '删除成功!'
+                            });
+                        } else {
+                            _this.$message({
+                                type: 'error',
+                                message: '删除失败!'
+                            });
+                        }
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            editNews(index, row) {
+                this.dialogFormVisible = true
+                this.form = row
+            },
+            handleAvatarSuccess(res, file) {
+                console.log(res)
+                if (res != 0) {
+                    var index = res.indexOf(this.form._id)
+                    this.form.image = '/newsImages/' + res.slice(index)
+                }
+            },
+            beforeAvatarUpload(file) {
+                const isLt2M = file.size / 1024 / 1024 < 2;
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isLt2M;
+            },
+            // news submit
+            submitNews() {
+                var _this = this
+                this.handleAjax("/submitNews", "post", {
+                    id: _this.form._id,
+                    title: _this.form.title,
+                    time: _this.form.time,
+                    hot: _this.form.hot
+                }, function(data) {
+                    if (data == "1") {
+                        _this.$message({
+                            message: '更新成功',
+                            type: 'success'
+                        });
+                        _this.dialogFormVisible = false
+                    }
+                })
+            },
+            // add news
+            clickAddBtn() {
+                var _this = this
+                this.dialogFormVisible2 = true
+            },
+            addNews() {
+                var _this = this
+                this.handleAjax("/addNews", "post", this.form2, function(data) {
+                    if (data == "1") {
+                        _this.initSchoolNews()
+                        _this.dialogFormVisible2 = false
+                        _this.$message({
+                            message: '添加成功',
+                            type: 'success'
+                        })
+                    }
+                })
+            },
+            handleAvatarSuccess2(res, file) {
+                console.log(res)
+                if (res != 0) {
+                    var index = res.indexOf(this.form3._id)
+                    this.form3.subject_image = '/subjectsImages/' + res.slice(index)
+                }
+            },
+            // update subject
+            updateSubject() {
+                var _this = this
+                console.log(this.form3)
+                this.handleAjax("/updateSubject", "post", this.form3, function(data) {
+                    if (data == "1") {
+                        _this.dialogFormVisible3 = false
+                        _this.initSubjects()
+                    }
+                })
+            }
+        }
+    })
+</script>
+
+</html>
