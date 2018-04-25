@@ -265,12 +265,19 @@ exports.submitPost = function(req, res, callback) {
                 "_id": ObjectID(fields.subject)
             }, function(subject) {
                 tools.showTime(function(time) {
+                    var photo = []
+                    console.log(typeof fields['images[]'])
+                    if (typeof fields['images[]'] == 'string') {
+                        photo.push(fields['images[]'])
+                    } else {
+                        photo = fields['images[]']
+                    }
                     var obj = {
                         subject_id: fields.subject,
                         subject_name: subject[0].subject_name,
                         post_title: fields.title,
                         post_content: fields.content,
-                        post_photos: fields['images[]'],
+                        post_photos: photo,
                         link: '',
                         user_name: req.session.username,
                         avator: '/avatar.jpg',
@@ -351,16 +358,34 @@ exports.submitPost = function(req, res, callback) {
 
 // 评论
 exports.getComments = function(req, res, callback) {
-    //根据id查询评论
-    replys.findData({
-        "post_id": req.query.post_id
-    }, function(data) {
-        if (data.length == 0) {
-            callback(0)
-        } else {
-            callback(data[0])
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields) {
+        if (err) {
+            console.log("评论数据错误")
+            return
         }
+        //根据id查询评论
+        replys.findData({
+            "post_id": fields.post_id
+        }, function(data) {
+            if (data.length == 0) {
+                var post = {
+                    post_id: fields.post_id,
+                    post_title: fields.post_title,
+                    post_photos: fields.post_photos,
+                    replys: []
+                }
+                replys.insertData(post, function(data) {
+                    if (data.result.ok) {
+                        callback(post)
+                    }
+                })
+            } else {
+                callback(data[0])
+            }
+        })
     })
+
 }
 
 // 提交评论

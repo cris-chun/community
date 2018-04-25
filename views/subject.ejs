@@ -358,8 +358,12 @@
                 if (item.comments == false) {
                     var _this = this
                     console.log(item._id)
-                    _this.handleAjax('/getComments', 'get', {
-                        post_id: item._id
+                    _this.handleAjax('/getComments', 'post', {
+                        post_id: item._id,
+                        post_title: item.post_title,
+                        post_content: item.post_content,
+                        post_photos: item.post_photos,
+                        replys: []
                     }, function(data) {
                         console.log(data)
                         if (data != 0) {
@@ -452,8 +456,12 @@
                     if (data == 1) {
                         _this.input = ""
                             // 评论需要刷新
-                        _this.handleAjax('/getComments', 'get', {
-                            post_id: item._id
+                        _this.handleAjax('/getComments', 'post', {
+                            post_id: item._id,
+                            post_title: item.post_title,
+                            post_content: item.post_content,
+                            post_photos: item.post_photos,
+                            replys: []
                         }, function(data) {
                             if (data != 0) {
                                 item.replys = JSON.parse(data).replys

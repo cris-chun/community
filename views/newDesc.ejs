@@ -561,7 +561,7 @@
                 _this.handleAjax("/giveSupport", 'post', {
                     id: _this.id,
                 }, function(data) {
-                    console.log(data)
+                    _this.initUser()
                 })
             },
             toList() {

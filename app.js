@@ -102,7 +102,7 @@ app.post("/joinSubject", router.joinSubject)
 app.post("/cancelJoinSubject", router.cancelJoinSubject)
 
 // 获取评论
-app.get("/getComments", router.getComments)
+app.post("/getComments", router.getComments)
 
 // 提交评论
 app.post("/commitComment", router.commitComment)

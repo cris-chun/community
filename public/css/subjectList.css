@@ -89,17 +89,18 @@
     line-height: 25px
 }
 
+
 /* .recommend .collection-wrap .collection-description,
 .recommend .wrap .collection-description {
     min-height: 55px
 } */
 
-.collection-description{
+.collection-description {
     height: 50px;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp:2; 
+    -webkit-line-clamp: 2;
 }
 
 .recommend .collection-wrap .btn,
