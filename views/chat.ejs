@@ -229,7 +229,8 @@ input:focus{outline:none;}
             // 讲未读消息修改成已读消息
             function changeMsgStatus () {
                 handleAjax("/changeMsgStatus", "post", {
-                    username: user.username
+                    username: user.username,
+                    tag: 1,
                 },function(data){
                     console.log(data)
                 })

@@ -185,13 +185,15 @@ app.post("/changeMsgStatus", function(req, res) {
             return
         }
         infos.findData({
-            user_name: fields.username
+            user_name: fields.username,
         }, function(data) {
             data[0].receiveMsg.forEach((value, index) => {
-                value.readed = true
+                if(value.tag == fields.tag) {
+                    value.readed = true
+                }
             })
             infos.updateDataBy({
-                user_name: fields.username
+                user_name: fields.username,
             }, {
                 $set: {
                     receiveMsg: data[0].receiveMsg
@@ -289,6 +291,7 @@ app.post('/submitNews', router.submitNews)
 app.post("/addNews", router.addNews)
 app.post("/updateSubject", router.updateSubject)
 app.post("/changeSubjectImage", router.changeSubjectImage)
+app.post("/getDongtaiInfos", router.getDongtaiInfos)
 
 
 // 监听端口

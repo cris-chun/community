@@ -746,7 +746,7 @@
             this.initUser()
             this.initMusic()
             this.initWeather()
-                // this.initMovie()
+            // this.initMovie()
         },
         methods: {
             // 导航
@@ -770,6 +770,7 @@
             initUser() {
                 var _this = this
                 this.handleAjax("/userInfo", 'get', {}, function(data) {
+                    console.log(data)
                     if (data == '0') {
                         // 未注册
                         _this.isUser = false
@@ -901,6 +902,7 @@
             },
             // 跳转到新闻详情页
             toNewsDesc(news) {
+                console.log(news._id)
                 window.location.href = '/newDesc?id=' + news._id
             },
             getTime() {

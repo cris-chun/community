@@ -476,7 +476,6 @@
         },
         methods: {
             // 下拉框请求数据
-            // 下拉
             handleSelect: function(key, keyPath) {
                 console.log(key, keyPath)
             },
@@ -533,15 +532,15 @@
                 var _this = this
                 this.handleAjax('/getNews', 'get', {}, function(data) {
                     var data = JSON.parse(data)
-                    _this.tuijian = data.splice(0, 4)
-                    console.log(_this.tuijian)
-                    _this.tuijian.forEach((value, index) => {
+                    data.forEach((value, index) => {
+                        console.log(value._id, _this.id)
                         if (value._id == _this.id) {
                             _this.news = value
                             _this.news.replys_num = _this.news.replys.length
                             _this.news.support_num = _this.news.support.length
                         }
                     });
+                    _this.tuijian = data.slice(0).splice(0, 4)
                 })
             },
             // 跳转到新闻详情页

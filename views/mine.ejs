@@ -450,6 +450,112 @@
     .sign2 {
         color: #bdbdbd;
     }
+    /* 评论框展示 */
+    .comments {
+    font-size: 12px;
+    }
+
+    .comment {
+        cursor: pointer;
+        position: relative;
+    }
+
+    .popover {
+        background: #222;
+        color: #fff;
+        position: absolute;
+        top: 20px;
+        padding: 5px;
+        left: 50px;
+        /* width: 60px; */
+        border-radius: 5px;
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .poparrow {
+        position: absolute;
+        top: -8px;
+        /* left: -38px; */
+        width: 0;
+        height: 0;
+        font-size: 0;
+        border: solid 4px;
+        border-color: #fff #fff #222 #fff;
+    }
+
+    .popover span {
+        margin: 0 10px;
+    }
+
+    .comment span {
+        margin: 2px;
+    }
+
+    .comment>span:nth-child(1),
+    .comment>span:nth-child(3) {
+        color: #bfbfbf;
+    }
+
+    .comment_input {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .comment_input .input,
+    .comment_input .send {
+        margin: 5px;
+    }
+
+    .comment_input .el-input__inner {
+        height: 30px;
+    }
+
+    .comment_input .el-button--primary.is-plain {
+        color: #f4630b;
+        border-color: #dcdfe6;
+        background: #fff;
+    }
+
+    .comment_input .el-button {
+        font-size: 12px;
+        padding: 7.5px 10px;
+    }
+    .infos{
+        border-bottom: 1px solid #f0f0f0;
+        padding-bottom: 15px;
+        padding-top:15px;
+    }
+    .sys-info{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .sys-info img{
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+    }
+    .info-title{
+        margin-left: 20px;
+        font-size: 15px;
+        color: #333;
+    }
+    .info-title>div:nth-child(2){
+        font-size: 12px;
+        color: #969696;
+    }
+    .info-content{
+        margin-top: 10px;
+        margin-left: 20px;
+        font-size: 15px;
+        color: #333;
+    }
 </style>
 
 <body>
@@ -579,7 +685,7 @@
 
                         <!-- 动态 -->
                         <el-tab-pane label="动态" name="5" class="dongtai" v-if="manager">
-                            <div class="postss" v-for="item in posts">
+                            <div class="postss" v-for="(item, index) in posts">
                                 <div class="posts">
                                     <div class="post_info">
                                         <div>
@@ -602,9 +708,27 @@
                                         <img :src="image" v-for="image in item.post_photos" alt="">
                                     </div>
                                     <div class="tubiao">
-                                        <span class="fa fa-heart heart" > {{item.hearts}}</span>
-                                        <span class="fa fa-commenting comment"> {{item.reply_num}}</span>
-                                        <span class="fa fa-share share"> {{item.share}}</span>
+                                        <span class="fa fa-heart heart" @click="showHeart(index, item)" :style="item.style.heart"> {{item.hearts}}</span>
+                                        <span class="fa fa-commenting comment" @click="showComments(index, item)"> {{item.reply_num}}</span>
+                                        <span class="fa fa-share share" :style="item.style.share"> {{item.share}}</span>
+                                    </div>
+                                    <div class="comments" v-if="item.comments">
+                                        <!-- 评论区 -->
+                                        <div class="comment" v-for="(reply, dex) in item.replys" @mouseover="handleHover(reply, index, dex)" @mouseout="mouseOut(reply, index, dex)">
+                                            <span v-if="reply.from_user_name != reply.to_user_name">{{reply.from_user_name}}</span>
+                                            <span v-if="reply.from_user_name != reply.to_user_name">评论</span>
+                                            <span>{{reply.to_user_name}}</span>：
+                                            <span>{{reply.content}}</span>
+                                            <div class="popover" v-show="reply.show && user.username">
+                                                <div class="poparrow"></div>
+                                                <span @click="handleReply(reply)">回复</span>
+                                                <span @click="deleteReply(item.replys, reply, dex, item)" v-if="user.username == reply.from_user_name">删除</span>
+                                            </div>
+                                        </div>
+                                        <div class="comment_input">
+                                            <el-input class="input" v-model="input" :placeholder="placeholder"></el-input>
+                                            <el-button class="send" type="primary" plain @click="commitComment(index, item)">发送</el-button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -613,49 +737,72 @@
                         <!-- 我的消息 -->
                         <el-tab-pane name="6" v-if="manager">
                             <span slot="label">
-                                <el-badge :value="12" class="item">
+                                <el-badge :value="infos.length + sysInfos.length" class="item">
                                     我的消息
                                 </el-badge>
                             </span>
-                            <el-tabs type="border-card">
-                                <el-tab-pane>
+                            <el-tabs type="border-card" v-model="infoType" @tab-click="changeInfoType">
+                                <el-tab-pane name="first">
                                     <span slot="label">
-                                        <el-badge :value="6" class="item2">
+                                        <el-badge :value="infos.length" class="item2">
                                                 私信
                                         </el-badge>
                                     </span>
-                                    <div class="sixin">
-                                        <div class="si_infos" v-for="item in infos">
-                                            <div class="si_avator">
-                                                <img :src="item.from_user_avator" alt="">
-                                            </div>
-                                            <div>
-                                                <div class="si_username">{{item.from_user_name}}</div>
-                                                <div>
-                                                    {{item.contentText}}
+                                    <div>
+                                        <div class="infos" v-for="info in infos">
+                                            <div class="sys-info">
+                                                <img :src="info.from_user_avator" alt="">
+                                                <div class="info-title">
+                                                    <div>{{info.from_user_name}}给您发来一条消息</div>
+                                                    <div>{{info.time}}</div>
                                                 </div>
+                                            </div>
+                                            <div class="info-content">
+                                                {{info.contentText}}
                                             </div>
                                         </div>
                                     </div>
                                 </el-tab-pane>
-                                <el-tab-pane>
+                                <!-- <el-tab-pane name="second">
                                     <span slot="label">
                                         <el-badge :value="7" class="item2">
                                             动态消息
                                         </el-badge>
                                     </span> 
                                     <div>
-                                        动态消息
+                                        <div class="infos" v-for="info in infos">
+                                            <div class="sys-info">
+                                                <img :src="'/' + info.from_user_name + '.jpg'" alt="">
+                                                <div class="info-title">
+                                                    <div>{{info.from_user_name}}给您发来一条消息</div>
+                                                    <div>{{info.time}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="info-content">
+                                                {{info.content}}
+                                            </div>
+                                        </div>
                                     </div>
-                                </el-tab-pane>
-                                <el-tab-pane>
+                                </el-tab-pane> -->
+                                <el-tab-pane name="third">
                                     <span slot="label">
-                                        <el-badge :value="6" class="item2">
+                                        <el-badge :value="sysInfos.length" class="item2">
                                             系统消息
                                         </el-badge>
                                     </span>
                                     <div>
-                                        
+                                        <div class="infos" v-for="info in sysInfos">
+                                            <div class="sys-info">
+                                                <img src="/images/default_avator.jpeg" alt="">
+                                                <div class="info-title">
+                                                    <div>系统给您发来一条消息</div>
+                                                    <div>{{info.time}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="info-content">
+                                                    {{info.contentText}}
+                                            </div>
+                                        </div>
                                     </div>
                                 </el-tab-pane>
                             </el-tabs>
@@ -829,50 +976,11 @@
                     }]
                 },
                 // 我的关注
-                subjects: [{
-                    subject_name: 'subject_name',
-                    subject_desc: 'subejct_desc',
-                    subject_image: '/avatar.jpg',
-                    time: 'time',
-                    follows: '23',
-                    posts: '23',
-                    subject_level: '2'
-                }, {
-                    subject_name: 'subject_name',
-                    subject_desc: 'subejct_desc',
-                    subject_image: '/avatar.jpg',
-                    time: 'time',
-                    follows: '23',
-                    posts: '23',
-                    subject_level: '2'
-                }, {
-                    subject_name: 'subject_name',
-                    subject_desc: 'subejct_desc',
-                    subject_image: '/avatar.jpg',
-                    time: 'time',
-                    follows: '23',
-                    posts: '23',
-                    subject_level: '2'
-                }, {
-                    subject_name: 'subject_name',
-                    subject_desc: 'subejct_desc',
-                    subject_image: '/avatar.jpg',
-                    time: 'time',
-                    follows: '23',
-                    posts: '23',
-                    subject_level: '2'
-                }, {
-                    subject_name: 'subject_name',
-                    subject_desc: 'subejct_desc',
-                    subject_image: '/avatar.jpg',
-                    time: 'time',
-                    follows: '23',
-                    posts: '23',
-                    subject_level: '2'
-                }],
+                subjects: [],
                 postActive: '1',
                 // 动态
                 posts: [],
+                heartsPosts:[],
                 // 我的吧
                 manager_subjects: [],
                 formdisabled: false,
@@ -880,6 +988,9 @@
                 infos: [],
                 sysInfos: [],
                 manager: true,
+                placeholder: '请输入内容',
+                input: '',
+                infoType:'first',
             }
         },
         mounted() {
@@ -924,20 +1035,41 @@
                 this.handleAjax("/getMineInfo", 'get', {
                     tag: _this.activeName
                 }, function(data) {
+                    _this.getUnreadedInfos()
                     switch (_this.activeName) {
                         case "4":
                             break
                         case "5":
+                        _this.handleAjax("/isHeart", "get", {}, function(data2) {
+                            if (data2 == "0") {
+                                _this.heartsPosts = []
+                            } else {
+                                _this.heartsPosts = JSON.parse(data2)
+                            }
                             let posts = JSON.parse(data)
                             posts.forEach((value, index) => {
+                                value.comments = false
+                                value.replys = []
+                                value.style = {
+                                    heart: {
+                                        color: '#bdbdbd'
+                                    },
+                                    share: {
+                                        color: '#bdbdbd'
+                                    }
+                                }
+                                if (_this.heartsPosts.indexOf(value._id) >= 0) {
+                                    value.style.heart.color = "#f4630b"
+                                }
                                 if (value.user_name == _this.user.username) {
                                     _this.posts.push(value)
                                 }
                             })
-                            console.log(_this.posts)
+                        })
+                            // console.log(_this.posts)
                             break
                         case "6":
-                            _this.getUnreadedInfos()
+                            // _this.getUnreadedInfos()
                             break
                         case "7":
                             let subjects = JSON.parse(data)
@@ -963,7 +1095,6 @@
                                     _this.manager_subjects.push(value)
                                 }
                             })
-                            console.log(_this.manager_subjects)
                             break
                     }
                 })
@@ -1065,7 +1196,13 @@
                         break
                         // 我的消息
                     case "6":
-                        this.init()
+                        this.getUnreadedInfos()
+                        this.handleAjax("/changeMsgStatus", "post", {
+                            username: this.user.username,
+                            tag: 1
+                        },function(data){
+                            this.infos = []
+                        })
                         break
                         // 关注的吧
                     case "7":
@@ -1130,21 +1267,6 @@
                 }
                 console.log()
             },
-            // 删除
-            // handleDelete(index, row) {
-            //     var _this = this
-            //     this.handleAjax('deleteSubject', 'post', {
-            //         _id: row._id
-            //     },function(data){
-            //         if (data == "1") {
-            //             _this.manager_subjects.splice(index, 1)
-            //             _this.$message({
-            //                 message: '删除成功',
-            //                 type: 'success'
-            //             })
-            //         }
-            //     })
-            // },
             // 点击登录
             toLogin() {
                 window.location.href = "/login"
@@ -1201,8 +1323,30 @@
                     }
                 })
             },
+            // 消息切换
+            changeInfoType(){
+                // 将未读消息设置为已读消息
+                var _this = this
+                if (this.infoType == 'first') {
+                    this.handleAjax("/changeMsgStatus", "post", {
+                        username: this.user.username,
+                        tag: 1
+                    },function(data){
+                        _this.sysInfos = []
+                    })
+                } else if (this.infoType == 'third') {
+                    this.handleAjax("/changeMsgStatus", "post", {
+                        username: this.user.username,
+                        tag: 2
+                    },function(data){
+                        _this.infos = []
+                    })
+                }
+            },
             // 获取未读消息
             getUnreadedInfos() {
+                this.infos = []
+                this.sysInfos = []
                 var _this = this
                 this.handleAjax("/getUnreadedMsg", 'post', {
                     username: _this.user.username
@@ -1210,12 +1354,155 @@
                     var receiveMsgs = JSON.parse(data)
                     receiveMsgs.forEach((value, index) => {
                         if (!value.readed) {
-                            _this.infos.push(value)
+                            if (value.tag == 1) {
+                                _this.infos.push(value)
+                            } else if (value.tag == 2) {
+                                _this.sysInfos.push(value)
+                            }
                         }
                     })
-                    console.log(_this.infos)
+                    console.log(_this.sysInfos)
                 })
-            }
+            },
+            // 点击评论，展示评论框
+            showComments(index, item){
+                if (!item.comments) {
+                    var _this = this
+                    _this.handleAjax('/getComments', 'post', {
+                        post_id: item._id,
+                        post_title: item.post_title,
+                        post_photos: item.post_photos,
+                        replys: []
+                    }, function(data) {
+                        if (data != 0) {
+                            item.replys = JSON.parse(data).replys
+                            item.replys.forEach((value, index, array) => {
+                                value.show = false
+                            })
+                        }
+                        _this.posts[index].comments = true
+                    })
+                } else {
+                    this.posts[index].comments = false
+                }
+            },
+            // 鼠标移动
+            handleHover(reply, index, dex){
+                this.handleMouse(reply, index, dex, true)
+            },
+            // 鼠标mouseover
+            mouseOut(reply, index, dex) {
+                this.handleMouse(reply, index, dex, false)
+            },
+            handleMouse(reply, index, dex, flag) {
+                var post = this.posts[index]
+                var replysCopy = []
+                this.posts[index].replys.forEach((value, i) => {
+                    if (i == dex) {
+                        var replyCopy = {
+                            time: reply.time,
+                            from_user_name: reply.from_user_name,
+                            to_user_name: reply.to_user_name,
+                            content: reply.content,
+                            show: flag
+                        }
+                        replysCopy.push(replyCopy)
+                    } else {
+                        replysCopy.push(value)
+                    }
+                })
+                post.replys = replysCopy
+                this.posts.splice(index, 1)
+                this.posts.splice(index, 0, post)
+            },
+            // 删除回复
+            deleteReply(replys, reply, dex, item) {
+                replys.splice(dex, 1)
+                reply.post_id = item._id
+                this.handleAjax("/deleteReply", 'post', reply, function(data) {
+                    if (data == 1) {
+                        item.reply_num -= 1
+                    }
+                })
+            },
+            // 提交评论
+            commitComment(index, item) {
+                if (!this.isUser) {
+                    this.$message({
+                        message: 'oh my god，你还没登陆哇,那就不能评论了',
+                        type: 'warning'
+                    });
+                    return
+                }
+                // info  posts  reply 三个数据库更改
+                var _this = this
+                var to_user_name = ""
+                    // console.log(this.placeholder)
+                if (this.placeholder == '请输入内容') {
+                    to_user_name = item.user_name
+                } else {
+                    to_user_name = this.reply.from_user_name
+                }
+                this.handleAjax("/commitComment", 'post', {
+                    post_id: item._id,
+                    content: _this.input,
+                    post_user_name: to_user_name
+                }, function(data) {
+                    if (data == 1) {
+                        _this.input = ""
+                            // 评论需要刷新
+                        _this.handleAjax('/getComments', 'post', {
+                            post_id: item._id,
+                            post_title: item.post_title,
+                            post_photos: item.post_photos,
+                            replys: []
+                        }, function(data) {
+                            if (data != 0) {
+                                item.replys = JSON.parse(data).replys
+                                item.replys.forEach((value, index, array) => {
+                                    value.show = false
+                                })
+                                item.reply_num += 1
+                            }
+                        })
+                    }
+                })
+            },
+            // 点赞
+            showHeart(index, item){
+                if (!this.isUser) {
+                    this.$message({
+                        message: 'oh my god，你还没登陆哇,那就不能点赞了',
+                        type: 'warning'
+                    });
+                    return
+                }
+                if (item.style.heart.color == '#f4630b') {
+                    item.style.heart = {
+                        color: '#bfbfbf'
+                    }
+                    item.hearts -= 1
+                    this.showHeartFun({
+                        post_id: item._id,
+                        tag: -1
+                    })
+                } else {
+                    item.style.heart = {
+                        color: '#f4630b'
+                    }
+                    item.hearts += 1
+                    this.showHeartFun({
+                        post_id: item._id,
+                        tag: 1
+                    })
+                }
+            },
+            showHeartFun(data) {
+                var _this = this
+                _this.handleAjax("/giveHeart", 'get', data, function(data) {
+                    console.log("点赞成功")
+                })
+            },
         }
     })
 </script>

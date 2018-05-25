@@ -582,7 +582,6 @@ exports.getMineInfo = function(req, res) {
         default:
             collection = "user"
     }
-    console.log(collection, obj)
     findData.findData(collection, obj, function(result) {
         if (tag) {
             res.send(JSON.stringify(result[0][tag]))
@@ -1030,4 +1029,26 @@ exports.changeSubjectImage = function(req, res) {
     var dir = "/../public/subjectsImages/"
     var filePath = req.query.id
     uploadImage(req, res, dir, filePath)
+}
+// 获取未读的动态消息
+exports.getDongtaiInfos = function(req, res){
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields){
+        if (err){
+            res.send("0")
+            console.log("获取未读的动态消息 失败")
+            return
+        }
+        replys.findData({},function(data){
+            var infos = []
+            data.forEach(value => {
+                value.replys.forEach(value2 => {
+                    if (value2.to_user_name = fields.to_user_name){
+                        infos.push(value2)
+                    }
+                })
+            })
+            res.send(JSON.stringify(infos))
+        })
+    })
 }
