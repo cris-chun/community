@@ -1052,3 +1052,76 @@ exports.getDongtaiInfos = function(req, res){
         })
     })
 }
+// 上传贴吧头像
+exports.uploadSubjectAvator = function(req,res) {
+    tool.showTime(function(time) {
+        var dir = "/../public/images/subjects/"
+        var filePath = req.query.username + '_' + time
+        uploadImage(req, res, dir, filePath)
+    })
+}
+// 新建贴吧
+exports.createSubject = function(req, res) {
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields) {
+        if (err){
+            console.log('新建贴吧错误')
+            return
+        }
+        tool.showTime(function(time) {
+            var obj = {
+                subject_name : fields.subject_name, 
+                subject_desc : fields.subject_desc, 
+                time : time, 
+                level : 0, 
+                follow_user : [
+                ], 
+                post_num : 0, 
+                owner : fields.username, 
+                subject_image : fields.subject_image, 
+                tag : 1.0, 
+                isShow : fields.isShow
+            }
+            subjects.insertData(obj,function(data){
+                if (data.result.ok) {
+                    res.send(JSON.stringify(obj))
+                }
+            })
+        })
+    })
+}
+// 发送系统消息
+exports.insertSysInfo = function(req, res) {
+    var form = fd.IncomingForm()
+    form.parse(req, function(err, fields){
+        if (err) {
+            console.log('发送系统消息失败')
+            return
+        }
+        infos.findData({},function(data){
+            // var obj = JSON.parse(data)
+            data.forEach(value => {
+                tool.showTime(function(time){
+                    infos.updateDataBy({
+                        user_name: value.user_name,
+                    }, {
+                        $push: {
+                            receiveMsg: {
+                                readed: false,
+                                from_user_name: fields.from_user_name,
+                                time: time,
+                                contentText: fields.contentText,
+                                tag: "2"
+                            }
+                        }
+                    }, function(data) {
+                        if (data.result.ok) {
+                            console.log(1111)
+                        }
+                    })
+                })
+            })
+            res.send("1")
+        })
+    })
+}

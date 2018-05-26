@@ -98,6 +98,38 @@
     .follow {
         cursor: pointer;
     }
+    .new-follow{
+        margin-top: 50px;
+    }
+    .el-form-item__content{
+        text-align: left;
+    }
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+    
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 150px;
+        height: 150px;
+        line-height: 150px;
+        text-align: center;
+    }
+    
+    .avatar {
+        width: 150px;
+        height: 150px;
+        display: block;
+    }
 </style>
 
 <body class="reader-black-font">
@@ -147,7 +179,7 @@
                         </div>
                     </div>
 
-                    <a class="btnn btn-load" href="">加载更多</a>
+                    <a class="btnn btn-load" href="" @click.prevent.stop="createSubject">新建贴吧</a>
                 </div>
             </el-tab-pane>
 
@@ -169,7 +201,7 @@
                         </div>
                     </div>
 
-                    <a class="btnn btn-load" href="">加载更多</a>
+                    <a class="btnn btn-load" href="" @click.prevent.stop="createSubject">新建贴吧</a>
                 </div>
             </el-tab-pane>
 
@@ -190,7 +222,7 @@
                         </div>
                     </div>
 
-                    <a class="btnn btn-load" href="">加载更多</a>
+                    <a class="btnn btn-load" href="" @click.prevent.stop="createSubject">新建贴吧</a>
                 </div>
             </el-tab-pane>
         </el-tabs>
@@ -209,6 +241,41 @@
             <div style="margin-top:10px;">ztchun版权所有　&copy;2017 - 2018　校园社区
             </div>
         </div>
+
+        <!-- dialog -->
+        <el-dialog title="发布帖子" :visible.async="dialogFormVisible">
+            <el-form :model="form" :rules="rules" ref="form" class="dialog-form">
+
+                <el-form-item label="贴吧名称" prop="title" label-width="100px">
+                    <el-input v-model="form.title" placeholder="请输入贴吧名称"></el-input>
+                </el-form-item>
+                <el-form-item label="贴吧描述" prop="desc" label-width="100px">
+                    <el-input v-model="form.desc" placeholder="请输入贴吧描述"></el-input>
+                </el-form-item>
+                <el-form-item label="是否快捷进入" label-width="100px">
+                    <template>
+                        <el-radio  @change="radioChange" v-model="form.isShow" label="1">是</el-radio>
+                        <el-radio  @change="radioChange" v-model="form.isShow" label="2">否</el-radio>
+                    </template>
+                </el-form-item>
+
+                <el-form-item label="贴吧头像" prop="image" label-width="100px">
+                    <el-upload
+                        class="avatar-uploader"
+                        :action="'/uploadSubjectAvator?username=' + user.username"
+                        :show-file-list="false"
+                        :on-success="handleAvatarSuccess"
+                        :before-upload="beforeAvatarUpload">
+                        <img v-if="form.image" :src="form.image" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="handleCancle('form')">取 消</el-button>
+                <el-button type="primary" @click="submitSubject">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </body>
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -226,15 +293,37 @@
                 subjects: [],
                 allSubjects: [],
                 user: {},
-                isUser: false
+                isUser: false,
+                dialogFormVisible: false,
+                form: {
+                    title:'',
+                    desc: '',
+                    isShow: '2',
+                    image: ''
+                },
+                rules: {
+                    title: [{
+                        required: true,
+                        message: '请填写贴吧名称',
+                        trigger: 'blur'
+                    }],
+                    desc: [{
+                        required: true,
+                        message: '请填写贴吧描述',
+                        trigger: 'blur'
+                    }],
+                    subject2: [{
+                        required: true,
+                        message: '请填写主题名称',
+                        trigger: 'blur'
+                    }]
+                }
             }
         },
         watch: {
             subjects() {
-                console.log('////')
             },
             allSubjects() {
-                console.log('//')
             }
         },
         created() {
@@ -266,6 +355,10 @@
                         _this.getSubjects()
                     }
                 })
+            },
+            // 新建贴吧
+            createSubject() {
+                this.dialogFormVisible = true
             },
             getSubjects() {
                 var _this = this
@@ -322,6 +415,7 @@
             handleClick(val) {
                 // console.log(val)
             },
+            // 退出
             exit() {
                 var _this = this
                 this.handleAjax("/exit", "get", {}, function(data) {
@@ -334,6 +428,7 @@
                     }
                 })
             },
+            // 关注
             joinSubject(subject, index, tag) {
                 if (!this.isUser) {
                     this.$message({
@@ -361,6 +456,7 @@
                     }
                 })
             },
+            // 取消关注
             cancelJoinSubject(subject, index, tag) {
                 var _this = this
                 if (!this.isUser) {
@@ -388,8 +484,47 @@
                     }
                 })
             },
+            // 链接
             toSubject(subject) {
                 window.location.href = "/subject?id=" + subject._id
+            },
+            // 上传图片
+            handleAvatarSuccess(res, file) {
+                if (res != 0) {
+                    var index = res.indexOf('/images')
+                    this.form.image = res.slice(index)
+                }
+            },
+            beforeAvatarUpload(file) {
+                const isLt2M = file.size / 1024 / 1024 < 2;
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isLt2M;
+            },
+            radioChange() {
+            },
+            handleCancle(){
+                this.dialogFormVisible = false
+            },
+            submitSubject() {
+                var _this = this
+                this.handleAjax('createSubject','post',{
+                    subject_name: this.form.title,
+                    subject_desc: this.form.desc,
+                    subject_image: this.form.image,
+                    username: this.user.username,
+                    isShow: this.form.isShow == 1 ?ture:false
+                },function(data){
+                    if (data) {
+                        _this.dialogFormVisible = false
+                        _this.allSubjects.splice(_this.allSubjects.length - 1 ,0,JSON.parse(data))
+                        _this.$message({
+                            message: '创建成功',
+                            type: 'success'
+                        })
+                    }
+                })
             }
         }
     })

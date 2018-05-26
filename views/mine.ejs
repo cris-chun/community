@@ -1234,7 +1234,6 @@
                 });
             },
             handleAvatarSuccess(res, file) {
-                console.log(res)
                 if (res != 0) {
                     var index = res.indexOf(this.user.username)
                     this.user.avator = '/' + res.slice(index)

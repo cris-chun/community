@@ -77,13 +77,17 @@ app.get("/life", router.showLife)
 
 // 请求subjects下拉框
 app.get("/selectOptions", router.selectOptions)
-    // 发布帖子
+
+// 发布帖子
 app.post("/submitPost", router.submitPost)
-    // 上传图片
+
+// 上传图片
 app.post("/imageUpload", router.imageUpload)
-    // 获取post帖子 community展示post内容
+
+// 获取post帖子 community展示post内容
 app.get("/getPosts", router.getPosts)
-    // 个人信息请求
+
+// 个人信息请求
 app.get("/userInfo", router.userInfo)
 
 // 吧
@@ -217,7 +221,8 @@ io.on("connection", function(socket) {
                 to_user_name: msg.to_user_name,
                 to_user_avator: data[0].avator,
                 time: msg.time,
-                contentText: msg.contentText
+                contentText: msg.contentText,
+                tag: 1
             }
             var message1 = Object.assign({ readed: true }, message)
             infos.updateDataBy({
@@ -254,23 +259,31 @@ app.post('/saveSubject', router.saveSubject)
 
 // init  subject
 app.post("/initSubject", router.initSubject)
-    // init POst
+
+// init POst
 app.post("/initPost", router.initPost)
-    // 签到
+
+// 签到
 app.post('/sign', router.sign)
 
 // 校园新鲜事
 app.get("/getNews", router.getNews)
+
+// 新闻详情页面
 app.get("/newDesc", function(req, res) {
     res.render('newDesc')
 })
+
+// 新闻详情数据
 app.post("/getNewsDesc", router.getNewsDesc)
-    // support
+
+// support
 app.post("/giveSupport", router.giveSupport)
 
 // news list
 app.get("/newsList", router.newsList)
-    // news replys
+
+// news replys
 app.post("/newsSendMsg", router.newsSendMsg)
 
 // manager
@@ -280,11 +293,14 @@ app.get("/manager", function(req, res) {
 
 // 所有用户
 app.get("/getUsers", router.getUsers)
-    // 删除用户
+
+// 删除用户
 app.post("/deleteUser", router.deleteUser)
-    // 删除吧
+
+// 删除吧
 app.post("/deleteSubject", router.deleteSubject)
-    // 删除新闻
+
+// 删除新闻
 app.post("/deleteNews", router.deleteNews)
 app.post("/changeNewsImage", router.changeNewsImage)
 app.post('/submitNews', router.submitNews)
@@ -293,6 +309,14 @@ app.post("/updateSubject", router.updateSubject)
 app.post("/changeSubjectImage", router.changeSubjectImage)
 app.post("/getDongtaiInfos", router.getDongtaiInfos)
 
+// 新建贴吧
+app.post('/createSubject', router.createSubject)
+
+// 上传贴吧头像
+app.post('/uploadSubjectAvator', router.uploadSubjectAvator)
+
+// 系统消息
+app.post("/insertSysInfo", router.insertSysInfo)
 
 // 监听端口
 http.listen(3000)
