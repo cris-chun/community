@@ -404,12 +404,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="input">
+                <div class="input" v-if="isUser">
                     <img :src="user.avator" alt="">
                     <textarea name="" id="input" cols="30" rows="5" placeholder="请写下你的评论" v-model="input">
                         </textarea>
                 </div>
-                <div class="input-btn">
+                <div class="input-btn" v-if="isUser">
                     <div class="input-cancel">取消</div>
                     <div class="input-send" @click="send">发送</div>
                 </div>
@@ -569,6 +569,13 @@
             // 发送消息
             send() {
                 var _this = this
+                if (!this.isUser) {
+                    this.$message({
+                        message: 'oh my god，你还没登陆哇,那就不能点赞了',
+                        type: 'warning'
+                    });
+                    return
+                }
                 this.handleAjax("/newsSendMsg", 'post', {
                     id: _this.id,
                     content: _this.input,

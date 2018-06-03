@@ -112,7 +112,7 @@
                             <div class="subject-image">
                                 <img :src="image" alt="">
                                 <div>
-                                    <div class="btn" v-if="!isFollow"> + 关注</div>
+                                    <div class="btn" v-if="!isFollow" @click.prevent.stop="joinSubject"> + 关注</div>
                                     <div class="btn" v-else >已关注</div>
                                     <div class="num">关注数： {{subject.follow_num}}</div>
                                     <div class="num">帖子数： {{subject.post_num}}</div>
@@ -620,6 +620,26 @@
                     console.log("点赞成功")
                 })
             },
+            // 关注帖子
+            joinSubject() {
+                if (!this.isUser) {
+                    this.$message({
+                        message: '没有登录哇！',
+                        type: 'warning'
+                    })
+                    return
+                }
+                var _this = this
+                this.handleAjax("/joinSubject", 'post', {
+                    _id: this.subject._id,
+                    user_name: _this.user.username,
+                    avator: _this.user.avator
+                }, function(data) {
+                    if (data == "1") {
+                        _this.isFollow = true
+                    }
+                })
+            }
         }
     })
 </script>
